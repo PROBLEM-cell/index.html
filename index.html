@@ -259,58 +259,254 @@
   let userAnswers = {};
   let scores = { act1: 0, act2: 0, act3: 0, act4: 0 };
 
-  // HELPER FUNCTION: Generates 5 Chapters, 1 Story per Chapter, and 5 Questions per Chapter (Total 25 questions)
-  function buildActivityData(actTitle, langCode) {
-    let chapters = [];
-    for (let c = 1; c <= 5; c++) {
-      let questions = [];
-      for (let q = 1; q <= 5; q++) {
-        let globalQNum = (c - 1) * 5 + q;
-        if (langCode === 'TL') {
-          questions.push({
-            id: `c${c}_q${q}`,
-            text: `${globalQNum}. Tanong #${globalQNum} tungkol sa talata ng Chapter ${c}?`,
-            correct: "A",
-            options: {
-              A: `Tamang Sagot para sa Tanong ${globalQNum}`,
-              B: `Maling Pagpipilian A`,
-              C: `Maling Pagpipilian B`,
-              D: `Maling Pagpipilian C`
-            }
-          });
-        } else {
-          questions.push({
-            id: `c${c}_q${q}`,
-            text: `${globalQNum}. Question #${globalQNum} regarding Chapter ${c} passage?`,
-            correct: "A",
-            options: {
-              A: `Correct Answer for Question ${globalQNum}`,
-              B: `Incorrect Option A`,
-              C: `Incorrect Option B`,
-              D: `Incorrect Option C`
-            }
-          });
-        }
-      }
-
-      let storyText = langCode === 'TL' 
-        ? `Ito ang kwento para sa Chapter ${c}. Basahing mabuti ang maikling talatang ito upang masagutan ang limang (5) kasunod na katanungan.`
-        : `This is the reading passage for Chapter ${c}. Please read carefully to answer all five (5) comprehension questions below.`;
-
-      chapters.push({
-        title: `Chapter ${c}`,
-        story: storyText,
-        questions: questions
-      });
-    }
-    return { title: actTitle, chapters: chapters };
-  }
-
   const activitiesData = {
-    act1: buildActivityData("Activity 1: Ang Proyekto ng Magkakaibigan", "TL"),
-    act2: buildActivityData("Activity 2: The Great Forest Adventure", "EN"),
-    act3: buildActivityData("Activity 3: Ang Lihim ng Ecosystem", "TL"),
-    act4: buildActivityData("Activity 4: Energy & Forces Adventure", "EN")
+    // ACTIVITY 1: 5 CHAPTERS, 5 QUESTIONS PER CHAPTER (TOTAL 25)
+    act1: {
+      title: "Activity 1: Ang Proyekto ng Magkakaibigan",
+      chapters: [
+        {
+          title: "Chapter 1: Ang Pagpaplano sa Silid-Aralan",
+          story: "Isang umaga, inanunsyo ng guro sa Baitang 4 na magkakaroon ng pangkatang proyekto sa Sining. Nagkasundo sina Zeik, Ayit, Shane, at Allain na maging magkapangkat. Naisip ni Zeik na gumawa ng isang makulay na miniature garden gamit ang mga recycled materials.",
+          questions: [
+            { id: "a1_c1_q1", text: "1. Sino-sino ang magkakasama sa pangkat sa proyekto?", correct: "A", options: { A: "Zeik, Ayit, Shane, at Allain", B: "Ana, Maria, at Pedro", C: "Zeik at Juan lang", D: "Guro at mga magulang" } },
+            { id: "a1_c1_q2", text: "2. Anong asignatura ang may pangkatang proyekto?", correct: "B", options: { A: "Siyensya", B: "Sining", C: "Matematika", D: "Musika" } },
+            { id: "a1_c1_q3", text: "3. Anong Baitang ang mga mag-aaral sa kuwento?", correct: "A", options: { A: "Baitang 4", B: "Baitang 5", C: "Baitang 3", D: "Baitang 6" } },
+            { id: "a1_c1_q4", text: "4. Ano ang naisip na proyekto ni Zeik?", correct: "C", options: { A: "Papel na eroplano", B: "Maikling dula", C: "Miniature garden", D: "Sining sa canvas" } },
+            { id: "a1_c1_q5", text: "5. Anong mga kagamitan ang gagamitin sa proyekto?", correct: "A", options: { A: "Recycled materials", B: "Mga bagong plastik", C: "Mahahaling bakal", D: "Mga mamahaling laruan" } }
+          ]
+        },
+        {
+          title: "Chapter 2: Paglikom ng mga Kagamitan",
+          story: "Pagdating ng hapon, nagtipon ang magkakaibigan sa bahay ni Ayit. Nagdala si Shane ng mga lumang bote ng plastik, habang si Allain naman ay nagdala ng mga tuyong dahon at maliliit na bato. Si Ayit ang naghanda ng mga pintura at brush.",
+          questions: [
+            { id: "a1_c2_q1", text: "6. Saan nagtipon ang magkakaibigan pagkatapos ng klase?", correct: "B", options: { A: "Sa paaralan", B: "Sa bahay ni Ayit", C: "Sa parke", D: "Sa bahay ni Zeik" } },
+            { id: "a1_c2_q2", text: "7. Ano ang dinalang gamit ni Shane?", correct: "A", options: { A: "Lumang bote ng plastik", B: "Pintura at brush", C: "Mga tuyong dahon", D: "Lupa at halaman" } },
+            { id: "a1_c2_q3", text: "8. Sino ang nagdala ng mga tuyong dahon at maliliit na bato?", correct: "C", options: { A: "Zeik", B: "Shane", C: "Allain", D: "Ayit" } },
+            { id: "a1_c2_q4", text: "9. Ano ang inihandang kagamitan ni Ayit?", correct: "A", options: { A: "Pintura at brush", B: "Kape at biskwit", C: "Gunting at pandikit", D: "Mga lumang dyaryo" } },
+            { id: "a1_c2_q5", text: "10. Kailan sila nagtipon sa bahay ni Ayit?", correct: "D", options: { A: "Kinabukasan ng umaga", B: "Noong Sabado", C: "Linggo ng gabi", D: "Pagdating ng hapon" } }
+          ]
+        },
+        {
+          title: "Chapter 3: Ang Pagtutulungan sa Paggawa",
+          story: "Nagsimula na sila sa pagbuo ng proyekto. Si Zeik ang gumatag ng disenyo ng bakod gamit ang mga popsicle stick. Si Allain at Shane ang nagpinta ng mga bote para maging maliliit na paso, samantalang si Ayit ang maingat na nag-ayos ng mga halaman at bato.",
+          questions: [
+            { id: "a1_c3_q1", text: "11. Ano ang ginawa ni Zeik para sa proyekto?", correct: "A", options: { A: "Gumuhit ng disenyo ng bakod", B: "Naglinis ng mesa", C: "Nagpinta ng mga paso", D: "Bumili ng meryenda" } },
+            { id: "a1_c3_q2", text: "12. Ano ang ginamit sa paggawa ng bakod?", correct: "B", options: { A: "Kawayan", B: "Popsicle sticks", C: "Tali", D: "Waya" } },
+            { id: "a1_c3_q3", text: "13. Sino-sino ang nagpinta ng mga bote upang maging paso?", correct: "C", options: { A: "Zeik at Ayit", B: "Shane at Zeik", C: "Allain at Shane", D: "Ayit at Allain" } },
+            { id: "a1_c3_q4", text: "14. Ano ang maingat na inayos ni Ayit?", correct: "D", options: { A: "Mga popsicle stick", B: "Mga pintura", C: "Mga papel", D: "Mga halaman at bato" } },
+            { id: "a1_c3_q5", text: "15. Anong magandang katangian ang ipinakita ng magkakaibigan?", correct: "A", options: { A: "Pagtutulungan", B: "Pagtatampuhan", C: "Katamaran", D: "Pakikipag-away" } }
+          ]
+        },
+        {
+          title: "Chapter 4: Ang Munting Aksidente",
+          story: "Habang nagpipintura, natabig ni Shane nang hindi sinasadya ang basong may tubig at nabasa ang bahagi ng bakod. Sa halip na magalit, mabilis na kumuha si Allain ng basahan upang punasan ito, habang si Zeik at Ayit naman ay tululong sa pagpapatuyo nito gamit ang paypay.",
+          questions: [
+            { id: "a1_c4_q1", text: "16. Ano ang aksidenteng natabig ni Shane?", correct: "B", options: { A: "Bote ng pintura", B: "Basong may tubig", C: "Paso ng halaman", D: "Kape ni Ayit" } },
+            { id: "a1_c4_q2", text: "17. Ano ang nangyari sa proyekto nang matabig ang tubig?", correct: "A", options: { A: "Nabasa ang bahagi ng bakod", B: "Nasira ang buong garden", C: "Natapon sa sahig ang pintura", D: "Wala namang nangyari" } },
+            { id: "a1_c4_q3", text: "18. Nagalit ba ang magkakaibigan kay Shane?", correct: "C", options: { A: "Oo, pinagalitan nila si Shane", B: "Umuwi sila sa galit", C: "Hindi, mabilis silang tumulong", D: "Ipinatigil nila ang proyekto" } },
+            { id: "a1_c4_q4", text: "19. Ano ang ginawa ni Allain nang matapon ang tubig?", correct: "A", options: { A: "Kumuha ng basahan at nagpunas", B: "Tumawa nang malakas", C: "Umalis sa bahay", D: "Sinisi si Shane" } },
+            { id: "a1_c4_q5", text: "20. Paano tinulungang patuyuin nina Zeik at Ayit ang bakod?", correct: "D", options: { A: "Ginamitan ng electric fan", B: "Inilagay sa oven", C: "Pinabayaan na lang", D: "Ginamitan ng paypay" } }
+          ]
+        },
+        {
+          title: "Chapter 5: Ang Matagumpay na Presentasyon",
+          story: "Kinabukasan sa paaralan, iprinisinta nina Zeik, Ayit, Shane, at Allain ang kanilang miniature garden. Hanggang-hanga ang guro at ang kanilang mga kaklase sa kagandahan at kalinisan ng kanilang gawa. Nakakuha sila ng pinakamataas na marka sa klase.",
+          questions: [
+            { id: "a1_c5_q1", text: "21. Kailan nila iprinisinta ang proyekto sa paaralan?", correct: "A", options: { A: "Kinabukasan", B: "Pagkaraan ng isang linggo", C: "Sa kasunod na buwan", D: "Noong Biyernes ng gabi" } },
+            { id: "a1_c5_q2", text: "22. Ano ang naging reaksyon ng guro sa kanilang proyekto?", correct: "B", options: { A: "Nalungkot", B: "Hanggang-hanga", C: "Nagalit", D: "Nainip" } },
+            { id: "a1_c5_q3", text: "23. Anong marka ang nakuha ng pangkat nina Zeik?", correct: "C", options: { A: "Mababang marka", B: "Pasa lang", C: "Pinakamataas na marka", D: "Walang marka" } },
+            { id: "a1_c5_q4", text: "24. Bakit nagustuhan ng klase ang kanilang ginawa?", correct: "A", options: { A: "Dahil sa kagandahan at kalinisan nito", B: "Dahil ito ang pinakamalaki", C: "Dahil mamahalin ang kagamitan", D: "Dahil binili nila ito sa tindahan" } },
+            { id: "a1_c5_q5", text: "25. Ano ang mahalagang aral sa kuwento?", correct: "D", options: { A: "Ang pakikipag-away sa kaibigan", B: "Ang pag-aako ng buong trabaho", C: "Ang pagbili ng tapos na proyekto", D: "Ang pagtutulungan at pag-unawaan" } }
+          ]
+        }
+      ]
+    },
+
+    // ACTIVITY 2: 5 CHAPTERS, 5 QUESTIONS PER CHAPTER (TOTAL 25)
+    act2: {
+      title: "Activity 2: The Great Forest Adventure",
+      chapters: [
+        {
+          title: "Chapter 1: The Discovery of the Map",
+          story: "While exploring his grandfather's attic, Zeik found an old wooden chest. Inside, beneath a stack of dusty books, was a rolled-up parchment map showing a path through Green Valley Forest to a hidden waterfall.",
+          questions: [
+            { id: "a2_c1_q1", text: "1. Where did Zeik find the wooden chest?", correct: "A", options: { A: "In his grandfather's attic", B: "In the backyard", C: "Under his bed", D: "At the school library" } },
+            { id: "a2_c1_q2", text: "2. What was hidden inside the wooden chest?", correct: "B", options: { A: "Gold coins", B: "A rolled-up parchment map", C: "An old compass", D: "A photo album" } },
+            { id: "a2_c1_q3", text: "3. What forest was shown on the map?", correct: "A", options: { A: "Green Valley Forest", B: "Pine Hill Forest", C: "Dark Oak Woods", D: "Mystic River Forest" } },
+            { id: "a2_c1_q4", text: "4. Where did the trail on the map lead to?", correct: "C", options: { A: "A high mountain", B: "An old castle", C: "A hidden waterfall", D: "A deserted beach" } },
+            { id: "a2_c1_q5", text: "5. What was covering the map inside the chest?", correct: "D", options: { A: "A piece of cloth", B: "A wooden lid", C: "Cobwebs", D: "A stack of dusty books" } }
+          ]
+        },
+        {
+          title: "Chapter 2: Assembling the Crew",
+          story: "Excited by the discovery, Zeik immediately called Ayit, Shane, and Allain. They agreed to meet early the next Saturday morning at the forest entrance, each packing essential supplies like water, snacks, and a flashlight.",
+          questions: [
+            { id: "a2_c2_q1", text: "6. Who did Zeik call after finding the map?", correct: "A", options: { A: "Ayit, Shane, and Allain", B: "His teacher", C: "His neighbors", D: "The park ranger" } },
+            { id: "a2_c2_q2", text: "7. When did the friends agree to meet for the trip?", correct: "B", options: { A: "Friday afternoon", B: "Early Saturday morning", C: "Sunday evening", D: "Monday holiday" } },
+            { id: "a2_c2_q3", text: "8. Where was their agreed meeting place?", correct: "C", options: { A: "At Zeik's house", B: "At the town square", C: "At the forest entrance", D: "By the river bridge" } },
+            { id: "a2_c2_q4", text: "9. Which of the following was NOT mentioned as a packed supply?", correct: "D", options: { A: "Water", B: "Snacks", C: "Flashlight", D: "Tent" } },
+            { id: "a2_c2_q5", text: "10. How did the friends feel about the adventure?", correct: "A", options: { A: "Excited", B: "Scared", C: "Bored", D: "Angry" } }
+          ]
+        },
+        {
+          title: "Chapter 3: Crossing the Whispering Brook",
+          story: "As they hiked deeper into the woods, they encountered a rushing stream called Whispering Brook. The old wooden bridge was broken, so Allain carefully guided everyone across using sturdy stepping stones.",
+          questions: [
+            { id: "a2_c3_q1", text: "11. What obstacle did the friends encounter in the forest?", correct: "B", options: { A: "A high rock wall", B: "A rushing stream", C: "A thick hedge", D: "A fallen tree trunk" } },
+            { id: "a2_c3_q2", text: "12. What was the name of the stream?", correct: "A", options: { A: "Whispering Brook", B: "Roaring River", C: "Silver Creek", D: "Crystal Stream" } },
+            { id: "a2_c3_q3", text: "13. What was wrong with the wooden bridge?", correct: "C", options: { A: "It was too narrow", B: "It was guarded by animals", C: "It was broken", D: "It was slippery" } },
+            { id: "a2_c3_q4", text: "14. Who led the group safely across the stream?", correct: "D", options: { A: "Zeik", B: "Ayit", C: "Shane", D: "Allain" } },
+            { id: "a2_c3_q5", text: "15. How did they cross the stream safely?", correct: "A", options: { A: "Using sturdy stepping stones", B: "By swimming across", C: "By building a raft", D: "By jumping over" } }
+          ]
+        },
+        {
+          title: "Chapter 4: The Lost Trail",
+          story: "Near noon, dense fog covered the path, causing Shane and Ayit to realize they had taken a wrong turn. Zeik used his grandfather's compass to realign their direction with the map, getting them back on track.",
+          questions: [
+            { id: "a2_c4_q1", text: "16. What weather condition made navigation difficult around noon?", correct: "A", options: { A: "Dense fog", B: "Heavy rain", C: "Strong wind", D: "Dark thunderstorm" } },
+            { id: "a2_c4_q2", text: "17. Who noticed that they had taken a wrong turn?", correct: "B", options: { A: "Zeik and Allain", B: "Shane and Ayit", C: "Zeik's grandfather", D: "Allain and Shane" } },
+            { id: "a2_c4_q3", text: "18. What tool did Zeik use to find the correct direction?", correct: "C", options: { A: "A mobile phone", B: "A GPS tracker", C: "His grandfather's compass", D: "The position of the sun" } },
+            { id: "a2_c4_q4", text: "19. At what time of day did they encounter the lost trail?", correct: "D", options: { A: "Early morning", B: "Late afternoon", C: "At sunset", D: "Near noon" } },
+            { id: "a2_c4_q5", text: "20. How did the group resolve being lost?", correct: "A", options: { A: "They realigned their compass with the map", B: "They waited for help", C: "They turned back home", D: "They guessed the way" } }
+          ]
+        },
+        {
+          title: "Chapter 5: Reaching Emerald Falls",
+          story: "By mid-afternoon, the sound of roaring water led them to Emerald Falls. The sparkling waterfall cascaded into a clear pool surrounded by wildflowers, making their long journey completely worth it.",
+          questions: [
+            { id: "a2_c5_q1", text: "21. What was the name of the destination waterfall?", correct: "B", options: { A: "Diamond Falls", B: "Emerald Falls", C: "Silver Cascades", D: "Golden Falls" } },
+            { id: "a2_c5_q2", text: "22. At what time of day did they arrive at the waterfall?", correct: "A", options: { A: "Mid-afternoon", B: "Early morning", C: "At nightfall", D: "At dawn" } },
+            { id: "a2_c5_q3", text: "23. What surrounded the clear pool at the waterfall?", correct: "C", options: { A: "Tall pine trees", B: "Sharp rocks", C: "Wildflowers", D: "Sandy shores" } },
+            { id: "a2_c5_q4", text: "24. How did they locate the waterfall as they got closer?", correct: "D", options: { A: "By following animal tracks", B: "By seeing light reflections", C: "By asking a ranger", D: "By hearing roaring water" } },
+            { id: "a2_c5_q5", text: "25. How did the friends feel when they arrived?", correct: "A", options: { A: "Satisfied and joyful", B: "Disappointed", C: "Anxious and scared", D: "Regretful" } }
+          ]
+        }
+      ]
+    },
+
+    // ACTIVITY 3: 5 CHAPTERS, 5 QUESTIONS PER CHAPTER (TOTAL 25)
+    act3: {
+      title: "Activity 3: Ang Lihim ng Ecosystem",
+      chapters: [
+        {
+          title: "Chapter 1: Ang Aralin sa Siyensya",
+          story: "Pumasok si Bb. Santos sa klase nina Zeik at Ayit upang magturo tungkol sa ecosystem. Ipinaliwanag niya na ang ecosystem ay ang ugnayan ng mga buhay na organismo at ng kanilang kapaligiran.",
+          questions: [
+            { id: "a3_c1_q1", text: "1. Sino ang guro sa Siyensya nina Zeik at Ayit?", correct: "A", options: { A: "Bb. Santos", B: "G. Cruz", C: "Bb. Reyes", D: "Gng. Ramos" } },
+            { id: "a3_c1_q2", text: "2. Ano ang paksang tinalakay sa klase?", correct: "B", options: { A: "Solar System", B: "Ecosystem", C: "Weather Systems", D: "Human Body" } },
+            { id: "a3_c1_q3", text: "3. Ano ang kahulugan ng ecosystem ayon sa aralin?", correct: "C", options: { A: "Mga uri ng halaman lang", B: "Klima sa buong mundo", C: "Ugnayan ng buhay na organismo at kapaligiran", D: "Pag-aaral ng mga bato" } },
+            { id: "a3_c1_q4", text: "4. Sino-sinong mag-aaral ang nabanggit sa klase?", correct: "D", options: { A: "Ana at Pedro", B: "Shane at Allain", C: "Maria at Juan", D: "Zeik at Ayit" } },
+            { id: "a3_c1_q5", text: "5. Saang asignatura kabilang ang araling ito?", correct: "A", options: { A: "Siyensya", B: "Araling Panlipunan", C: "Filipino", D: "Matematika" } }
+          ]
+        },
+        {
+          title: "Chapter 2: Biotic at Abiotic Components",
+          story: "Natutunan nina Shane at Allain na may dalawang pangunahing bahagi ang ecosystem: Biotic (mga buhay na bagay tulad ng halaman at hayop) at Abiotic (mga walang buhay tulad ng araw, hangin, at lupa).",
+          questions: [
+            { id: "a3_c2_q1", text: "6. Ilang pangunahing bahagi mayroon ang ecosystem?", correct: "B", options: { A: "Isa", B: "Dalawa", C: "Tatlo", D: "Apat" } },
+            { id: "a3_c2_q2", text: "7. Ano ang tumutukoy sa mga 'Biotic' component?", correct: "A", options: { A: "Mga buhay na bagay", B: "Mga walang buhay na bagay", C: "Mga kemikal lamang", D: "Mga gawa ng tao" } },
+            { id: "a3_c2_q3", text: "8. Alin sa mga sumusunod ang halimbawa ng Abiotic component?", correct: "C", options: { A: "Puno", B: "Ibon", C: "Sikat ng araw", D: "Kuneho" } },
+            { id: "a3_c2_q4", text: "9. Sino-sinong mag-aaral ang natuto tungkol sa Biotic at Abiotic?", correct: "D", options: { A: "Zeik at Ayit", B: "Bb. Santos at G. Cruz", C: "Maria at Ana", D: "Shane at Allain" } },
+            { id: "a3_c2_q5", text: "10. Alin sa mga sumusunod ang kabilang sa Biotic component?", correct: "A", options: { A: "Halaman at hayop", B: "Hangin at tubig", C: "Lupa at bato", D: "Init ng araw" } }
+          ]
+        },
+        {
+          title: "Chapter 3: Ang Rantai ng Pagkain (Food Chain)",
+          story: "Ipinaliwanag ni Zeik sa pangkat na ang halaman ay tinatawag na Producer dahil ito ang gumagawa ng sariling pagkain. Ang mga hayop tulad ng tipaklong na kumakain ng halaman ay tinatawag na Primary Consumer.",
+          questions: [
+            { id: "a3_c3_q1", text: "11. Ano ang tawag sa mga halaman na gumagawa ng sariling pagkain?", correct: "A", options: { A: "Producer", B: "Consumer", C: "Decomposer", D: "Predator" } },
+            { id: "a3_c3_q2", text: "12. Ano ang halimbawa ng Primary Consumer na nabanggit?", correct: "B", options: { A: "Leon", B: "Tipaklong", C: "Puno", D: "Baktirya" } },
+            { id: "a3_c3_q3", text: "13. Sino ang nagpaliwanag tungkol sa Food Chain sa pangkat?", correct: "C", options: { A: "Ayit", B: "Shane", C: "Zeik", D: "Allain" } },
+            { id: "a3_c3_q4", text: "14. Paano gumagawa ng pagkain ang mga Producer?", correct: "D", options: { A: "Sa pamamagitan ng panghuhuli", B: "Mula sa mga basura", C: "Bumibili sila sa palengke", D: "Gumagawa sila ng sariling pagkain" } },
+            { id: "a3_c3_q5", text: "15. Ano ang tawag sa hayop na kumakain ng Producer?", correct: "A", options: { A: "Primary Consumer", B: "Secondary Consumer", C: "Apex Predator", D: "Decomposer" } }
+          ]
+        },
+        {
+          title: "Chapter 4: Ang Gampanin ng Decomposers",
+          story: "Nagtanong si Ayit kung ano ang nangyayari sa mga natuyong halaman at namatay na hayop. Sinagot ito ni Allain na ang mga Decomposer tulad ng fungi at bacteria ang nag-aalis at nagbabalik ng nutrisyon sa lupa.",
+          questions: [
+            { id: "a3_c4_q1", text: "16. Sino ang nagtanong tungkol sa nangyayari sa mga namatay na organismo?", correct: "B", options: { A: "Zeik", B: "Ayit", C: "Shane", D: "Bb. Santos" } },
+            { id: "a3_c4_q2", text: "17. Sino ang sumagot sa tanong ni Ayit?", correct: "A", options: { A: "Allain", B: "Shane", C: "Zeik", D: "Guro" } },
+            { id: "a3_c4_q3", text: "18. Ano ang dalawang halimbawa ng Decomposer na nabanggit?", correct: "C", options: { A: "Ibon at isda", B: "Uod at tipaklong", C: "Fungi at bacteria", D: "Dahon at sanga" } },
+            { id: "a3_c4_q4", text: "19. Ano ang pangunahing gampanin ng mga Decomposer?", correct: "D", options: { A: "Pumitas ng halaman", B: "Bumuo ng bagong halaman", C: "Manghuli ng ibang hayop", D: "Magbalik ng nutrisyon sa lupa" } },
+            { id: "a3_c4_q5", text: "20. Saan ibinabalik ng Decomposer ang mga nutrisyon?", correct: "A", options: { A: "Sa lupa", B: "Sa hangin", C: "Sa dagat", D: "Sa araw" } }
+          ]
+        },
+        {
+          title: "Chapter 5: Ang Pagpapanatili ng Balanse",
+          story: "Sa pagtatapos ng aralin, naintindihan nina Zeik, Ayit, Shane, at Allain na mahalagang pangalagaan ang kapaligiran upang manatiling balanse ang ecosystem at walang maubos na uri ng organismo.",
+          questions: [
+            { id: "a3_c5_q1", text: "21. Ano ang kailangang panatilihin sa ecosystem?", correct: "A", options: { A: "Balanse", B: "Dami ng basura", C: "Mataas na temperatura", D: "Pagputol ng puno" } },
+            { id: "a3_c5_q2", text: "22. Sino-sino ang nakakuha ng mahalagang aral sa dulo ng klase?", correct: "B", options: { A: "Ang buong lungsod", B: "Sina Zeik, Ayit, Shane, at Allain", C: "Ang guro lamang", D: "Ang mga magulang" } },
+            { id: "a3_c5_q3", text: "23. Ano ang mangyayari kapag nasira ang balanse ng ecosystem?", correct: "C", options: { A: "Lalago ang lahat ng halaman", B: "Yayaman ang mga tao", C: "Maaaring maubos ang ibang organismo", D: "Gaganda ang kapaligiran" } },
+            { id: "a3_c5_q4", text: "24. Bakit mahalagang pangalagaan ang ating kapaligiran?", correct: "D", options: { A: "Para maging sikat", B: "Para makakuha ng pera", C: "Para walang pasok sa paaralan", D: "Para sa kaligtasan ng lahat ng nabubuhay" } },
+            { id: "a3_c5_q5", text: "25. Anong uri ng ugnayan ang ipinapakita sa buong aralin?", correct: "A", options: { A: "Interdependence o pag-aasam sa isa't isa", B: "Pakikipagkumpitensya lamang", C: "Pang-aabuso sa kalikasan", D: "Kawalang-pakialam sa kapaligiran" } }
+          ]
+        }
+      ]
+    },
+
+    // ACTIVITY 4: 5 CHAPTERS, 5 QUESTIONS PER CHAPTER (TOTAL 25)
+    act4: {
+      title: "Activity 4: Energy & Forces Adventure",
+      chapters: [
+        {
+          title: "Chapter 1: Forms of Energy",
+          story: "Shane and Allain began their science project on energy forms. They learned that Potential Energy is stored energy at rest, while Kinetic Energy is the energy of motion.",
+          questions: [
+            { id: "a4_c1_q1", text: "1. Who were the two students working on the science project?", correct: "A", options: { A: "Shane and Allain", B: "Zeik and Ayit", C: "John and Mary", D: "Bb. Santos and class" } },
+            { id: "a4_c1_q2", text: "2. What topic was their science project about?", correct: "B", options: { A: "Plants and Soil", B: "Forms of Energy", C: "Weather Patterns", D: "Ocean Waves" } },
+            { id: "a4_c1_q3", text: "3. What is defined as 'stored energy at rest'?", correct: "C", options: { A: "Kinetic Energy", B: "Thermal Energy", C: "Potential Energy", D: "Sound Energy" } },
+            { id: "a4_c1_q4", text: "4. What is defined as 'energy of motion'?", correct: "D", options: { A: "Chemical Energy", B: "Potential Energy", C: "Solar Energy", D: "Kinetic Energy" } },
+            { id: "a4_c1_q5", text: "5. What object at rest on a hill possesses Potential Energy?", correct: "A", options: { A: "A stationary boulder", B: "A rolling ball", C: "A flying bird", D: "A running child" } }
+          ]
+        },
+        {
+          title: "Chapter 2: Investigating Friction",
+          story: "To test friction, Zeik rolled a toy car across smooth tiles and then across a rough carpet. Ayit noted that the car slowed down faster on the carpet due to higher friction.",
+          questions: [
+            { id: "a4_c2_q1", text: "6. What force was Zeik testing with the toy car?", correct: "B", options: { A: "Gravity", B: "Friction", C: "Magnetism", D: "Electricity" } },
+            { id: "a4_c2_q2", text: "7. Which surface caused the toy car to slow down faster?", correct: "A", options: { A: "Rough carpet", B: "Smooth tiles", C: "Glass table", D: "Ice sheet" } },
+            { id: "a4_c2_q3", text: "8. Who recorded the observations during the experiment?", correct: "C", options: { A: "Shane", B: "Allain", C: "Ayit", D: "Zeik" } },
+            { id: "a4_c2_q4", text: "9. Why did the car slow down faster on the carpet?", correct: "D", options: { A: "Carpet has zero friction", B: "Carpet attracts magnets", C: "Tiles have higher resistance", D: "Carpet creates higher friction" } },
+            { id: "a4_c2_q5", text: "10. What type of surface generally has less friction?", correct: "A", options: { A: "Smooth surfaces", B: "Rough surfaces", C: "Bumpy roads", D: "Sandy paths" } }
+          ]
+        },
+        {
+          title: "Chapter 3: The Power of Gravity",
+          story: "Allain dropped a rubber ball and a feather from the same height. Gravity pulled both downward, but air resistance slowed down the feather, demonstrating atmospheric drag.",
+          questions: [
+            { id: "a4_c3_q1", text: "11. What force pulled both the ball and feather downward?", correct: "A", options: { A: "Gravity", B: "Friction", C: "Tension", D: "Magnetism" } },
+            { id: "a4_c3_q2", text: "12. Which two objects did Allain drop during the test?", correct: "B", options: { A: "A stone and coin", B: "A rubber ball and feather", C: "A book and paper", D: "An apple and orange" } },
+            { id: "a4_c3_q3", text: "13. What force slowed down the descent of the feather?", correct: "C", options: { A: "Magnetic pull", B: "Water pressure", C: "Air resistance", D: "Kinetic friction" } },
+            { id: "a4_c3_q4", text: "14. Who conducted the gravity experiment?", correct: "D", options: { A: "Zeik", B: "Ayit", C: "Shane", D: "Allain" } },
+            { id: "a4_c3_q5", text: "15. Where does gravity pull objects towards on Earth?", correct: "A", options: { A: "Towards the center of Earth", B: "Upward into space", C: "Sideways to the west", D: "Towards the sun" } }
+          ]
+        },
+        {
+          title: "Chapter 4: Simple Machines",
+          story: "Shane presented a ramp (an inclined plane) used to push heavy boxes into a truck easily. She explained that simple machines reduce the effort needed to perform heavy work.",
+          questions: [
+            { id: "a4_c4_q1", text: "16. Which simple machine did Shane present?", correct: "A", options: { A: "Inclined plane (ramp)", B: "Pulley system", C: "Wheel and axle", D: "Screw" } },
+            { id: "a4_c4_q2", text: "17. What task was the inclined plane used for?", correct: "B", options: { A: "Lifting water", B: "Pushing heavy boxes into a truck", C: "Cutting wood", D: "Measuring temperature" } },
+            { id: "a4_c4_q3", text: "18. Who demonstrated the simple machine presentation?", correct: "C", options: { A: "Ayit", B: "Zeik", C: "Shane", D: "Allain" } },
+            { id: "a4_c4_q4", text: "19. How do simple machines assist human work?", correct: "D", options: { A: "By creating free energy", B: "By increasing friction", C: "By stopping motion", D: "By reducing effort needed" } },
+            { id: "a4_c4_q5", text: "20. Which of the following is another example of a simple machine?", correct: "A", options: { A: "Lever", B: "Computer", C: "Car engine", D: "Television" } }
+          ]
+        },
+        {
+          title: "Chapter 5: The Science Fair Victory",
+          story: "At the school Science Fair, the team of Zeik, Ayit, Shane, and Allain won first place for their interactive exhibit explaining forces, motion, and energy in a fun way.",
+          questions: [
+            { id: "a4_c5_q1", text: "21. At what school event did the group showcase their work?", correct: "B", options: { A: "Art Exhibit", B: "Science Fair", C: "Sports Fest", D: "Music Concert" } },
+            { id: "a4_c5_q2", text: "22. What award did the group win?", correct: "A", options: { A: "First place", B: "Second place", C: "Third place", D: "Honorable mention" } },
+            { id: "a4_c5_q3", text: "23. Who were the four members of the winning team?", correct: "C", options: { A: "Tom, Jerry, Mickey, Donald", B: "Ana, Maria, Pedro, Juan", C: "Zeik, Ayit, Shane, and Allain", D: "G. Cruz, Bb. Santos, and students" } },
+            { id: "a4_c5_q4", text: "24. What made their exhibit stand out to the judges?", correct: "D", options: { A: "It was the most expensive", B: "It was the loudest", C: "It was made of pure gold", D: "It explained concepts interactively and fun" } },
+            { id: "a4_c5_q5", text: "25. What was the main combined topic of their winning exhibit?", correct: "A", options: { A: "Forces, motion, and energy", B: "Space exploration", C: "Dinosaur history", D: "Plant growth" } }
+          ]
+        }
+      ]
+    }
   };
 
   // AUTO-LOGIN CHECK ON LOAD
