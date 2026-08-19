@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reading Comprehension Time</title>
+  
+  <!-- FIREBASE SDKs FOR CROSS-DEVICE SYNC -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
   <style>
     :root {
       --primary: #2563eb;
@@ -35,63 +40,34 @@
     .view { display: none; }
     .view.active { display: block; }
 
-    /* TOP LEFT FLOATING BUTTON */
     .top-left-btn {
-      position: fixed;
-      top: 15px;
-      left: 15px;
-      background: #ffffff;
-      border: 2px solid var(--primary);
-      color: var(--primary);
-      padding: 8px 14px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      cursor: pointer;
-      z-index: 100;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      transition: all 0.2s ease;
+      position: fixed; top: 15px; left: 15px;
+      background: #ffffff; border: 2px solid var(--primary);
+      color: var(--primary); padding: 8px 14px; border-radius: 20px;
+      font-size: 0.85rem; font-weight: 700; cursor: pointer; z-index: 100;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1); transition: all 0.2s ease;
     }
     .top-left-btn:hover { background: var(--primary); color: #ffffff; }
 
-    /* TOP RIGHT OVERALL AVERAGE PILL */
     .top-right-avg {
-      position: fixed;
-      top: 15px;
-      right: 15px;
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
-      color: var(--primary);
-      padding: 8px 14px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      z-index: 100;
+      position: fixed; top: 15px; right: 15px;
+      background: #eff6ff; border: 1px solid #bfdbfe;
+      color: var(--primary); padding: 8px 14px; border-radius: 20px;
+      font-size: 0.85rem; font-weight: 700; z-index: 100;
       box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
 
-    /* TOP BANNER */
     .top-avg-banner {
       background: linear-gradient(135deg, #0284c7, #0d9488);
-      color: #ffffff;
-      border-radius: 10px;
-      padding: 14px 20px;
-      margin-bottom: 24px;
-      text-align: center;
-      font-weight: 700;
-      font-size: 1.05rem;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      color: #ffffff; border-radius: 10px; padding: 14px 20px;
+      margin-bottom: 24px; text-align: center; font-weight: 700;
+      font-size: 1.05rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
 
-    /* SIGN-IN CARD */
     .signin-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 40px 30px;
-      max-width: 450px;
-      margin: 60px auto 0 auto;
-      text-align: center;
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 16px; padding: 40px 30px; max-width: 450px;
+      margin: 60px auto 0 auto; text-align: center;
       box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
     }
     .signin-card h1 { font-size: 1.8rem; color: #1e3a8a; margin-bottom: 8px; }
@@ -100,173 +76,82 @@
     .input-group { margin-bottom: 20px; text-align: left; }
     .input-group label { display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 6px; }
     .input-group input {
-      width: 100%; padding: 12px 16px;
-      border: 2px solid var(--border); border-radius: 8px;
-      font-size: 1rem; outline: none;
+      width: 100%; padding: 12px 16px; border: 2px solid var(--border);
+      border-radius: 8px; font-size: 1rem; outline: none;
     }
     .input-group input:focus { border-color: var(--primary); }
     .error-msg { color: #dc2626; font-size: 0.85rem; margin-top: 6px; display: none; }
 
     .user-welcome {
-      background: #eff6ff; border: 1px solid #bfdbfe;
-      color: #1e40af; padding: 10px 18px; border-radius: 10px;
-      margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;
-      font-weight: 600;
+      background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af;
+      padding: 10px 18px; border-radius: 10px; margin-bottom: 16px;
+      display: flex; justify-content: space-between; align-items: center; font-weight: 600;
     }
     .change-user-btn {
       background: none; border: none; color: var(--primary);
       text-decoration: underline; cursor: pointer; font-size: 0.85rem; font-weight: 600;
     }
 
-    /* DASHBOARD */
     .dashboard-header { text-align: center; margin-bottom: 28px; }
     .dashboard-header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: #1e3a8a; }
     .dashboard-header p { color: var(--text-muted); }
 
     .section-title { font-size: 1.2rem; font-weight: 700; margin: 28px 0 16px 0; }
 
-    .story-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-    }
-
+    .story-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
     .story-card {
       background: var(--card-bg); border: 1px solid var(--border);
       border-radius: 12px; padding: 20px; cursor: pointer;
       transition: all 0.2s ease; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
       display: flex; flex-direction: column; justify-content: space-between;
     }
-    .story-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.15);
-      border-color: var(--primary);
-    }
-    .story-card.science-card:hover {
-      box-shadow: 0 10px 15px -3px rgba(13, 148, 136, 0.2);
-      border-color: var(--science-primary);
-    }
+    .story-card:hover { transform: translateY(-4px); border-color: var(--primary); }
 
     .card-badge {
       align-self: flex-start; background-color: #dbeafe; color: var(--primary);
       font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; margin-bottom: 12px;
     }
-    .card-badge.science { background-color: #ccfbf1; color: var(--science-primary); }
-
     .card-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; }
     .card-desc { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 12px; }
-    
     .score-badge {
       background-color: #f1f5f9; border: 1px solid var(--border);
       padding: 8px 12px; border-radius: 8px; font-size: 0.85rem;
       font-weight: 700; color: var(--primary); margin-bottom: 16px;
     }
-
     .card-footer { font-weight: 600; color: var(--primary); font-size: 0.88rem; }
-    .story-card.science-card .card-footer { color: var(--science-primary); }
 
-    /* QUIZ & CONTENT */
     .quiz-container {
       background: var(--card-bg); padding: 28px; border-radius: 12px;
       border: 1px solid var(--border); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
     }
-    .top-nav { margin-bottom: 16px; }
-    .back-btn { background: none; border: none; color: var(--primary); font-weight: 600; cursor: pointer; }
-    .back-btn:hover { text-decoration: underline; }
+    .back-btn { background: none; border: none; color: var(--primary); font-weight: 600; cursor: pointer; margin-bottom: 16px; }
 
-    .header {
-      border-bottom: 2px solid var(--border); padding-bottom: 12px;
-      margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;
-    }
-    .header h2 { font-size: 1.1rem; color: var(--text-muted); }
-    .page-indicator { font-weight: 600; color: var(--primary); }
+    .header { border-bottom: 2px solid var(--border); padding-bottom: 12px; margin-bottom: 20px; display: flex; justify-content: space-between; }
+    .story-text { background-color: #f1f5f9; padding: 16px; border-left: 4px solid var(--primary); border-radius: 4px; margin-bottom: 24px; }
+    .question-box { margin-bottom: 20px; padding: 16px; border: 1px solid var(--border); border-radius: 8px; background: #fafafa; }
+    .options label { display: block; padding: 8px 12px; margin: 6px 0; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; background: #fff; }
 
-    .story-text {
-      background-color: #f1f5f9; padding: 16px; border-left: 4px solid var(--primary);
-      border-radius: 4px; margin-bottom: 24px; font-weight: 500;
-    }
-
-    .question-box {
-      margin-bottom: 20px; padding: 16px; border: 1px solid var(--border);
-      border-radius: 8px; background-color: #fafafa;
-    }
-    .question-box p { font-weight: 600; margin-bottom: 10px; }
-
-    .options label {
-      display: block; padding: 8px 12px; margin: 6px 0;
-      border: 1px solid var(--border); border-radius: 6px; cursor: pointer; background-color: #fff;
-    }
-    .options label:hover { background-color: var(--bg); }
-
-    .controls {
-      display: flex; justify-content: space-between; margin-top: 24px;
-      padding-top: 16px; border-top: 1px solid var(--border);
-    }
-
-    .btn {
-      background-color: var(--primary); color: white; border: none;
-      padding: 10px 20px; border-radius: 6px; font-size: 1rem; cursor: pointer;
-    }
-    .btn:hover { background-color: var(--primary-hover); }
+    .controls { display: flex; justify-content: space-between; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border); }
+    .btn { background-color: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-size: 1rem; cursor: pointer; }
     .btn-block { width: 100%; padding: 12px; font-weight: 700; }
-    .btn:disabled { background-color: #cbd5e1; cursor: not-allowed; }
     .btn-secondary { background-color: #64748b; }
-    .btn-secondary:hover { background-color: #475569; }
 
-    #results-screen { text-align: center; }
-    .score-text { font-size: 1.8rem; font-weight: bold; color: var(--primary); margin: 10px 0 20px 0; }
-    .action-buttons { display: flex; gap: 12px; margin-top: 20px; }
-    .action-buttons button { flex: 1; }
-
-    /* ALL STUDENTS MODAL (SCROLLABLE DOWN) */
-    .modal-overlay {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5); display: none; justify-content: center;
-      align-items: center; z-index: 1000;
-    }
-    .modal-card {
-      background: #ffffff; padding: 24px; border-radius: 12px;
-      width: 90%; max-width: 450px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    }
-    .modal-header {
-      display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px;
-    }
-    .modal-header h3 { font-size: 1.2rem; color: #1e3a8a; }
-    .close-modal { background: none; border: none; font-size: 1.2rem; font-weight: bold; cursor: pointer; color: var(--text-muted); }
-    
-    /* SCROLLABLE CONTAINER FOR LISTED STUDENTS */
-    .students-list { 
-      max-height: 250px; 
-      overflow-y: auto; 
-      margin-bottom: 16px; 
-      border: 1px solid var(--border);
-      border-radius: 8px;
-    }
-    .student-item { 
-      display: flex; 
-      justify-content: space-between; 
-      padding: 10px 14px; 
-      border-bottom: 1px solid var(--border); 
-      font-size: 0.95rem; 
-    }
-    .student-item:last-child { border-bottom: none; }
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000; }
+    .modal-card { background: #ffffff; padding: 24px; border-radius: 12px; width: 90%; max-width: 450px; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    .students-list { max-height: 250px; overflow-y: auto; margin-bottom: 16px; border: 1px solid var(--border); border-radius: 8px; }
+    .student-item { display: flex; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid var(--border); }
     .student-item:nth-child(even) { background: #f8fafc; }
-    .student-name { font-weight: 600; color: var(--text); }
-    .student-score { font-weight: 700; color: var(--primary); }
   </style>
 </head>
 <body>
 
-<!-- TOP LEFT BUTTON TO VIEW ALL SCORES -->
 <button class="top-left-btn" onclick="openStudentsModal()">📊 All Student Scores</button>
-
-<!-- TOP RIGHT OVERALL AVERAGE DISPLAY -->
 <div class="top-right-avg" id="topRightAvg">Overall Average: 0.0 / 25 (0.0%)</div>
 
 <div class="container">
 
-  <!-- SIGN-IN VIEW -->
+  <!-- SIGN-IN SCREEN -->
   <div id="signinView" class="view active">
     <div class="signin-card">
       <h1>Reading Comprehension Time</h1>
@@ -289,58 +174,48 @@
       <button class="change-user-btn" onclick="signOut()">Change Name</button>
     </div>
 
-    <div class="top-avg-banner" id="topAvgBanner">
-      🏆 Overall Average: 0.0 / 25 (0.0%) — Total Points: 0/100
-    </div>
+    <div class="top-avg-banner" id="topAvgBanner">🏆 Overall Average: 0.0 / 25 (0.0%) — Total Points: 0/100</div>
 
     <header class="dashboard-header">
       <h1>Reading Comprehension Time</h1>
-      <p>Read stories featuring Zeik, Ayit, Ana, Shane, Allain, and Lance to build understanding in Tagalog, English, and Science!</p>
+      <p>Read stories and test your comprehension!</p>
     </header>
 
-    <div class="section-title">📖 Reading Comprehension: General Stories</div>
     <div class="story-grid">
       <div class="story-card" onclick="startActivity('act1')">
         <div>
           <span class="card-badge">Tagalog Reading</span>
           <h2 class="card-title">Activity 1: Ang Proyekto ng Magkakaibigan</h2>
-          <p class="card-desc">Basahin ang kwento ng pagtulong sa paglilinis ng lumang halamanan.</p>
           <div class="score-badge" id="score-act1">Latest Score: 0 / 25</div>
         </div>
-        <div class="card-footer">Start Reading Activity 1 &rarr;</div>
+        <div class="card-footer">Start Activity 1 &rarr;</div>
       </div>
 
       <div class="story-card" onclick="startActivity('act2')">
         <div>
           <span class="card-badge">English Reading</span>
           <h2 class="card-title">Activity 2: The Great Forest Adventure</h2>
-          <p class="card-desc">Read how the team decodes map puzzles and travels through the woods.</p>
           <div class="score-badge" id="score-act2">Latest Score: 0 / 25</div>
         </div>
-        <div class="card-footer">Start Reading Activity 2 &rarr;</div>
+        <div class="card-footer">Start Activity 2 &rarr;</div>
       </div>
-    </div>
 
-    <div class="section-title" style="color: var(--science-primary);">🔬 Reading Comprehension: Science Topics</div>
-    <div class="story-grid">
-      <div class="story-card science-card" onclick="startActivity('act3')">
+      <div class="story-card" onclick="startActivity('act3')">
         <div>
-          <span class="card-badge science">Tagalog Science Reading</span>
+          <span class="card-badge">Tagalog Science</span>
           <h2 class="card-title">Activity 3: Ang Lihim ng Ecosystem</h2>
-          <p class="card-desc">Unawain ang teksto tungkol sa Biotic/Abiotic factors, Photosynthesis, at Food Chains.</p>
           <div class="score-badge" id="score-act3">Latest Score: 0 / 25</div>
         </div>
-        <div class="card-footer">Start Reading Activity 3 &rarr;</div>
+        <div class="card-footer">Start Activity 3 &rarr;</div>
       </div>
 
-      <div class="story-card science-card" onclick="startActivity('act4')">
+      <div class="story-card" onclick="startActivity('act4')">
         <div>
-          <span class="card-badge science">English Science Reading</span>
+          <span class="card-badge">English Science</span>
           <h2 class="card-title">Activity 4: Energy & Forces Adventure</h2>
-          <p class="card-desc">Read informative science passages on Energy forms, Friction, Gravity, and Circuits.</p>
           <div class="score-badge" id="score-act4">Latest Score: 0 / 25</div>
         </div>
-        <div class="card-footer">Start Reading Activity 4 &rarr;</div>
+        <div class="card-footer">Start Activity 4 &rarr;</div>
       </div>
     </div>
   </div>
@@ -348,147 +223,108 @@
   <!-- ACTIVITY VIEW -->
   <div id="activityView" class="view">
     <div class="quiz-container">
-      <div class="top-nav">
-        <button class="back-btn" onclick="showDashboard()">&larr; Back to Dashboard</button>
-      </div>
+      <button class="back-btn" onclick="showDashboard()">&larr; Back to Dashboard</button>
 
       <div class="header">
         <h2 id="actTitle">Activity</h2>
-        <span class="page-indicator" id="pageIndicator">Chapter 1 of 5</span>
+        <span id="pageIndicator">Chapter 1 of 1</span>
       </div>
 
       <div id="pageContainer"></div>
 
-      <div id="resultsScreen" style="display:none;">
-        <div id="results-screen">
-          <h2>Great Job, <span id="resultStudentName"></span>!</h2>
-          <p>You completed the reading comprehension activity.</p>
-          <div class="score-text" id="scoreDisplay">0 / 25</div>
-          <div class="action-buttons">
-            <button class="btn" onclick="restartActivity()">Try Again</button>
-            <button class="btn btn-secondary" onclick="showDashboard()">Main Dashboard</button>
-          </div>
-        </div>
+      <div id="resultsScreen" style="display:none; text-align:center;">
+        <h2>Great Job, <span id="resultStudentName"></span>!</h2>
+        <div class="score-text" id="scoreDisplay">0 / 25</div>
+        <button class="btn" onclick="showDashboard()">Main Dashboard</button>
       </div>
 
       <div class="controls" id="controlBox">
-        <button id="prevBtn" class="btn" onclick="changeChapter(-1)" disabled>Previous Chapter</button>
-        <button id="nextBtn" class="btn" onclick="changeChapter(1)">Next Chapter</button>
+        <button id="prevBtn" class="btn" onclick="changeChapter(-1)" disabled>Previous</button>
+        <button id="nextBtn" class="btn" onclick="changeChapter(1)">Next</button>
       </div>
     </div>
   </div>
 
 </div>
 
-<!-- ALL STUDENTS SCORES MODAL (POPUP) -->
+<!-- ALL STUDENTS MODAL -->
 <div class="modal-overlay" id="studentsModal">
   <div class="modal-card">
     <div class="modal-header">
-      <h3>All Student Scores</h3>
-      <button class="close-modal" onclick="closeStudentsModal()">&times;</button>
+      <h3>All Student Scores (Live)</h3>
+      <button style="border:none; background:none; cursor:pointer;" onclick="closeStudentsModal()">&times;</button>
     </div>
-    <div class="students-list" id="studentsListContainer">
-      <!-- Dynamic list of students will be appended here -->
-    </div>
+    <div class="students-list" id="studentsListContainer"></div>
     <button class="btn btn-block" onclick="closeStudentsModal()">Close</button>
   </div>
 </div>
 
 <script>
+  // OPTIONAL: ADD YOUR FIREBASE CONFIG TO SYNC ACROSS MULTIPLE PHYSICAL DEVICES
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
+    projectId: "YOUR_PROJECT",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "123456789",
+    appId: "1:123456789:web:abcdef"
+  };
+
+  // Initialize Firebase (Falls back to localStorage if Firebase is not yet configured)
+  let db = null;
+  try {
+    firebase.initializeApp(firebaseConfig);
+    db = firebase.database();
+  } catch(e) {
+    console.log("Firebase not configured. Operating in local mode.");
+  }
+
   let userName = "";
   let currentActId = null;
   let currentChapterIdx = 0;
   let userAnswers = {};
-  
   let scores = { act1: 0, act2: 0, act3: 0, act4: 0 };
 
   const activitiesData = {
-    act1: {
-      title: "Activity 1: Ang Proyekto ng Magkakaibigan",
-      chapters: [
-        {
-          chapterNumber: 1,
-          title: "Chapter 1: Ang Lihim na Halamanan",
-          story: "Isang umaga habang naglalakad sina Zeik at Ayit sa likod ng kaniyang paaralan, nakakita sila ng isang lumang halamanan na puno ng tuyong dahon at damo.",
-          questions: [
-            { id: "c1_q1", text: "1. Sino-sino ang nakakita ng lumang halamanan?", correct: "A", options: { A: "Zeik at Ayit", B: "Ana at Shane", C: "Allain at Lance" } },
-            { id: "c1_q2", text: "2. Saan matatagpuan ang lumang halamanan?", correct: "C", options: { A: "Sa parke", B: "Sa tabi ng ilog", C: "Sa likod ng paaralan" } }
-          ]
-        }
-      ]
-    },
-    act2: {
-      title: "Activity 2: The Great Forest Adventure",
-      chapters: [
-        {
-          chapterNumber: 1,
-          title: "Chapter 1: The Mysterious Map",
-          story: "On a sunny Saturday morning, Zeik was walking through the woods near their town. Underneath an old oak tree, he discovered a rolled-up parchment map.",
-          questions: [
-            { id: "act2_c1_q1", text: "1. Who found the map in the woods?", correct: "A", options: { A: "Zeik", B: "Lance", C: "Ana" } }
-          ]
-        }
-      ]
-    },
-    act3: {
-      title: "Activity 3: Ang Lihim ng Ecosystem",
-      chapters: [
-        {
-          chapterNumber: 1,
-          title: "Chapter 1: Biotic at Abiotic Factors",
-          story: "Nag-aaral sina Zeik at Ayit sa likod-bahay nang mapansin nila ang mga halaman, lupa, uod, at sikat ng araw.",
-          questions: [
-            { id: "act3_c1_q1", text: "1. Ano ang dalawang pangunahing bahagi ng isang ecosystem?", correct: "A", options: { A: "Biotic at Abiotic factors", B: "Solid at Liquid", C: "Proton at Electron" } }
-          ]
-        }
-      ]
-    },
-    act4: {
-      title: "Activity 4: Energy & Forces Adventure",
-      chapters: [
-        {
-          chapterNumber: 1,
-          title: "Chapter 1: Forms of Energy",
-          story: "Shane and Allain were working on a science fair project about different forms of energy. They learned how electrical energy converts into kinetic and thermal energy.",
-          questions: [
-            { id: "act4_c1_q1", text: "1. Who worked on the science fair project?", correct: "B", options: { A: "Zeik and Ayit", B: "Shane and Allain", C: "Ana and Lance" } },
-            { id: "act4_c1_q2", text: "2. What forms of energy did they learn about?", correct: "C", options: { A: "Nuclear & Sound", B: "Chemical & Light", C: "Electrical, Kinetic, & Thermal" } }
-          ]
-        }
-      ]
-    }
+    act1: { title: "Activity 1: Ang Proyekto ng Magkakaibigan", chapters: [{ title: "Chapter 1", story: "Kuwento ni Zeik at Ayit.", questions: [{ id: "c1_q1", text: "1. Sino sina Zeik?", correct: "A", options: { A: "Magkaibigan", B: "Lahi" } }] }] },
+    act2: { title: "Activity 2: The Great Forest Adventure", chapters: [{ title: "Chapter 1", story: "Zeik found a map.", questions: [{ id: "c2_q1", text: "1. What did Zeik find?", correct: "A", options: { A: "Map", B: "Key" } }] }] },
+    act3: { title: "Activity 3: Ang Lihim ng Ecosystem", chapters: [{ title: "Chapter 1", story: "Ecosystem ecosystem.", questions: [{ id: "c3_q1", text: "1. Ecosystem types?", correct: "A", options: { A: "Biotic/Abiotic", B: "Solid/Gas" } }] }] },
+    act4: { title: "Activity 4: Energy & Forces Adventure", chapters: [{ title: "Chapter 1", story: "Energy forms.", questions: [{ id: "c4_q1", text: "1. Project team?", correct: "A", options: { A: "Shane & Allain", B: "Ana & Lance" } }] }] }
   };
 
-  function signIn() {
-    const input = document.getElementById('studentName');
-    const name = input.value.trim();
-    const error = document.getElementById('nameError');
+  // 1. AUTO-LOGIN CHECK ON LOAD
+  window.addEventListener('DOMContentLoaded', () => {
+    const savedUser = localStorage.getItem('activeStudentUser');
+    if (savedUser) {
+      userName = savedUser;
+      document.getElementById('displayName').innerText = userName;
+      loadUserScores();
+      document.getElementById('signinView').classList.remove('active');
+      document.getElementById('dashboardView').classList.add('active');
+    }
+  });
 
-    if (!name) {
-      error.style.display = 'block';
+  function signIn() {
+    const nameInput = document.getElementById('studentName').value.trim();
+    if (!nameInput) {
+      document.getElementById('nameError').style.display = 'block';
       return;
     }
 
-    error.style.display = 'none';
-    userName = name;
+    document.getElementById('nameError').style.display = 'none';
+    userName = nameInput;
+    localStorage.setItem('activeStudentUser', userName); // Save session locally
     document.getElementById('displayName').innerText = userName;
 
-    // Load existing record for this student from LocalStorage
-    let allRecords = JSON.parse(localStorage.getItem('studentScoresRecords') || '{}');
-    if (allRecords[userName]) {
-      scores = allRecords[userName];
-    } else {
-      scores = { act1: 0, act2: 0, act3: 0, act4: 0 };
-    }
+    loadUserScores();
 
     document.getElementById('signinView').classList.remove('active');
     document.getElementById('dashboardView').classList.add('active');
-    
-    updateOverallAverage();
-    updateDashboardScoresUI();
   }
 
   function signOut() {
+    localStorage.removeItem('activeStudentUser'); // Clear saved session
     userName = "";
     document.getElementById('studentName').value = "";
     document.getElementById('dashboardView').classList.remove('active');
@@ -496,9 +332,40 @@
     document.getElementById('signinView').classList.add('active');
   }
 
-  function handleKeyPress(event) {
-    if (event.key === 'Enter') signIn();
+  function sanitizeKey(str) {
+    return str.replace(/[\.\#\$\[\]]/g, "_");
   }
+
+  function saveUserScores() {
+    // Save to LocalStorage
+    let allRecords = JSON.parse(localStorage.getItem('studentScoresRecords') || '{}');
+    allRecords[userName] = scores;
+    localStorage.setItem('studentScoresRecords', JSON.stringify(allRecords));
+
+    // Sync to Cloud Firebase across devices (if connected)
+    if (db) {
+      db.ref('students/' + sanitizeKey(userName)).set(scores);
+    }
+  }
+
+  function loadUserScores() {
+    if (db) {
+      db.ref('students/' + sanitizeKey(userName)).once('value', (snapshot) => {
+        if (snapshot.exists()) {
+          scores = snapshot.val();
+        }
+        updateOverallAverage();
+        updateDashboardScoresUI();
+      });
+    } else {
+      let allRecords = JSON.parse(localStorage.getItem('studentScoresRecords') || '{}');
+      scores = allRecords[userName] || { act1: 0, act2: 0, act3: 0, act4: 0 };
+      updateOverallAverage();
+      updateDashboardScoresUI();
+    }
+  }
+
+  function handleKeyPress(e) { if (e.key === 'Enter') signIn(); }
 
   function updateDashboardScoresUI() {
     document.getElementById('score-act1').innerText = `Latest Score: ${scores.act1 || 0} / 25`;
@@ -515,25 +382,18 @@
     document.getElementById('topRightAvg').innerText = `Overall Average: ${avgScore} / 25 (${percentage}%)`;
     document.getElementById('topAvgBanner').innerText = `🏆 Overall Average: ${avgScore} / 25 (${percentage}%) — Total Points: ${totalPoints}/100`;
 
-    // Persist scores to localStorage under the current student name
-    if (userName) {
-      let allRecords = JSON.parse(localStorage.getItem('studentScoresRecords') || '{}');
-      allRecords[userName] = scores;
-      localStorage.setItem('studentScoresRecords', JSON.stringify(allRecords));
-    }
+    if (userName) saveUserScores();
   }
 
   function startActivity(actId) {
     currentActId = actId;
     currentChapterIdx = 0;
     userAnswers = {};
-    
     document.getElementById('dashboardView').classList.remove('active');
     document.getElementById('activityView').classList.add('active');
     document.getElementById('resultsScreen').style.display = 'none';
     document.getElementById('controlBox').style.display = 'flex';
     document.getElementById('actTitle').innerText = activitiesData[actId].title;
-    
     renderChapter();
   }
 
@@ -545,15 +405,7 @@
   function renderChapter() {
     const act = activitiesData[currentActId];
     const ch = act.chapters[currentChapterIdx];
-    
-    document.getElementById('pageIndicator').innerText = `Chapter ${currentChapterIdx + 1} of ${act.chapters.length}`;
-    
-    let html = `
-      <div class="story-text">
-        <h3>${ch.title}</h3>
-        <p>${ch.story}</p>
-      </div>
-    `;
+    let html = `<div class="story-text"><h3>${ch.title}</h3><p>${ch.story}</p></div>`;
 
     ch.questions.forEach(q => {
       html += `
@@ -562,22 +414,15 @@
           <div class="options">
             ${Object.keys(q.options).map(optKey => `
               <label>
-                <input type="radio" name="${q.id}" value="${optKey}" ${userAnswers[q.id] === optKey ? 'checked' : ''} onchange="saveAnswer('${q.id}', '${optKey}')">
+                <input type="radio" name="${q.id}" value="${optKey}" ${userAnswers[q.id] === optKey ? 'checked' : ''} onchange="userAnswers['${q.id}']='${optKey}'">
                 ${optKey}. ${q.options[optKey]}
               </label>
             `).join('')}
           </div>
-        </div>
-      `;
+        </div>`;
     });
 
     document.getElementById('pageContainer').innerHTML = html;
-    document.getElementById('prevBtn').disabled = currentChapterIdx === 0;
-    document.getElementById('nextBtn').innerText = currentChapterIdx === act.chapters.length - 1 ? 'Finish' : 'Next Chapter';
-  }
-
-  function saveAnswer(qId, val) {
-    userAnswers[qId] = val;
   }
 
   function changeChapter(dir) {
@@ -593,52 +438,54 @@
   function calculateResult() {
     const act = activitiesData[currentActId];
     let score = 0;
-
     act.chapters.forEach(ch => {
-      ch.questions.forEach(q => {
-        if (userAnswers[q.id] === q.correct) score++;
-      });
+      ch.questions.forEach(q => { if (userAnswers[q.id] === q.correct) score++; });
     });
 
     scores[currentActId] = score;
-
     updateDashboardScoresUI();
     document.getElementById('pageContainer').innerHTML = '';
     document.getElementById('controlBox').style.display = 'none';
     document.getElementById('resultStudentName').innerText = userName;
     document.getElementById('resultsScreen').style.display = 'block';
     document.getElementById('scoreDisplay').innerText = `${score} / 25`;
-
     updateOverallAverage();
   }
 
-  function restartActivity() {
-    startActivity(currentActId);
-  }
-
-  /* MODAL LOGIC FOR SCROLLABLE ALL STUDENT SCORES */
+  // 2. SCROLLABLE ALL STUDENTS MODAL (MERGES / DEDUPLICATES BY NAME)
   function openStudentsModal() {
-    let allRecords = JSON.parse(localStorage.getItem('studentScoresRecords') || '{}');
-    let container = document.getElementById('studentsListContainer');
-    container.innerHTML = "";
+    const container = document.getElementById('studentsListContainer');
+    container.innerHTML = "Loading...";
 
-    let names = Object.keys(allRecords);
+    const renderList = (allRecords) => {
+      container.innerHTML = "";
+      const names = Object.keys(allRecords);
 
-    if (names.length === 0) {
-      container.innerHTML = "<div class='student-item'><span>No student records found yet.</span></div>";
-    } else {
-      names.forEach(name => {
-        let stScores = allRecords[name];
+      if (names.length === 0) {
+        container.innerHTML = "<div class='student-item'><span>No student records found.</span></div>";
+        return;
+      }
+
+      names.forEach(nameKey => {
+        let stScores = allRecords[nameKey];
         let total = (stScores.act1 || 0) + (stScores.act2 || 0) + (stScores.act3 || 0) + (stScores.act4 || 0);
         let pct = ((total / 100) * 100).toFixed(0);
 
         container.innerHTML += `
           <div class="student-item">
-            <span class="student-name">${name}</span>
-            <span class="student-score">${pct}%</span>
-          </div>
-        `;
+            <span style="font-weight:600;">${nameKey.replace(/_/g, " ")}</span>
+            <span style="font-weight:700; color:var(--primary);">${pct}%</span>
+          </div>`;
       });
+    };
+
+    if (db) {
+      db.ref('students').once('value', (snapshot) => {
+        renderList(snapshot.val() || {});
+      });
+    } else {
+      let localRecords = JSON.parse(localStorage.getItem('studentScoresRecords') || '{}');
+      renderList(localRecords);
     }
 
     document.getElementById('studentsModal').style.display = 'flex';
