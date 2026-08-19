@@ -35,43 +35,41 @@
     .view { display: none; }
     .view.active { display: block; }
 
-    /* TOP LEFT FLOATING BUTTON */
+    /* TOP LEFT BUTTON */
     .top-left-btn {
-      position: absolute;
-      top: 20px;
-      left: 20px;
+      position: fixed;
+      top: 15px;
+      left: 15px;
       background: #ffffff;
-      border: 1px solid var(--primary);
+      border: 2px solid var(--primary);
       color: var(--primary);
-      padding: 8px 16px;
+      padding: 8px 14px;
       border-radius: 20px;
       font-size: 0.85rem;
       font-weight: 700;
       cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-      transition: all 0.2s ease;
+      z-index: 100;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
-    .top-left-btn:hover {
-      background: var(--primary);
-      color: #ffffff;
-    }
+    .top-left-btn:hover { background: var(--primary); color: #ffffff; }
 
-    /* TOP RIGHT FLOATING BADGE */
+    /* TOP RIGHT BADGE */
     .top-right-avg {
-      position: absolute;
-      top: 20px;
-      right: 20px;
+      position: fixed;
+      top: 15px;
+      right: 15px;
       background: #eff6ff;
       border: 1px solid #bfdbfe;
       color: var(--primary);
-      padding: 8px 16px;
+      padding: 8px 14px;
       border-radius: 20px;
       font-size: 0.85rem;
       font-weight: 700;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      z-index: 100;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
 
-    /* TOP OVERALL BANNER */
+    /* BANNER */
     .top-avg-banner {
       background: linear-gradient(135deg, #0284c7, #0d9488);
       color: #ffffff;
@@ -84,7 +82,7 @@
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
 
-    /* SIGN-IN SCREEN */
+    /* SIGN-IN */
     .signin-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
@@ -95,199 +93,119 @@
       text-align: center;
       box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
     }
-
-    .signin-card h1 { font-size: 2rem; color: #1e3a8a; margin-bottom: 8px; }
+    .signin-card h1 { font-size: 1.8rem; color: #1e3a8a; margin-bottom: 8px; }
     .signin-card p { color: var(--text-muted); margin-bottom: 24px; font-size: 0.95rem; }
 
     .input-group { margin-bottom: 20px; text-align: left; }
     .input-group label { display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 6px; }
     .input-group input {
-      width: 100%;
-      padding: 12px 16px;
-      border: 2px solid var(--border);
-      border-radius: 8px;
-      font-size: 1rem;
-      outline: none;
+      width: 100%; padding: 12px 16px;
+      border: 2px solid var(--border); border-radius: 8px;
+      font-size: 1rem; outline: none;
     }
     .input-group input:focus { border-color: var(--primary); }
     .error-msg { color: #dc2626; font-size: 0.85rem; margin-top: 6px; display: none; }
 
-    /* USER BANNER */
     .user-welcome {
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
-      color: #1e40af;
-      padding: 10px 18px;
-      border-radius: 10px;
-      margin-bottom: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      background: #eff6ff; border: 1px solid #bfdbfe;
+      color: #1e40af; padding: 10px 18px; border-radius: 10px;
+      margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;
       font-weight: 600;
     }
-
     .change-user-btn {
-      background: none;
-      border: none;
-      color: var(--primary);
-      text-decoration: underline;
-      cursor: pointer;
-      font-size: 0.85rem;
-      font-weight: 600;
+      background: none; border: none; color: var(--primary);
+      text-decoration: underline; cursor: pointer; font-size: 0.85rem; font-weight: 600;
     }
 
     /* DASHBOARD */
     .dashboard-header { text-align: center; margin-bottom: 28px; }
-    .dashboard-header h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 8px; color: #1e3a8a; }
+    .dashboard-header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: #1e3a8a; }
     .dashboard-header p { color: var(--text-muted); }
 
-    .section-title { font-size: 1.25rem; font-weight: 700; margin: 28px 0 16px 0; }
+    .section-title { font-size: 1.2rem; font-weight: 700; margin: 28px 0 16px 0; }
 
     .story-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 20px;
     }
 
     .story-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px; cursor: pointer;
+      transition: all 0.2s ease; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      display: flex; flex-direction: column; justify-content: space-between;
     }
-
     .story-card:hover {
       transform: translateY(-4px);
       box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.15);
       border-color: var(--primary);
     }
-
     .story-card.science-card:hover {
       box-shadow: 0 10px 15px -3px rgba(13, 148, 136, 0.2);
       border-color: var(--science-primary);
     }
 
     .card-badge {
-      align-self: flex-start;
-      background-color: #dbeafe;
-      color: var(--primary);
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 20px;
-      margin-bottom: 12px;
+      align-self: flex-start; background-color: #dbeafe; color: var(--primary);
+      font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; margin-bottom: 12px;
     }
+    .card-badge.science { background-color: #ccfbf1; color: var(--science-primary); }
 
-    .card-badge.science {
-      background-color: #ccfbf1;
-      color: var(--science-primary);
-    }
-
-    .card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
-    .card-desc { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 12px; }
+    .card-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; }
+    .card-desc { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 12px; }
     
     .score-badge {
-      background-color: #f1f5f9;
-      border: 1px solid var(--border);
-      padding: 8px 12px;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 16px;
+      background-color: #f1f5f9; border: 1px solid var(--border);
+      padding: 8px 12px; border-radius: 8px; font-size: 0.85rem;
+      font-weight: 700; color: var(--primary); margin-bottom: 16px;
     }
 
-    .card-footer { font-weight: 600; color: var(--primary); font-size: 0.9rem; }
+    .card-footer { font-weight: 600; color: var(--primary); font-size: 0.88rem; }
     .story-card.science-card .card-footer { color: var(--science-primary); }
 
-    /* QUIZ & CONTENT */
+    /* QUIZ CONTAINER */
     .quiz-container {
-      background: var(--card-bg);
-      padding: 28px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+      background: var(--card-bg); padding: 28px; border-radius: 12px;
+      border: 1px solid var(--border); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
     }
-
     .top-nav { margin-bottom: 16px; }
-
-    .back-btn {
-      background: none;
-      border: none;
-      color: var(--primary);
-      font-weight: 600;
-      cursor: pointer;
-      font-size: 0.95rem;
-    }
+    .back-btn { background: none; border: none; color: var(--primary); font-weight: 600; cursor: pointer; }
     .back-btn:hover { text-decoration: underline; }
 
     .header {
-      border-bottom: 2px solid var(--border);
-      padding-bottom: 12px;
-      margin-bottom: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      border-bottom: 2px solid var(--border); padding-bottom: 12px;
+      margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;
     }
-
     .header h2 { font-size: 1.1rem; color: var(--text-muted); }
     .page-indicator { font-weight: 600; color: var(--primary); }
 
     .story-text {
-      background-color: #f1f5f9;
-      padding: 16px;
-      border-left: 4px solid var(--primary);
-      border-radius: 4px;
-      margin-bottom: 24px;
-      font-weight: 500;
+      background-color: #f1f5f9; padding: 16px; border-left: 4px solid var(--primary);
+      border-radius: 4px; margin-bottom: 24px; font-weight: 500;
     }
 
     .question-box {
-      margin-bottom: 20px;
-      padding: 16px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      background-color: #fafafa;
+      margin-bottom: 20px; padding: 16px; border: 1px solid var(--border);
+      border-radius: 8px; background-color: #fafafa;
     }
-
     .question-box p { font-weight: 600; margin-bottom: 10px; }
 
     .options label {
-      display: block;
-      padding: 8px 12px;
-      margin: 6px 0;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      cursor: pointer;
-      background-color: #fff;
+      display: block; padding: 8px 12px; margin: 6px 0;
+      border: 1px solid var(--border); border-radius: 6px; cursor: pointer; background-color: #fff;
     }
-
     .options label:hover { background-color: var(--bg); }
 
     .controls {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 24px;
-      padding-top: 16px;
-      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; margin-top: 24px;
+      padding-top: 16px; border-top: 1px solid var(--border);
     }
 
     .btn {
-      background-color: var(--primary);
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 6px;
-      font-size: 1rem;
-      cursor: pointer;
+      background-color: var(--primary); color: white; border: none;
+      padding: 10px 20px; border-radius: 6px; font-size: 1rem; cursor: pointer;
     }
-
     .btn:hover { background-color: var(--primary-hover); }
     .btn-block { width: 100%; padding: 12px; font-weight: 700; }
     .btn:disabled { background-color: #cbd5e1; cursor: not-allowed; }
@@ -299,48 +217,24 @@
     .action-buttons { display: flex; gap: 12px; margin-top: 20px; }
     .action-buttons button { flex: 1; }
 
-    /* MODAL POP-UP FOR ALL STUDENTS */
+    /* MODAL */
     .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5); display: none; justify-content: center;
+      align-items: center; z-index: 1000;
     }
     .modal-card {
-      background: #ffffff;
-      padding: 24px;
-      border-radius: 12px;
-      width: 90%;
-      max-width: 450px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      background: #ffffff; padding: 24px; border-radius: 12px;
+      width: 90%; max-width: 450px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     }
     .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 8px;
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px;
     }
     .modal-header h3 { font-size: 1.2rem; color: #1e3a8a; }
-    .close-modal {
-      background: none; border: none; font-size: 1.2rem; font-weight: bold; cursor: pointer; color: var(--text-muted);
-    }
-    .students-list {
-      max-height: 250px;
-      overflow-y: auto;
-      margin-bottom: 16px;
-    }
-    .student-item {
-      display: flex;
-      justify-content: space-between;
-      padding: 10px 12px;
-      border-bottom: 1px solid var(--border);
-      font-size: 0.95rem;
-    }
+    .close-modal { background: none; border: none; font-size: 1.2rem; font-weight: bold; cursor: pointer; color: var(--text-muted); }
+    .students-list { max-height: 250px; overflow-y: auto; margin-bottom: 16px; }
+    .student-item { display: flex; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
     .student-item:nth-child(even) { background: #f8fafc; }
     .student-name { font-weight: 600; }
     .student-score { font-weight: 700; color: var(--primary); }
@@ -348,10 +242,8 @@
 </head>
 <body>
 
-<!-- TOP LEFT BUTTON FOR ALL SCORES -->
 <button class="top-left-btn" onclick="openStudentsModal()">📊 All Student Scores</button>
 
-<!-- TOP RIGHT OVERALL AVERAGE PILL -->
 <div class="top-right-avg" id="topRightAvg">Overall Average: 0.0 / 25 (0.0%)</div>
 
 <div class="container">
@@ -372,14 +264,13 @@
     </div>
   </div>
 
-  <!-- DASHBOARD -->
+  <!-- DASHBOARD VIEW -->
   <div id="dashboardView" class="view">
     <div class="user-welcome">
       <span>Student: <strong id="displayName"></strong></span>
       <button class="change-user-btn" onclick="signOut()">Change Name</button>
     </div>
 
-    <!-- OVERALL AVERAGE MAIN BANNER -->
     <div class="top-avg-banner" id="topAvgBanner">
       🏆 Overall Average: 0.0 / 25 (0.0%) — Total Points: 0/100
     </div>
@@ -436,7 +327,7 @@
     </div>
   </div>
 
-  <!-- ACTIVITY PAGE -->
+  <!-- ACTIVITY VIEW -->
   <div id="activityView" class="view">
     <div class="quiz-container">
       <div class="top-nav">
@@ -478,9 +369,7 @@
       <h3>All Student Scores</h3>
       <button class="close-modal" onclick="closeStudentsModal()">&times;</button>
     </div>
-    <div class="students-list" id="studentsListContainer">
-      <!-- Dynamic student list will appear here -->
-    </div>
+    <div class="students-list" id="studentsListContainer"></div>
     <button class="btn btn-block" onclick="closeStudentsModal()">Close</button>
   </div>
 </div>
@@ -500,7 +389,7 @@
         {
           chapterNumber: 1,
           title: "Chapter 1: Ang Lihim na Halamanan",
-          story: "Isang umaga habang naglalakad sina Zeik at Ayit sa likod ng kaniyang paaralan, nakakita sila ng isang lumang halamanan na puno ng tuyong dahon at damo.",
+          story: "Isang umaga habang naglalakad sina Zeik at Ayit sa likod ng kaniyang paaralan, nakakita sila ng isang lumang halamanan.",
           questions: [
             { id: "c1_q1", text: "1. Sino-sino ang nakakita ng lumang halamanan?", correct: "A", options: { A: "Zeik at Ayit", B: "Ana at Shane", C: "Allain at Lance" } },
             { id: "c1_q2", text: "2. Saan matatagpuan ang lumang halamanan?", correct: "C", options: { A: "Sa parke", B: "Sa tabi ng ilog", C: "Sa likod ng paaralan" } }
@@ -514,7 +403,7 @@
         {
           chapterNumber: 1,
           title: "Chapter 1: The Mysterious Map",
-          story: "On a sunny Saturday morning, Zeik was walking through the woods near their town. Underneath an old oak tree, he discovered a rolled-up parchment map.",
+          story: "On a sunny Saturday morning, Zeik was walking through the woods near their town.",
           questions: [
             { id: "act2_c1_q1", text: "1. Who found the map in the woods?", correct: "A", options: { A: "Zeik", B: "Lance", C: "Ana" } }
           ]
@@ -564,7 +453,6 @@
     userName = name;
     document.getElementById('displayName').innerText = userName;
 
-    // Load existing scores for this student if any
     let allRecords = JSON.parse(localStorage.getItem('studentScoresRecords') || '{}');
     if (allRecords[userName]) {
       scores = allRecords[userName];
@@ -574,6 +462,7 @@
 
     document.getElementById('signinView').classList.remove('active');
     document.getElementById('dashboardView').classList.add('active');
+    
     updateOverallAverage();
     updateDashboardScoresUI();
   }
@@ -587,9 +476,7 @@
   }
 
   function handleKeyPress(event) {
-    if (event.key === 'Enter') {
-      signIn();
-    }
+    if (event.key === 'Enter') signIn();
   }
 
   function updateDashboardScoresUI() {
@@ -600,14 +487,13 @@
   }
 
   function updateOverallAverage() {
-    let totalPoints = scores.act1 + scores.act2 + scores.act3 + scores.act4;
+    let totalPoints = (scores.act1 || 0) + (scores.act2 || 0) + (scores.act3 || 0) + (scores.act4 || 0);
     let avgScore = (totalPoints / 4).toFixed(1);
     let percentage = ((totalPoints / 100) * 100).toFixed(1);
 
     document.getElementById('topRightAvg').innerText = `Overall Average: ${avgScore} / 25 (${percentage}%)`;
     document.getElementById('topAvgBanner').innerText = `🏆 Overall Average: ${avgScore} / 25 (${percentage}%) — Total Points: ${totalPoints}/100`;
 
-    // Save to LocalStorage for persistent tracking
     if (userName) {
       let allRecords = JSON.parse(localStorage.getItem('studentScoresRecords') || '{}');
       allRecords[userName] = scores;
@@ -708,7 +594,6 @@
     startActivity(currentActId);
   }
 
-  /* MODAL FUNCTIONS FOR ALL STUDENT SCORES */
   function openStudentsModal() {
     let allRecords = JSON.parse(localStorage.getItem('studentScoresRecords') || '{}');
     let container = document.getElementById('studentsListContainer');
@@ -717,7 +602,7 @@
     let names = Object.keys(allRecords);
 
     if (names.length === 0) {
-      container.innerHTML = "<div class='student-item'><span>No student data yet.</span></div>";
+      container.innerHTML = "<div class='student-item'><span>No student data found.</span></div>";
     } else {
       names.forEach(name => {
         let studentScores = allRecords[name];
