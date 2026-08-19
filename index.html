@@ -4,17 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reading Comprehension Time</title>
-  
-  <!-- FIREBASE SDKs (Optional Cross-Device Sync) -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
   <style>
     :root {
       --primary: #2563eb;
       --primary-hover: #1d4ed8;
-      --science-primary: #0d9488;
-      --science-hover: #0f766e;
       --bg: #f8fafc;
       --card-bg: #ffffff;
       --text: #0f172a;
@@ -123,13 +117,14 @@
     }
     .back-btn { background: none; border: none; color: var(--primary); font-weight: 600; cursor: pointer; margin-bottom: 16px; }
 
-    .header { border-bottom: 2px solid var(--border); padding-bottom: 12px; margin-bottom: 20px; display: flex; justify-content: space-between; }
+    .header { border-bottom: 2px solid var(--border); padding-bottom: 12px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
     .story-text { background-color: #f1f5f9; padding: 16px; border-left: 4px solid var(--primary); border-radius: 4px; margin-bottom: 24px; }
     .question-box { margin-bottom: 20px; padding: 16px; border: 1px solid var(--border); border-radius: 8px; background: #fafafa; }
     .options label { display: block; padding: 8px 12px; margin: 6px 0; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; background: #fff; }
 
     .controls { display: flex; justify-content: space-between; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border); }
     .btn { background-color: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-size: 1rem; cursor: pointer; }
+    .btn:disabled { background-color: #cbd5e1; cursor: not-allowed; }
     .btn-block { width: 100%; padding: 12px; font-weight: 700; }
 
     .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000; }
@@ -223,19 +218,19 @@
 
       <div class="header">
         <h2 id="actTitle">Activity</h2>
-        <span id="pageIndicator">Chapter 1 of 1</span>
+        <span id="pageIndicator" style="font-weight:bold; color:var(--primary);">Chapter 1 of 5</span>
       </div>
 
       <div id="pageContainer"></div>
 
       <div id="resultsScreen" style="display:none; text-align:center;">
         <h2>Great Job, <span id="resultStudentName"></span>!</h2>
-        <div class="score-text" id="scoreDisplay" style="font-size:2rem; font-weight:bold; color:var(--primary); margin:15px 0;">0 / 25</div>
+        <div id="scoreDisplay" style="font-size:2rem; font-weight:bold; color:var(--primary); margin:15px 0;">0 / 25</div>
         <button class="btn" onclick="showDashboard()">Main Dashboard</button>
       </div>
 
       <div class="controls" id="controlBox">
-        <button id="prevBtn" class="btn" onclick="changeChapter(-1)" disabled>Previous</button>
+        <button id="prevBtn" class="btn" onclick="changeChapter(-1)">Previous</button>
         <button id="nextBtn" class="btn" onclick="changeChapter(1)">Next</button>
       </div>
     </div>
@@ -262,14 +257,44 @@
   let userAnswers = {};
   let scores = { act1: 0, act2: 0, act3: 0, act4: 0 };
 
+  // HELPER FUNCTION PARA GUMAWA NG COMPLETE STRUCTURE (5 Chapters, 1 Story & 5 Questions bawat Chapter = 25 Questions)
+  function createFullActivity(actTitle, lang) {
+    let chapters = [];
+    for (let c = 1; c <= 5; c++) {
+      let questions = [];
+      for (let q = 1; q <= 5; q++) {
+        let qNum = (c - 1) * 5 + q;
+        questions.push({
+          id: `c${c}_q${q}`,
+          text: lang === 'TL' ? `${qNum}. Tanong ${qNum} para sa Chapter ${c}?` : `${qNum}. Question ${qNum} for Chapter ${c}?`,
+          correct: "A",
+          options: {
+            A: lang === 'TL' ? "Tamang Sagot" : "Correct Answer",
+            B: lang === 'TL' ? "Maling Sagot A" : "Wrong Answer A",
+            C: lang === 'TL' ? "Maling Sagot B" : "Wrong Answer B",
+            D: lang === 'TL' ? "Maling Sagot C" : "Wrong Answer C"
+          }
+        });
+      }
+      chapters.push({
+        title: `Chapter ${c}`,
+        story: lang === 'TL' 
+          ? `Ito ang kuwento para sa Chapter ${c}. Basahing mabuti ang talata upang masagutan nang tama ang limang tanong sa ibaba.`
+          : `This is the story reading passage for Chapter ${c}. Read carefully to answer the 5 comprehension questions below.`,
+        questions: questions
+      });
+    }
+    return { title: actTitle, chapters: chapters };
+  }
+
   const activitiesData = {
-    act1: { title: "Activity 1: Ang Proyekto ng Magkakaibigan", chapters: [{ title: "Chapter 1", story: "Kuwento ni Zeik at Ayit sa paaralan.", questions: [{ id: "c1_q1", text: "1. Sino sina Zeik?", correct: "A", options: { A: "Magkaibigan", B: "Lahi" } }] }] },
-    act2: { title: "Activity 2: The Great Forest Adventure", chapters: [{ title: "Chapter 1", story: "Zeik found a map in the woods.", questions: [{ id: "c2_q1", text: "1. What did Zeik find?", correct: "A", options: { A: "Map", B: "Key" } }] }] },
-    act3: { title: "Activity 3: Ang Lihim ng Ecosystem", chapters: [{ title: "Chapter 1", story: "Pag-aaral tungkol sa Ecosystem.", questions: [{ id: "c3_q1", text: "1. Ecosystem components?", correct: "A", options: { A: "Biotic/Abiotic", B: "Solid/Gas" } }] }] },
-    act4: { title: "Activity 4: Energy & Forces Adventure", chapters: [{ title: "Chapter 1", story: "Forms of Energy lesson.", questions: [{ id: "c4_q1", text: "1. Project team?", correct: "A", options: { A: "Shane & Allain", B: "Ana & Lance" } }] }] }
+    act1: createFullActivity("Activity 1: Ang Proyekto ng Magkakaibigan", "TL"),
+    act2: createFullActivity("Activity 2: The Great Forest Adventure", "EN"),
+    act3: createFullActivity("Activity 3: Ang Lihim ng Ecosystem", "TL"),
+    act4: createFullActivity("Activity 4: Energy & Forces Adventure", "EN")
   };
 
-  // AUTO-LOGIN CHECK ON PAGE LOAD
+  // AUTO-LOGIN CHECK ON LOAD
   window.addEventListener('DOMContentLoaded', () => {
     const savedUser = localStorage.getItem('activeStudentUser');
     if (savedUser) {
@@ -361,12 +386,17 @@
   function renderChapter() {
     const act = activitiesData[currentActId];
     const ch = act.chapters[currentChapterIdx];
+
+    document.getElementById('pageIndicator').innerText = `Chapter ${currentChapterIdx + 1} of ${act.chapters.length}`;
+    document.getElementById('prevBtn').disabled = (currentChapterIdx === 0);
+    document.getElementById('nextBtn').innerText = (currentChapterIdx === act.chapters.length - 1) ? "Submit Activity" : "Next Chapter";
+
     let html = `<div class="story-text"><h3>${ch.title}</h3><p>${ch.story}</p></div>`;
 
     ch.questions.forEach(q => {
       html += `
         <div class="question-box">
-          <p>${q.text}</p>
+          <p><strong>${q.text}</strong></p>
           <div class="options">
             ${Object.keys(q.options).map(optKey => `
               <label>
@@ -388,6 +418,7 @@
     } else {
       currentChapterIdx += dir;
       renderChapter();
+      window.scrollTo(0, 0);
     }
   }
 
@@ -408,7 +439,6 @@
     updateOverallAverage();
   }
 
-  /* INSTANT OPEN MODAL (NO LOADING DELAY) */
   function openStudentsModal() {
     const container = document.getElementById('studentsListContainer');
     container.innerHTML = "";
@@ -427,7 +457,7 @@
         container.innerHTML += `
           <div class="student-item">
             <span style="font-weight:600;">${nameKey}</span>
-            <span style="font-weight:700; color:var(--primary);">${pct}%</span>
+            <span style="font-weight:700; color:var(--primary);">${pct}% (${total}/100)</span>
           </div>`;
       });
     }
