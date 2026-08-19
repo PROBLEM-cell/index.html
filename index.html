@@ -35,7 +35,7 @@
     .view { display: none; }
     .view.active { display: block; }
 
-    /* TOP LEFT BUTTON */
+    /* TOP LEFT FLOATING BUTTON */
     .top-left-btn {
       position: fixed;
       top: 15px;
@@ -50,10 +50,11 @@
       cursor: pointer;
       z-index: 100;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: all 0.2s ease;
     }
     .top-left-btn:hover { background: var(--primary); color: #ffffff; }
 
-    /* TOP RIGHT BADGE */
+    /* TOP RIGHT OVERALL AVERAGE PILL */
     .top-right-avg {
       position: fixed;
       top: 15px;
@@ -69,7 +70,7 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
 
-    /* BANNER */
+    /* TOP BANNER */
     .top-avg-banner {
       background: linear-gradient(135deg, #0284c7, #0d9488);
       color: #ffffff;
@@ -82,7 +83,7 @@
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
 
-    /* SIGN-IN */
+    /* SIGN-IN CARD */
     .signin-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
@@ -164,7 +165,7 @@
     .card-footer { font-weight: 600; color: var(--primary); font-size: 0.88rem; }
     .story-card.science-card .card-footer { color: var(--science-primary); }
 
-    /* QUIZ CONTAINER */
+    /* QUIZ & CONTENT */
     .quiz-container {
       background: var(--card-bg); padding: 28px; border-radius: 12px;
       border: 1px solid var(--border); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
@@ -217,7 +218,7 @@
     .action-buttons { display: flex; gap: 12px; margin-top: 20px; }
     .action-buttons button { flex: 1; }
 
-    /* MODAL */
+    /* ALL STUDENTS MODAL (SCROLLABLE DOWN) */
     .modal-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0,0,0,0.5); display: none; justify-content: center;
@@ -233,22 +234,39 @@
     }
     .modal-header h3 { font-size: 1.2rem; color: #1e3a8a; }
     .close-modal { background: none; border: none; font-size: 1.2rem; font-weight: bold; cursor: pointer; color: var(--text-muted); }
-    .students-list { max-height: 250px; overflow-y: auto; margin-bottom: 16px; }
-    .student-item { display: flex; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+    
+    /* SCROLLABLE CONTAINER FOR LISTED STUDENTS */
+    .students-list { 
+      max-height: 250px; 
+      overflow-y: auto; 
+      margin-bottom: 16px; 
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .student-item { 
+      display: flex; 
+      justify-content: space-between; 
+      padding: 10px 14px; 
+      border-bottom: 1px solid var(--border); 
+      font-size: 0.95rem; 
+    }
+    .student-item:last-child { border-bottom: none; }
     .student-item:nth-child(even) { background: #f8fafc; }
-    .student-name { font-weight: 600; }
+    .student-name { font-weight: 600; color: var(--text); }
     .student-score { font-weight: 700; color: var(--primary); }
   </style>
 </head>
 <body>
 
+<!-- TOP LEFT BUTTON TO VIEW ALL SCORES -->
 <button class="top-left-btn" onclick="openStudentsModal()">📊 All Student Scores</button>
 
+<!-- TOP RIGHT OVERALL AVERAGE DISPLAY -->
 <div class="top-right-avg" id="topRightAvg">Overall Average: 0.0 / 25 (0.0%)</div>
 
 <div class="container">
 
-  <!-- SIGN-IN SCREEN -->
+  <!-- SIGN-IN VIEW -->
   <div id="signinView" class="view active">
     <div class="signin-card">
       <h1>Reading Comprehension Time</h1>
@@ -362,14 +380,16 @@
 
 </div>
 
-<!-- ALL STUDENTS SCORES MODAL -->
+<!-- ALL STUDENTS SCORES MODAL (POPUP) -->
 <div class="modal-overlay" id="studentsModal">
   <div class="modal-card">
     <div class="modal-header">
       <h3>All Student Scores</h3>
       <button class="close-modal" onclick="closeStudentsModal()">&times;</button>
     </div>
-    <div class="students-list" id="studentsListContainer"></div>
+    <div class="students-list" id="studentsListContainer">
+      <!-- Dynamic list of students will be appended here -->
+    </div>
     <button class="btn btn-block" onclick="closeStudentsModal()">Close</button>
   </div>
 </div>
@@ -389,7 +409,7 @@
         {
           chapterNumber: 1,
           title: "Chapter 1: Ang Lihim na Halamanan",
-          story: "Isang umaga habang naglalakad sina Zeik at Ayit sa likod ng kaniyang paaralan, nakakita sila ng isang lumang halamanan.",
+          story: "Isang umaga habang naglalakad sina Zeik at Ayit sa likod ng kaniyang paaralan, nakakita sila ng isang lumang halamanan na puno ng tuyong dahon at damo.",
           questions: [
             { id: "c1_q1", text: "1. Sino-sino ang nakakita ng lumang halamanan?", correct: "A", options: { A: "Zeik at Ayit", B: "Ana at Shane", C: "Allain at Lance" } },
             { id: "c1_q2", text: "2. Saan matatagpuan ang lumang halamanan?", correct: "C", options: { A: "Sa parke", B: "Sa tabi ng ilog", C: "Sa likod ng paaralan" } }
@@ -403,7 +423,7 @@
         {
           chapterNumber: 1,
           title: "Chapter 1: The Mysterious Map",
-          story: "On a sunny Saturday morning, Zeik was walking through the woods near their town.",
+          story: "On a sunny Saturday morning, Zeik was walking through the woods near their town. Underneath an old oak tree, he discovered a rolled-up parchment map.",
           questions: [
             { id: "act2_c1_q1", text: "1. Who found the map in the woods?", correct: "A", options: { A: "Zeik", B: "Lance", C: "Ana" } }
           ]
@@ -429,7 +449,7 @@
         {
           chapterNumber: 1,
           title: "Chapter 1: Forms of Energy",
-          story: "Shane and Allain were working on a science fair project about different forms of energy.",
+          story: "Shane and Allain were working on a science fair project about different forms of energy. They learned how electrical energy converts into kinetic and thermal energy.",
           questions: [
             { id: "act4_c1_q1", text: "1. Who worked on the science fair project?", correct: "B", options: { A: "Zeik and Ayit", B: "Shane and Allain", C: "Ana and Lance" } },
             { id: "act4_c1_q2", text: "2. What forms of energy did they learn about?", correct: "C", options: { A: "Nuclear & Sound", B: "Chemical & Light", C: "Electrical, Kinetic, & Thermal" } }
@@ -453,6 +473,7 @@
     userName = name;
     document.getElementById('displayName').innerText = userName;
 
+    // Load existing record for this student from LocalStorage
     let allRecords = JSON.parse(localStorage.getItem('studentScoresRecords') || '{}');
     if (allRecords[userName]) {
       scores = allRecords[userName];
@@ -480,10 +501,10 @@
   }
 
   function updateDashboardScoresUI() {
-    document.getElementById('score-act1').innerText = `Latest Score: ${scores.act1} / 25`;
-    document.getElementById('score-act2').innerText = `Latest Score: ${scores.act2} / 25`;
-    document.getElementById('score-act3').innerText = `Latest Score: ${scores.act3} / 25`;
-    document.getElementById('score-act4').innerText = `Latest Score: ${scores.act4} / 25`;
+    document.getElementById('score-act1').innerText = `Latest Score: ${scores.act1 || 0} / 25`;
+    document.getElementById('score-act2').innerText = `Latest Score: ${scores.act2 || 0} / 25`;
+    document.getElementById('score-act3').innerText = `Latest Score: ${scores.act3 || 0} / 25`;
+    document.getElementById('score-act4').innerText = `Latest Score: ${scores.act4 || 0} / 25`;
   }
 
   function updateOverallAverage() {
@@ -494,6 +515,7 @@
     document.getElementById('topRightAvg').innerText = `Overall Average: ${avgScore} / 25 (${percentage}%)`;
     document.getElementById('topAvgBanner').innerText = `🏆 Overall Average: ${avgScore} / 25 (${percentage}%) — Total Points: ${totalPoints}/100`;
 
+    // Persist scores to localStorage under the current student name
     if (userName) {
       let allRecords = JSON.parse(localStorage.getItem('studentScoresRecords') || '{}');
       allRecords[userName] = scores;
@@ -594,6 +616,7 @@
     startActivity(currentActId);
   }
 
+  /* MODAL LOGIC FOR SCROLLABLE ALL STUDENT SCORES */
   function openStudentsModal() {
     let allRecords = JSON.parse(localStorage.getItem('studentScoresRecords') || '{}');
     let container = document.getElementById('studentsListContainer');
@@ -602,11 +625,11 @@
     let names = Object.keys(allRecords);
 
     if (names.length === 0) {
-      container.innerHTML = "<div class='student-item'><span>No student data found.</span></div>";
+      container.innerHTML = "<div class='student-item'><span>No student records found yet.</span></div>";
     } else {
       names.forEach(name => {
-        let studentScores = allRecords[name];
-        let total = (studentScores.act1 || 0) + (studentScores.act2 || 0) + (studentScores.act3 || 0) + (studentScores.act4 || 0);
+        let stScores = allRecords[name];
+        let total = (stScores.act1 || 0) + (stScores.act2 || 0) + (stScores.act3 || 0) + (stScores.act4 || 0);
         let pct = ((total / 100) * 100).toFixed(0);
 
         container.innerHTML += `
