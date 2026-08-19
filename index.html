@@ -35,6 +35,28 @@
     .view { display: none; }
     .view.active { display: block; }
 
+    /* TOP LEFT FLOATING BUTTON */
+    .top-left-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: #ffffff;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      transition: all 0.2s ease;
+    }
+    .top-left-btn:hover {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    /* TOP RIGHT FLOATING BADGE */
     .top-right-avg {
       position: absolute;
       top: 20px;
@@ -49,6 +71,7 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
 
+    /* TOP OVERALL BANNER */
     .top-avg-banner {
       background: linear-gradient(135deg, #0284c7, #0d9488);
       color: #ffffff;
@@ -61,6 +84,7 @@
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
 
+    /* SIGN-IN SCREEN */
     .signin-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
@@ -88,6 +112,7 @@
     .input-group input:focus { border-color: var(--primary); }
     .error-msg { color: #dc2626; font-size: 0.85rem; margin-top: 6px; display: none; }
 
+    /* USER BANNER */
     .user-welcome {
       background: #eff6ff;
       border: 1px solid #bfdbfe;
@@ -111,6 +136,7 @@
       font-weight: 600;
     }
 
+    /* DASHBOARD */
     .dashboard-header { text-align: center; margin-bottom: 28px; }
     .dashboard-header h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 8px; color: #1e3a8a; }
     .dashboard-header p { color: var(--text-muted); }
@@ -180,6 +206,7 @@
     .card-footer { font-weight: 600; color: var(--primary); font-size: 0.9rem; }
     .story-card.science-card .card-footer { color: var(--science-primary); }
 
+    /* QUIZ & CONTENT */
     .quiz-container {
       background: var(--card-bg);
       padding: 28px;
@@ -271,14 +298,65 @@
     .score-text { font-size: 1.8rem; font-weight: bold; color: var(--primary); margin: 10px 0 20px 0; }
     .action-buttons { display: flex; gap: 12px; margin-top: 20px; }
     .action-buttons button { flex: 1; }
+
+    /* MODAL POP-UP FOR ALL STUDENTS */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-card {
+      background: #ffffff;
+      padding: 24px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 450px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+    }
+    .modal-header h3 { font-size: 1.2rem; color: #1e3a8a; }
+    .close-modal {
+      background: none; border: none; font-size: 1.2rem; font-weight: bold; cursor: pointer; color: var(--text-muted);
+    }
+    .students-list {
+      max-height: 250px;
+      overflow-y: auto;
+      margin-bottom: 16px;
+    }
+    .student-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.95rem;
+    }
+    .student-item:nth-child(even) { background: #f8fafc; }
+    .student-name { font-weight: 600; }
+    .student-score { font-weight: 700; color: var(--primary); }
   </style>
 </head>
 <body>
 
+<!-- TOP LEFT BUTTON FOR ALL SCORES -->
+<button class="top-left-btn" onclick="openStudentsModal()">📊 All Student Scores</button>
+
+<!-- TOP RIGHT OVERALL AVERAGE PILL -->
 <div class="top-right-avg" id="topRightAvg">Overall Average: 0.0 / 25 (0.0%)</div>
 
 <div class="container">
 
+  <!-- SIGN-IN SCREEN -->
   <div id="signinView" class="view active">
     <div class="signin-card">
       <h1>Reading Comprehension Time</h1>
@@ -294,12 +372,14 @@
     </div>
   </div>
 
+  <!-- DASHBOARD -->
   <div id="dashboardView" class="view">
     <div class="user-welcome">
       <span>Student: <strong id="displayName"></strong></span>
       <button class="change-user-btn" onclick="signOut()">Change Name</button>
     </div>
 
+    <!-- OVERALL AVERAGE MAIN BANNER -->
     <div class="top-avg-banner" id="topAvgBanner">
       🏆 Overall Average: 0.0 / 25 (0.0%) — Total Points: 0/100
     </div>
@@ -356,6 +436,7 @@
     </div>
   </div>
 
+  <!-- ACTIVITY PAGE -->
   <div id="activityView" class="view">
     <div class="quiz-container">
       <div class="top-nav">
@@ -390,6 +471,20 @@
 
 </div>
 
+<!-- ALL STUDENTS SCORES MODAL -->
+<div class="modal-overlay" id="studentsModal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3>All Student Scores</h3>
+      <button class="close-modal" onclick="closeStudentsModal()">&times;</button>
+    </div>
+    <div class="students-list" id="studentsListContainer">
+      <!-- Dynamic student list will appear here -->
+    </div>
+    <button class="btn btn-block" onclick="closeStudentsModal()">Close</button>
+  </div>
+</div>
+
 <script>
   let userName = "";
   let currentActId = null;
@@ -405,7 +500,7 @@
         {
           chapterNumber: 1,
           title: "Chapter 1: Ang Lihim na Halamanan",
-          story: "Isang umaga habang naglalakad sina Zeik at Ayit sa likod ng kaniyang paaralan, nakakita sila ng isang lumang halamanan na puno ng tuyong dahon at damo. Naisip ni Zeik na maaari itong gawing magandang tambayan at aralan.",
+          story: "Isang umaga habang naglalakad sina Zeik at Ayit sa likod ng kaniyang paaralan, nakakita sila ng isang lumang halamanan na puno ng tuyong dahon at damo.",
           questions: [
             { id: "c1_q1", text: "1. Sino-sino ang nakakita ng lumang halamanan?", correct: "A", options: { A: "Zeik at Ayit", B: "Ana at Shane", C: "Allain at Lance" } },
             { id: "c1_q2", text: "2. Saan matatagpuan ang lumang halamanan?", correct: "C", options: { A: "Sa parke", B: "Sa tabi ng ilog", C: "Sa likod ng paaralan" } }
@@ -445,7 +540,7 @@
         {
           chapterNumber: 1,
           title: "Chapter 1: Forms of Energy",
-          story: "Shane and Allain were working on a science fair project about different forms of energy. They learned how electrical energy converts into kinetic and thermal energy.",
+          story: "Shane and Allain were working on a science fair project about different forms of energy.",
           questions: [
             { id: "act4_c1_q1", text: "1. Who worked on the science fair project?", correct: "B", options: { A: "Zeik and Ayit", B: "Shane and Allain", C: "Ana and Lance" } },
             { id: "act4_c1_q2", text: "2. What forms of energy did they learn about?", correct: "C", options: { A: "Nuclear & Sound", B: "Chemical & Light", C: "Electrical, Kinetic, & Thermal" } }
@@ -469,9 +564,18 @@
     userName = name;
     document.getElementById('displayName').innerText = userName;
 
+    // Load existing scores for this student if any
+    let allRecords = JSON.parse(localStorage.getItem('studentScoresRecords') || '{}');
+    if (allRecords[userName]) {
+      scores = allRecords[userName];
+    } else {
+      scores = { act1: 0, act2: 0, act3: 0, act4: 0 };
+    }
+
     document.getElementById('signinView').classList.remove('active');
     document.getElementById('dashboardView').classList.add('active');
     updateOverallAverage();
+    updateDashboardScoresUI();
   }
 
   function signOut() {
@@ -488,6 +592,13 @@
     }
   }
 
+  function updateDashboardScoresUI() {
+    document.getElementById('score-act1').innerText = `Latest Score: ${scores.act1} / 25`;
+    document.getElementById('score-act2').innerText = `Latest Score: ${scores.act2} / 25`;
+    document.getElementById('score-act3').innerText = `Latest Score: ${scores.act3} / 25`;
+    document.getElementById('score-act4').innerText = `Latest Score: ${scores.act4} / 25`;
+  }
+
   function updateOverallAverage() {
     let totalPoints = scores.act1 + scores.act2 + scores.act3 + scores.act4;
     let avgScore = (totalPoints / 4).toFixed(1);
@@ -495,6 +606,13 @@
 
     document.getElementById('topRightAvg').innerText = `Overall Average: ${avgScore} / 25 (${percentage}%)`;
     document.getElementById('topAvgBanner').innerText = `🏆 Overall Average: ${avgScore} / 25 (${percentage}%) — Total Points: ${totalPoints}/100`;
+
+    // Save to LocalStorage for persistent tracking
+    if (userName) {
+      let allRecords = JSON.parse(localStorage.getItem('studentScoresRecords') || '{}');
+      allRecords[userName] = scores;
+      localStorage.setItem('studentScoresRecords', JSON.stringify(allRecords));
+    }
   }
 
   function startActivity(actId) {
@@ -576,7 +694,7 @@
 
     scores[currentActId] = score;
 
-    document.getElementById('score-' + currentActId).innerText = `Latest Score: ${score} / 25`;
+    updateDashboardScoresUI();
     document.getElementById('pageContainer').innerHTML = '';
     document.getElementById('controlBox').style.display = 'none';
     document.getElementById('resultStudentName').innerText = userName;
@@ -588,6 +706,38 @@
 
   function restartActivity() {
     startActivity(currentActId);
+  }
+
+  /* MODAL FUNCTIONS FOR ALL STUDENT SCORES */
+  function openStudentsModal() {
+    let allRecords = JSON.parse(localStorage.getItem('studentScoresRecords') || '{}');
+    let container = document.getElementById('studentsListContainer');
+    container.innerHTML = "";
+
+    let names = Object.keys(allRecords);
+
+    if (names.length === 0) {
+      container.innerHTML = "<div class='student-item'><span>No student data yet.</span></div>";
+    } else {
+      names.forEach(name => {
+        let studentScores = allRecords[name];
+        let total = (studentScores.act1 || 0) + (studentScores.act2 || 0) + (studentScores.act3 || 0) + (studentScores.act4 || 0);
+        let pct = ((total / 100) * 100).toFixed(0);
+
+        container.innerHTML += `
+          <div class="student-item">
+            <span class="student-name">${name}</span>
+            <span class="student-score">${pct}%</span>
+          </div>
+        `;
+      });
+    }
+
+    document.getElementById('studentsModal').style.display = 'flex';
+  }
+
+  function closeStudentsModal() {
+    document.getElementById('studentsModal').style.display = 'none';
   }
 </script>
 </body>
