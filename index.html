@@ -118,9 +118,11 @@
     .back-btn { background: none; border: none; color: var(--primary); font-weight: 600; cursor: pointer; margin-bottom: 16px; }
 
     .header { border-bottom: 2px solid var(--border); padding-bottom: 12px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
-    .story-text { background-color: #f1f5f9; padding: 16px; border-left: 4px solid var(--primary); border-radius: 4px; margin-bottom: 24px; }
+    .story-text { background-color: #f1f5f9; padding: 18px; border-left: 4px solid var(--primary); border-radius: 6px; margin-bottom: 24px; }
+    .story-text h3 { margin-bottom: 8px; color: #1e3a8a; }
     .question-box { margin-bottom: 20px; padding: 16px; border: 1px solid var(--border); border-radius: 8px; background: #fafafa; }
-    .options label { display: block; padding: 8px 12px; margin: 6px 0; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; background: #fff; }
+    .options label { display: block; padding: 10px 12px; margin: 6px 0; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; background: #fff; transition: background 0.1s ease; }
+    .options label:hover { background: #eff6ff; }
 
     .controls { display: flex; justify-content: space-between; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border); }
     .btn { background-color: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-size: 1rem; cursor: pointer; }
@@ -225,7 +227,7 @@
 
       <div id="resultsScreen" style="display:none; text-align:center;">
         <h2>Great Job, <span id="resultStudentName"></span>!</h2>
-        <div id="scoreDisplay" style="font-size:2rem; font-weight:bold; color:var(--primary); margin:15px 0;">0 / 25</div>
+        <div id="scoreDisplay" style="font-size:2.5rem; font-weight:bold; color:var(--primary); margin:20px 0;">0 / 25</div>
         <button class="btn" onclick="showDashboard()">Main Dashboard</button>
       </div>
 
@@ -257,30 +259,47 @@
   let userAnswers = {};
   let scores = { act1: 0, act2: 0, act3: 0, act4: 0 };
 
-  // HELPER FUNCTION PARA GUMAWA NG COMPLETE STRUCTURE (5 Chapters, 1 Story & 5 Questions bawat Chapter = 25 Questions)
-  function createFullActivity(actTitle, lang) {
+  // HELPER FUNCTION: Generates 5 Chapters, 1 Story per Chapter, and 5 Questions per Chapter (Total 25 questions)
+  function buildActivityData(actTitle, langCode) {
     let chapters = [];
     for (let c = 1; c <= 5; c++) {
       let questions = [];
       for (let q = 1; q <= 5; q++) {
-        let qNum = (c - 1) * 5 + q;
-        questions.push({
-          id: `c${c}_q${q}`,
-          text: lang === 'TL' ? `${qNum}. Tanong ${qNum} para sa Chapter ${c}?` : `${qNum}. Question ${qNum} for Chapter ${c}?`,
-          correct: "A",
-          options: {
-            A: lang === 'TL' ? "Tamang Sagot" : "Correct Answer",
-            B: lang === 'TL' ? "Maling Sagot A" : "Wrong Answer A",
-            C: lang === 'TL' ? "Maling Sagot B" : "Wrong Answer B",
-            D: lang === 'TL' ? "Maling Sagot C" : "Wrong Answer C"
-          }
-        });
+        let globalQNum = (c - 1) * 5 + q;
+        if (langCode === 'TL') {
+          questions.push({
+            id: `c${c}_q${q}`,
+            text: `${globalQNum}. Tanong #${globalQNum} tungkol sa talata ng Chapter ${c}?`,
+            correct: "A",
+            options: {
+              A: `Tamang Sagot para sa Tanong ${globalQNum}`,
+              B: `Maling Pagpipilian A`,
+              C: `Maling Pagpipilian B`,
+              D: `Maling Pagpipilian C`
+            }
+          });
+        } else {
+          questions.push({
+            id: `c${c}_q${q}`,
+            text: `${globalQNum}. Question #${globalQNum} regarding Chapter ${c} passage?`,
+            correct: "A",
+            options: {
+              A: `Correct Answer for Question ${globalQNum}`,
+              B: `Incorrect Option A`,
+              C: `Incorrect Option B`,
+              D: `Incorrect Option C`
+            }
+          });
+        }
       }
+
+      let storyText = langCode === 'TL' 
+        ? `Ito ang kwento para sa Chapter ${c}. Basahing mabuti ang maikling talatang ito upang masagutan ang limang (5) kasunod na katanungan.`
+        : `This is the reading passage for Chapter ${c}. Please read carefully to answer all five (5) comprehension questions below.`;
+
       chapters.push({
         title: `Chapter ${c}`,
-        story: lang === 'TL' 
-          ? `Ito ang kuwento para sa Chapter ${c}. Basahing mabuti ang talata upang masagutan nang tama ang limang tanong sa ibaba.`
-          : `This is the story reading passage for Chapter ${c}. Read carefully to answer the 5 comprehension questions below.`,
+        story: storyText,
         questions: questions
       });
     }
@@ -288,10 +307,10 @@
   }
 
   const activitiesData = {
-    act1: createFullActivity("Activity 1: Ang Proyekto ng Magkakaibigan", "TL"),
-    act2: createFullActivity("Activity 2: The Great Forest Adventure", "EN"),
-    act3: createFullActivity("Activity 3: Ang Lihim ng Ecosystem", "TL"),
-    act4: createFullActivity("Activity 4: Energy & Forces Adventure", "EN")
+    act1: buildActivityData("Activity 1: Ang Proyekto ng Magkakaibigan", "TL"),
+    act2: buildActivityData("Activity 2: The Great Forest Adventure", "EN"),
+    act3: buildActivityData("Activity 3: Ang Lihim ng Ecosystem", "TL"),
+    act4: buildActivityData("Activity 4: Energy & Forces Adventure", "EN")
   };
 
   // AUTO-LOGIN CHECK ON LOAD
@@ -391,7 +410,11 @@
     document.getElementById('prevBtn').disabled = (currentChapterIdx === 0);
     document.getElementById('nextBtn').innerText = (currentChapterIdx === act.chapters.length - 1) ? "Submit Activity" : "Next Chapter";
 
-    let html = `<div class="story-text"><h3>${ch.title}</h3><p>${ch.story}</p></div>`;
+    let html = `
+      <div class="story-text">
+        <h3>${ch.title}</h3>
+        <p>${ch.story}</p>
+      </div>`;
 
     ch.questions.forEach(q => {
       html += `
@@ -418,7 +441,7 @@
     } else {
       currentChapterIdx += dir;
       renderChapter();
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
 
