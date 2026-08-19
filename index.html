@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reading Comprehension Time</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --science-primary: #0d9488;
+      --science-hover: #0f766e;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    .container { max-width: 850px; width: 100%; margin: 0 auto; }
+    .view { display: none; }
+    .view.active { display: block; }
+
+    /* TOP RIGHT FLOATING BADGE */
+    .top-right-avg {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: var(--primary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    /* TOP OVERALL BANNER */
+    .top-avg-banner {
+      background: linear-gradient(135deg, #0284c7, #0d9488);
+      color: #ffffff;
+      border-radius: 10px;
+      padding: 14px 20px;
+      margin-bottom: 24px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.05rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    /* SIGN-IN SCREEN */
+    .signin-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px 30px;
+      max-width: 450px;
+      margin: 60px auto 0 auto;
+      text-align: center;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    .signin-card h1 { font-size: 2rem; color: #1e3a8a; margin-bottom: 8px; }
+    .signin-card p { color: var(--text-muted); margin-bottom: 24px; font-size: 0.95rem; }
+
+    .input-group { margin-bottom: 20px; text-align: left; }
+    .input-group label { display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 6px; }
+    .input-group input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      outline: none;
+    }
+    .input-group input:focus { border-color: var(--primary); }
+    .error-msg { color: #dc2626; font-size: 0.85rem; margin-top: 6px; display: none; }
+
+    /* USER BANNER */
+    .user-welcome {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e40af;
+      padding: 10px 18px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+    }
+
+    .change-user-btn {
+      background: none;
+      border: none;
+      color: var(--primary);
+      text-decoration: underline;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    /* DASHBOARD */
+    .dashboard-header { text-align: center; margin-bottom: 28px; }
+    .dashboard-header h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 8px; color: #1e3a8a; }
+    .dashboard-header p { color: var(--text-muted); }
+
+    .section-title { font-size: 1.25rem; font-weight: 700; margin: 28px 0 16px 0; }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .story-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .story-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.15);
+      border-color: var(--primary);
+    }
+
+    .story-card.science-card:hover {
+      box-shadow: 0 10px 15px -3px rgba(13, 148, 136, 0.2);
+      border-color: var(--science-primary);
+    }
+
+    .card-badge {
+      align-self: flex-start;
+      background-color: #dbeafe;
+      color: var(--primary);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+
+    .card-badge.science {
+      background-color: #ccfbf1;
+      color: var(--science-primary);
+    }
+
+    .card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+    .card-desc { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 12px; }
+    
+    .score-badge {
+      background-color: #f1f5f9;
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 16px;
+    }
+
+    .card-footer { font-weight: 600; color: var(--primary); font-size: 0.9rem; }
+    .story-card.science-card .card-footer { color: var(--science-primary); }
+
+    /* QUIZ & CONTENT */
+    .quiz-container {
+      background: var(--card-bg);
+      padding: 28px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    }
+
+    .top-nav { margin-bottom: 16px; }
+
+    .back-btn {
+      background: none;
+      border: none;
+      color: var(--primary);
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+    .back-btn:hover { text-decoration: underline; }
+
+    .header {
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header h2 { font-size: 1.1rem; color: var(--text-muted); }
+    .page-indicator { font-weight: 600; color: var(--primary); }
+
+    .story-text {
+      background-color: #f1f5f9;
+      padding: 16px;
+      border-left: 4px solid var(--primary);
+      border-radius: 4px;
+      margin-bottom: 24px;
+      font-weight: 500;
+    }
+
+    .question-box {
+      margin-bottom: 20px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background-color: #fafafa;
+    }
+
+    .question-box p { font-weight: 600; margin-bottom: 10px; }
+
+    .options label {
+      display: block;
+      padding: 8px 12px;
+      margin: 6px 0;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      background-color: #fff;
+    }
+
+    .options label:hover { background-color: var(--bg); }
+
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .btn {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .btn:hover { background-color: var(--primary-hover); }
+    .btn-block { width: 100%; padding: 12px; font-weight: 700; }
+    .btn:disabled { background-color: #cbd5e1; cursor: not-allowed; }
+    .btn-secondary { background-color: #64748b; }
+    .btn-secondary:hover { background-color: #475569; }
+
+    #results-screen { text-align: center; }
+    .score-text { font-size: 1.8rem; font-weight: bold; color: var(--primary); margin: 10px 0 20px 0; }
+    .action-buttons { display: flex; gap: 12px; margin-top: 20px; }
+    .action-buttons button { flex: 1; }
+  </style>
+</head>
+<body>
+
+<!-- TOP RIGHT OVERALL AVERAGE PILL -->
+<div class="top-right-avg" id="topRightAvg">Overall Average: 0.0 / 25 (0.0%)</div>
+
+<div class="container">
+
+  <!-- SIGN-IN SCREEN -->
+  <div id="signinView" class="view active">
+    <div class="signin-card">
+      <h1>Reading Comprehension Time</h1>
+      <p>Please enter your name to start reading and answering activities.</p>
+      
+      <div class="input-group">
+        <label for="studentName">Student Name</label>
+        <input type="text" id="studentName" placeholder="Enter your full name..." onkeypress="handleKeyPress(event)">
+        <div id="nameError" class="error-msg">Please enter your name before continuing.</div>
+      </div>
+
+      <button class="btn btn-block" onclick="signIn()">Start Learning</button>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dashboardView" class="view">
+    <div class="user-welcome">
+      <span>Student: <strong id="displayName"></strong></span>
+      <button class="change-user-btn" onclick="signOut()">Change Name</button>
+    </div>
+
+    <!-- OVERALL AVERAGE MAIN BANNER -->
+    <div class="top-avg-banner" id="topAvgBanner">
+      🏆 Overall Average: 0.0 / 25 (0.0%) — Total Points: 0/100
+    </div>
+
+    <header class="dashboard-header">
+      <h1>Reading Comprehension Time</h1>
+      <p>Read stories featuring Zeik, Ayit, Ana, Shane, Allain, and Lance to build understanding in Tagalog, English, and Science!</p>
+    </header>
+
+    <div class="section-title">📖 Reading Comprehension: General Stories</div>
+    <div class="story-grid">
+      <div class="story-card" onclick="startActivity('act1')">
+        <div>
+          <span class="card-badge">Tagalog Reading</span>
+          <h2 class="card-title">Activity 1: Ang Proyekto ng Magkakaibigan</h2>
+          <p class="card-desc">5 Chapters (Tagalog) • Basahin ang kwento ng pagtulong sa paglilinis ng lumang halamanan.</p>
+          <div class="score-badge" id="score-act1">Latest Score: 0 / 25</div>
+        </div>
+        <div class="card-footer">Start Reading Activity 1 &rarr;</div>
+      </div>
+
+      <div class="story-card" onclick="startActivity('act2')">
+        <div>
+          <span class="card-badge">English Reading</span>
+          <h2 class="card-title">Activity 2: The Great Forest Adventure</h2>
+          <p class="card-desc">5 Chapters (English) • Read how the team decodes map puzzles and travels through the woods.</p>
+          <div class="score-badge" id="score-act2">Latest Score: 0 / 25</div>
+        </div>
+        <div class="card-footer">Start Reading Activity 2 &rarr;</div>
+      </div>
+    </div>
+
+    <div class="section-title" style="color: var(--science-primary);">🔬 Reading Comprehension: Science Topics</div>
+    <div class="story-grid">
+      <div class="story-card science-card" onclick="startActivity('act3')">
+        <div>
+          <span class="card-badge science">Tagalog Science Reading</span>
+          <h2 class="card-title">Activity 3: Ang Lihim ng Ecosystem</h2>
+          <p class="card-desc">5 Chapters (Tagalog) • Unawain ang teksto tungkol sa Biotic/Abiotic factors, Photosynthesis, at Food Chains.</p>
+          <div class="score-badge" id="score-act3">Latest Score: 0 / 25</div>
+        </div>
+        <div class="card-footer">Start Reading Activity 3 &rarr;</div>
+      </div>
+
+      <div class="story-card science-card" onclick="startActivity('act4')">
+        <div>
+          <span class="card-badge science">English Science Reading</span>
+          <h2 class="card-title">Activity 4: Energy & Forces Adventure</h2>
+          <p class="card-desc">5 Chapters (English) • Read informative science passages on Energy forms, Friction, Gravity, and Circuits.</p>
+          <div class="score-badge" id="score-act4">Latest Score: 0 / 25</div>
+        </div>
+        <div class="card-footer">Start Reading Activity 4 &rarr;</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTIVITY PAGE -->
+  <div id="activityView" class="view">
+    <div class="quiz-container">
+      <div class="top-nav">
+        <button class="back-btn" onclick="showDashboard()">&larr; Back to Dashboard</button>
+      </div>
+
+      <div class="header">
+        <h2 id="actTitle">Activity</h2>
+        <span class="page-indicator" id="pageIndicator">Chapter 1 of 5</span>
+      </div>
+
+      <div id="pageContainer"></div>
+
+      <div id="resultsScreen" style="display:none;">
+        <div id="results-screen">
+          <h2>Great Job, <span id="resultStudentName"></span>!</h2>
+          <p>You completed the reading comprehension activity.</p>
+          <div class="score-text" id="scoreDisplay">0 / 25</div>
+          <div class="action-buttons">
+            <button class="btn" onclick="restartActivity()">Try Again</button>
+            <button class="btn btn-secondary" onclick="showDashboard()">Main Dashboard</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls" id="controlBox">
+        <button id="prevBtn" class="btn" onclick="changeChapter(-1)" disabled>Previous Chapter</button>
+        <button id="nextBtn" class="btn" onclick="changeChapter(1)">Next Chapter</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  let userName = "";
+  let currentActId = null;
+  let currentChapterIdx = 0;
+  let userAnswers = {};
+  
+  // Track activity scores (defaulting to 0 out of 25)
+  let scores = { act1: 0, act2: 0, act3: 0, act4: 0 };
+
+  const activitiesData = {
+    act1: {
+      title: "Activity 1: Ang Proyekto ng Magkakaibigan",
+      chapters: [
+        {
+          chapterNumber: 1,
+          title: "Chapter 1: Ang Lihim na Halamanan",
+          story: "Isang umaga habang naglalakad sina Zeik at Ayit sa likod ng kaniyang paaralan, nakakita sila ng isang lumang halamanan na puno ng tuyong dahon at damo. Naisip ni Zeik na maaari itong gawing magandang tambayan at aralan.",
+          questions: [
+            { id: "c1_q1", text: "1. Sino-sino ang nakakita ng lumang halamanan?", correct: "A", options: { A: "Zeik at Ayit", B: "Ana at Shane", C: "Allain at Lance" } },
+            { id: "c1_q2", text: "2. Saan matatagpuan ang lumang halamanan?", correct: "C", options: { A: "Sa parke", B: "Sa tabi ng ilog", C: "Sa likod ng paaralan" } }
+          ]
+        }
+      ]
+    },
+    act2: {
+      title: "Activity 2: The Great Forest Adventure",
+      chapters: [
+        {
+          chapterNumber: 1,
+          title: "Chapter 1: The Mysterious Map",
+          story: "On a sunny Saturday morning, Zeik was walking through the woods near their town. Underneath an old oak tree, he discovered a rolled-up parchment map.",
+          questions: [
+            { id: "act2_c1_q1", text: "1. Who found the map in the woods?", correct: "A", options: { A: "Zeik", B: "Lance", C: "Ana" } }
+          ]
+        }
+      ]
+    },
+    act3: {
+      title: "Activity 3: Ang Lihim ng Ecosystem",
+      chapters: [
+        {
+          chapterNumber: 1,
+          title: "Chapter 1: Biotic at Abiotic Factors",
+          story: "Nag-aaral sina Zeik at Ayit sa likod-bahay nang mapansin nila ang mga halaman, lupa, uod, at sikat ng araw.",
+          questions: [
+            { id: "act3_c1_q1", text: "1. Ano ang dalawang pangunahing bahagi ng isang ecosystem?", correct: "A", options: { A: "Biotic at Abiotic factors", B: "Solid at Liquid", C: "Proton at Electron" } }
+          ]
+        }
+      ]
+    },
+    act4: {
+      title: "Activity 4: Energy & Forces Adventure",
+      chapters: [
+        {
+          chapterNumber: 1,
+          title: "Chapter 1: Forms of Energy",
+          story: "Shane and Allain were working on a science fair project about different forms of energy. They learned how electrical energy converts into kinetic and thermal energy.",
+          questions: [
+            { id: "act4_c1_q1", text: "1. Who worked on the science fair project?", correct: "B", options: { A: "Zeik and Ayit", B: "Shane and Allain", C: "Ana and Lance" } },
+            { id: "act4_c1_q2", text: "2. What forms of energy did they learn about?", correct: "C", options: { A: "Nuclear & Sound", B: "Chemical & Light", C: "Electrical, Kinetic, & Thermal" } }
+          ]
+        }
+      ]
+    }
+  };
+
+  function signIn() {
+    const input = document.getElementById('studentName');
+    const name = input.value.trim();
+    const error = document.getElementById('nameError');
+
+    if (!name) {
+      error.style.display = 'block';
+      return;
+    }
+
+    error.style.display = 'none';
+    userName = name;
+    document.getElementById('displayName').innerText = userName;
+
+    document.getElementById('signinView').classList.remove('active');
+    document.getElementById('dashboardView').classList.add('active');
+    updateOverallAverage();
+  }
+
+  function signOut() {
+    userName = "";
+    document.getElementById('studentName').value = "";
+    document.getElementById('dashboardView').classList.remove('active');
+    document.getElementById('activityView').classList.remove('active');
+    document.getElementById('signinView').classList.add('active');
+  }
+
+  function handleKeyPress(event) {
+    if (event.key === 'Enter') {
+      signIn();
+    }
+  }
+
+  function updateOverallAverage() {
+    let totalPoints = scores.act1 + scores.act2 + scores.act3 + scores.act4;
+    let avgScore = (totalPoints / 4).toFixed(1);
+    let percentage = ((totalPoints / 100) * 100).toFixed(1);
+
+    document.getElementById('topRightAvg').innerText = `Overall Average: ${avgScore} / 25 (${percentage}%)`;
+    document.getElementById('topAvgBanner').innerText = `🏆 Overall Average: ${avgScore} / 25 (${percentage}%) — Total Points: ${totalPoints}/100`;
+  }
+
+  function startActivity(actId) {
+    currentActId = actId;
+    currentChapterIdx = 0;
+    userAnswers = {};
+    
+    document.getElementById('dashboardView').classList.remove('active');
+    document.getElementById('activityView').classList.add('active');
+    document.getElementById('resultsScreen').style.display = 'none';
+    document.getElementById('controlBox').style.display = 'flex';
+    document.getElementById('actTitle').innerText = activitiesData[actId].title;
+    
+    renderChapter();
+  }
+
+  function showDashboard() {
+    document.getElementById('activityView').classList.remove('active');
+    document.getElementById('dashboardView').classList.add('active');
+  }
+
+  function renderChapter() {
+    const act = activitiesData[currentActId];
+    const ch = act.chapters[currentChapterIdx];
+    
+    document.getElementById('pageIndicator').innerText = `Chapter ${currentChapterIdx + 1} of ${act.chapters.length}`;
+    
+    let html = `
+      <div class="story-text">
+        <h3>${ch.title}</h3>
+        <p>${ch.story}</p>
+      </div>
+    `;
+
+    ch.questions.forEach(q => {
+      html += `
+        <div class="question-box">
+          <p>${q.text}</p>
+          <div class="options">
+            ${Object.keys(q.options).map(optKey => `
+              <label>
+                <input type="radio" name="${q.id}" value="${optKey}" ${userAnswers[q.id] === optKey ? 'checked' : ''} onchange="saveAnswer('${q.id}', '${optKey}')">
+                ${optKey}. ${q.options[optKey]}
+              </label>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    });
+
+    document.getElementById('pageContainer').innerHTML = html;
+    document.getElementById('prevBtn').disabled = currentChapterIdx === 0;
+    document.getElementById('nextBtn').innerText = currentChapterIdx === act.chapters.length - 1 ? 'Finish' : 'Next Chapter';
+  }
+
+  function saveAnswer(qId, val) {
+    userAnswers[qId] = val;
+  }
+
+  function changeChapter(dir) {
+    const act = activitiesData[currentActId];
+    if (dir === 1 && currentChapterIdx === act.chapters.length - 1) {
+      calculateResult();
+    } else {
+      currentChapterIdx += dir;
+      renderChapter();
+    }
+  }
+
+  function calculateResult() {
+    const act = activitiesData[currentActId];
+    let score = 0;
+
+    act.chapters.forEach(ch => {
+      ch.questions.forEach(q => {
+        if (userAnswers[q.id] === q.correct) score++;
+      });
+    });
+
+    // Save score out of 25 (scaled or total)
+    scores[currentActId] = score;
+
+    // Update UI Elements
+    document.getElementById('score-' + currentActId).innerText = `Latest Score: ${score} / 25`;
+    document.getElementById('pageContainer').innerHTML = '';
+    document.getElementById('controlBox').style.display = 'none';
+    document.getElementById('resultStudentName').innerText = userName;
+    document.getElementById('resultsScreen').style.display = 'block';
+    document.getElementById('scoreDisplay').innerText = `${score} / 25`;
+
+    updateOverallAverage();
+  }
+
+  function restartActivity() {
+    startActivity(currentActId);
+  }
+</script>
+</body>
+</html>
