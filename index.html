@@ -45,20 +45,13 @@
     }
     .top-left-btn:hover { background: var(--primary); color: #ffffff; }
 
-    .top-right-avg {
-      position: fixed; top: 15px; right: 15px;
+    /* Bottom-right fixed floating badge */
+    .bottom-right-avg {
+      position: fixed; bottom: 20px; right: 20px;
       background: #eae2d3; border: 1px solid var(--border);
-      color: var(--primary); padding: 8px 14px; border-radius: 4px;
+      color: var(--primary); padding: 10px 16px; border-radius: 4px;
       font-size: 0.85rem; font-weight: bold; z-index: 100;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    }
-
-    .top-avg-banner {
-      background: linear-gradient(135deg, #4a151b, #70252d);
-      color: #fdfaf3; border-radius: 4px; padding: 14px 20px;
-      margin-bottom: 24px; text-align: center; font-weight: bold;
-      font-size: 1.05rem; border: 1px solid var(--gold-accent);
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
     }
 
     .signin-card {
@@ -143,7 +136,8 @@
 <body>
 
 <button class="top-left-btn" onclick="openStudentsModal()">📊 All Student Scores</button>
-<div class="top-right-avg" id="topRightAvg">Overall Average: 0.0 / 25 (0.0%)</div>
+
+<div class="bottom-right-avg" id="topRightAvg">Overall Average: 0.0 / 25 (0.0%)</div>
 
 <div class="container">
 
@@ -168,8 +162,6 @@
     <div class="user-welcome">
       <span>Explorer: <strong id="displayName"></strong></span>
     </div>
-
-    <div class="top-avg-banner" id="topAvgBanner">🏆 Overall Average: 0.0 / 25 (0.0%) — Total Points: 0/100</div>
 
     <header class="dashboard-header">
       <h1>Reading Comprehension</h1>
@@ -255,7 +247,6 @@
 </div>
 
 <script>
-  // CONFIGURATION: Your JSONBin.io keys injected
   const BIN_ID = "6a85d393da38895dfef7ba53";
   const API_KEY = "$2a$10$KCezIUwi73LGQEZiT9IzLOJLD36ZRvZkHLjVI8hwBkJTimyWOrzdq";
 
@@ -266,7 +257,6 @@
   let scores = { act1: 0, act2: 0, act3: 0, act4: 0 };
 
   const activitiesData = {
-    // ACT 1: TAGALOG LITERATURE & LOGIC
     act1: {
       title: "Act 1: Ang Lihim ng Lumang Talaarawan (Tagalog)",
       chapters: [
@@ -327,8 +317,6 @@
         }
       ]
     },
-
-    // ACT 2: ENGLISH READING & DEDUCTION
     act2: {
       title: "Act 2: The Expedition to Whispering Cliff (English)",
       chapters: [
@@ -389,8 +377,6 @@
         }
       ]
     },
-
-    // ACT 3: SCIENCE INVESTIGATION
     act3: {
       title: "Act 3: Anomalies at the Hidden River & Cavern (Science)",
       chapters: [
@@ -451,8 +437,6 @@
         }
       ]
     },
-
-    // ACT 4: MATHEMATICAL LOGIC & QUANTITATIVE REASONING
     act4: {
       title: "Act 4: The Vault of Quantitative Logic (Mathematics)",
       chapters: [
@@ -515,7 +499,6 @@
     }
   };
 
-  // AUTO-LOGIN CHECK ON LOAD
   window.addEventListener('DOMContentLoaded', async () => {
     const savedUser = localStorage.getItem('activeStudentUser');
     if (savedUser) {
@@ -545,7 +528,6 @@
     document.getElementById('dashboardView').classList.add('active');
   }
 
-  // ONLINE CLOUD DATABASE INTEGRATION (JSONBin.io)
   async function loadUserScores() {
     try {
       const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
@@ -600,7 +582,6 @@
     let percentage = ((totalPoints / 100) * 100).toFixed(1);
 
     document.getElementById('topRightAvg').innerText = `Overall Average: ${avgScore} / 25 (${percentage}%)`;
-    document.getElementById('topAvgBanner').innerText = `🏆 Overall Average: ${avgScore} / 25 (${percentage}%) — Total Points: ${totalPoints}/100`;
 
     if (userName) saveUserScores();
   }
