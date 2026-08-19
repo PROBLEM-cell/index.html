@@ -3,23 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Chronicles of Lumina: A Multidisciplinary Logic Quest</title>
+  <title>Reading Comprehension</title>
 
   <style>
     :root {
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
-      --bg: #f8fafc;
-      --card-bg: #ffffff;
-      --text: #0f172a;
-      --text-muted: #64748b;
-      --border: #e2e8f0;
+      --primary: #5c1d24; /* Classic Deep Crimson/Burgundy */
+      --primary-hover: #3d1318;
+      --bg: #f4efe6; /* Classic Warm Parchment */
+      --card-bg: #fcf9f2;
+      --text: #2b231d; /* Classic Ink Black/Dark Charcoal */
+      --text-muted: #6e6259;
+      --border: #d4c5b3;
+      --gold-accent: #b8860b;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: system-ui, -apple-system, sans-serif;
+      font-family: 'Georgia', 'Times New Roman', serif;
       background-color: var(--bg);
       color: var(--text);
       line-height: 1.6;
@@ -36,105 +37,112 @@
 
     .top-left-btn {
       position: fixed; top: 15px; left: 15px;
-      background: #ffffff; border: 2px solid var(--primary);
-      color: var(--primary); padding: 8px 14px; border-radius: 20px;
-      font-size: 0.85rem; font-weight: 700; cursor: pointer; z-index: 100;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1); transition: all 0.2s ease;
+      background: var(--card-bg); border: 2px solid var(--primary);
+      color: var(--primary); padding: 8px 14px; border-radius: 4px;
+      font-size: 0.85rem; font-weight: bold; cursor: pointer; z-index: 100;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: all 0.2s ease;
+      font-family: 'Georgia', serif;
     }
     .top-left-btn:hover { background: var(--primary); color: #ffffff; }
 
     .top-right-avg {
       position: fixed; top: 15px; right: 15px;
-      background: #eff6ff; border: 1px solid #bfdbfe;
-      color: var(--primary); padding: 8px 14px; border-radius: 20px;
-      font-size: 0.85rem; font-weight: 700; z-index: 100;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      background: #eae2d3; border: 1px solid var(--border);
+      color: var(--primary); padding: 8px 14px; border-radius: 4px;
+      font-size: 0.85rem; font-weight: bold; z-index: 100;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     }
 
     .top-avg-banner {
-      background: linear-gradient(135deg, #1e3a8a, #0284c7);
-      color: #ffffff; border-radius: 10px; padding: 14px 20px;
-      margin-bottom: 24px; text-align: center; font-weight: 700;
-      font-size: 1.05rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      background: linear-gradient(135deg, #4a151b, #70252d);
+      color: #fdfaf3; border-radius: 4px; padding: 14px 20px;
+      margin-bottom: 24px; text-align: center; font-weight: bold;
+      font-size: 1.05rem; border: 1px solid var(--gold-accent);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     .signin-card {
-      background: var(--card-bg); border: 1px solid var(--border);
-      border-radius: 16px; padding: 40px 30px; max-width: 450px;
+      background: var(--card-bg); border: 2px solid var(--border);
+      border-radius: 6px; padding: 40px 30px; max-width: 480px;
       margin: 60px auto 0 auto; text-align: center;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      outline: 4px solid var(--card-bg);
     }
-    .signin-card h1 { font-size: 1.8rem; color: #1e3a8a; margin-bottom: 8px; }
-    .signin-card p { color: var(--text-muted); margin-bottom: 24px; font-size: 0.95rem; }
+    .signin-card h1 { font-size: 2rem; color: var(--primary); margin-bottom: 8px; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
+    .signin-card p { color: var(--text-muted); margin-bottom: 24px; font-size: 0.95rem; font-style: italic; }
 
     .input-group { margin-bottom: 20px; text-align: left; }
-    .input-group label { display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 6px; }
+    .input-group label { display: block; font-weight: bold; font-size: 0.9rem; margin-bottom: 6px; }
     .input-group input {
-      width: 100%; padding: 12px 16px; border: 2px solid var(--border);
-      border-radius: 8px; font-size: 1rem; outline: none;
+      width: 100%; padding: 12px 16px; border: 1px solid var(--border);
+      background: #fff; border-radius: 4px; font-size: 1rem; outline: none;
+      font-family: 'Georgia', serif;
     }
     .input-group input:focus { border-color: var(--primary); }
-    .error-msg { color: #dc2626; font-size: 0.85rem; margin-top: 6px; display: none; }
+    .error-msg { color: #8b0000; font-size: 0.85rem; margin-top: 6px; display: none; }
 
     .user-welcome {
-      background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af;
-      padding: 10px 18px; border-radius: 10px; margin-bottom: 16px;
-      display: flex; justify-content: space-between; align-items: center; font-weight: 600;
+      background: #eae2d3; border: 1px solid var(--border); color: var(--primary);
+      padding: 10px 18px; border-radius: 4px; margin-bottom: 16px;
+      display: flex; justify-content: space-between; align-items: center; font-weight: bold;
     }
     .change-user-btn {
       background: none; border: none; color: var(--primary);
-      text-decoration: underline; cursor: pointer; font-size: 0.85rem; font-weight: 600;
+      text-decoration: underline; cursor: pointer; font-size: 0.85rem; font-weight: bold;
+      font-family: 'Georgia', serif;
     }
 
     .dashboard-header { text-align: center; margin-bottom: 28px; }
-    .dashboard-header h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 8px; color: #1e3a8a; }
-    .dashboard-header p { color: var(--text-muted); }
+    .dashboard-header h1 { font-size: 2.4rem; font-weight: normal; margin-bottom: 8px; color: var(--primary); letter-spacing: 1px; }
+    .dashboard-header p { color: var(--text-muted); font-style: italic; }
 
     .story-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
     .story-card {
       background: var(--card-bg); border: 1px solid var(--border);
-      border-radius: 12px; padding: 20px; cursor: pointer;
-      transition: all 0.2s ease; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      border-radius: 4px; padding: 20px; cursor: pointer;
+      transition: all 0.2s ease; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
       display: flex; flex-direction: column; justify-content: space-between;
     }
-    .story-card:hover { transform: translateY(-4px); border-color: var(--primary); }
+    .story-card:hover { transform: translateY(-3px); border-color: var(--primary); box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
 
     .card-badge {
-      align-self: flex-start; background-color: #dbeafe; color: var(--primary);
-      font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; margin-bottom: 12px;
+      align-self: flex-start; background-color: #eae2d3; color: var(--primary);
+      font-size: 0.75rem; font-weight: bold; padding: 4px 10px; border-radius: 2px; margin-bottom: 12px;
+      border: 1px solid var(--border);
     }
-    .card-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; }
+    .card-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 6px; color: var(--text); }
     .score-badge {
-      background-color: #f1f5f9; border: 1px solid var(--border);
-      padding: 8px 12px; border-radius: 8px; font-size: 0.85rem;
-      font-weight: 700; color: var(--primary); margin-bottom: 16px;
+      background-color: #fff; border: 1px solid var(--border);
+      padding: 8px 12px; border-radius: 2px; font-size: 0.85rem;
+      font-weight: bold; color: var(--primary); margin-bottom: 16px;
     }
-    .card-footer { font-weight: 600; color: var(--primary); font-size: 0.88rem; }
+    .card-footer { font-weight: bold; color: var(--primary); font-size: 0.88rem; }
 
     .quiz-container {
-      background: var(--card-bg); padding: 28px; border-radius: 12px;
-      border: 1px solid var(--border); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+      background: var(--card-bg); padding: 32px; border-radius: 4px;
+      border: 1px solid var(--border); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
     }
-    .back-btn { background: none; border: none; color: var(--primary); font-weight: 600; cursor: pointer; margin-bottom: 16px; }
+    .back-btn { background: none; border: none; color: var(--primary); font-weight: bold; cursor: pointer; margin-bottom: 16px; font-family: 'Georgia', serif; }
 
-    .header { border-bottom: 2px solid var(--border); padding-bottom: 12px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
-    .story-text { background-color: #f1f5f9; padding: 20px; border-left: 4px solid var(--primary); border-radius: 6px; margin-bottom: 24px; text-align: justify; }
-    .story-text h3 { margin-bottom: 10px; color: #1e3a8a; }
-    .question-box { margin-bottom: 20px; padding: 16px; border: 1px solid var(--border); border-radius: 8px; background: #fafafa; }
-    .options label { display: block; padding: 10px 12px; margin: 6px 0; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; background: #fff; transition: background 0.1s ease; }
-    .options label:hover { background: #eff6ff; }
+    .header { border-bottom: 2px double var(--border); padding-bottom: 12px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+    .story-text { background-color: #eae2d3; padding: 22px; border-left: 5px solid var(--primary); border-radius: 2px; margin-bottom: 24px; text-align: justify; }
+    .story-text h3 { margin-bottom: 10px; color: var(--primary); font-size: 1.2rem; }
+    .question-box { margin-bottom: 20px; padding: 18px; border: 1px solid var(--border); border-radius: 4px; background: #fff; }
+    .options label { display: block; padding: 10px 12px; margin: 6px 0; border: 1px solid #e0d5c5; border-radius: 3px; cursor: pointer; background: var(--card-bg); transition: background 0.1s ease; }
+    .options label:hover { background: #eae2d3; }
 
     .controls { display: flex; justify-content: space-between; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border); }
-    .btn { background-color: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-size: 1rem; cursor: pointer; }
-    .btn:disabled { background-color: #cbd5e1; cursor: not-allowed; }
-    .btn-block { width: 100%; padding: 12px; font-weight: 700; }
+    .btn { background-color: var(--primary); color: #fff; border: 1px solid var(--primary-hover); padding: 10px 22px; border-radius: 3px; font-size: 1rem; cursor: pointer; font-family: 'Georgia', serif; }
+    .btn:hover { background-color: var(--primary-hover); }
+    .btn:disabled { background-color: #c2b5a3; border-color: #c2b5a3; cursor: not-allowed; }
+    .btn-block { width: 100%; padding: 12px; font-weight: bold; }
 
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000; }
-    .modal-card { background: #ffffff; padding: 24px; border-radius: 12px; width: 90%; max-width: 450px; }
-    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
-    .students-list { max-height: 250px; overflow-y: auto; margin-bottom: 16px; border: 1px solid var(--border); border-radius: 8px; }
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 1000; }
+    .modal-card { background: var(--card-bg); padding: 28px; border-radius: 4px; width: 90%; max-width: 480px; border: 2px solid var(--border); }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 2px double var(--border); padding-bottom: 8px; color: var(--primary); }
+    .students-list { max-height: 250px; overflow-y: auto; margin-bottom: 16px; border: 1px solid var(--border); border-radius: 3px; background: #fff; }
     .student-item { display: flex; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid var(--border); }
-    .student-item:nth-child(even) { background: #f8fafc; }
+    .student-item:nth-child(even) { background: var(--card-bg); }
   </style>
 </head>
 <body>
@@ -147,8 +155,8 @@
   <!-- SIGN-IN SCREEN -->
   <div id="signinView" class="view active">
     <div class="signin-card">
-      <h1>The Chronicles of Lumina</h1>
-      <p>Enter your full name to start the critical reading and logic evaluation.</p>
+      <h1>Reading Comprehension</h1>
+      <p>Enter your full name to begin your reading and logic assessment.</p>
       
       <div class="input-group">
         <label for="studentName">Student Name</label>
@@ -170,8 +178,8 @@
     <div class="top-avg-banner" id="topAvgBanner">🏆 Overall Average: 0.0 / 25 (0.0%) — Total Points: 0/100</div>
 
     <header class="dashboard-header">
-      <h1>The Chronicles of Lumina</h1>
-      <p>Follow Zeik, Ayit, Shane, and Allain through an interconnected adventure across literature, science, and mathematics!</p>
+      <h1>Reading Comprehension</h1>
+      <p>Analyze scenarios, solve math puzzles, and deduce complex answers!</p>
     </header>
 
     <div class="story-grid">
@@ -233,7 +241,7 @@
 
       <div class="controls" id="controlBox">
         <button id="prevBtn" class="btn" onclick="changeChapter(-1)">Previous</button>
-        <button id="nextBtn" class="btn" onclick="changeChapter(1)">Next</button>
+        <button id="nextBtn" class="btn" onclick="changeChapter(1)">Next Chapter</button>
       </div>
     </div>
   </div>
@@ -245,14 +253,18 @@
   <div class="modal-card">
     <div class="modal-header">
       <h3>All Explorer Scores</h3>
-      <button style="border:none; background:none; cursor:pointer; font-size:1.2rem;" onclick="closeStudentsModal()">&times;</button>
+      <button style="border:none; background:none; cursor:pointer; font-size:1.2rem; color:var(--primary);" onclick="closeStudentsModal()">&times;</button>
     </div>
-    <div class="students-list" id="studentsListContainer"></div>
+    <div class="students-list" id="studentsListContainer">Loading cloud data...</div>
     <button class="btn btn-block" onclick="closeStudentsModal()">Close</button>
   </div>
 </div>
 
 <script>
+  // CONFIGURATION: Replace these credentials with your JSONBin.io keys
+  const BIN_ID = "YOUR_BIN_ID_HERE";
+  const API_KEY = "YOUR_MASTER_KEY_HERE";
+
   let userName = "";
   let currentActId = null;
   let currentChapterIdx = 0;
@@ -510,18 +522,18 @@
   };
 
   // AUTO-LOGIN CHECK ON LOAD
-  window.addEventListener('DOMContentLoaded', () => {
+  window.addEventListener('DOMContentLoaded', async () => {
     const savedUser = localStorage.getItem('activeStudentUser');
     if (savedUser) {
       userName = savedUser;
       document.getElementById('displayName').innerText = userName;
-      loadUserScores();
+      await loadUserScores();
       document.getElementById('signinView').classList.remove('active');
       document.getElementById('dashboardView').classList.add('active');
     }
   });
 
-  function signIn() {
+  async function signIn() {
     const nameInput = document.getElementById('studentName').value.trim();
     if (!nameInput) {
       document.getElementById('nameError').style.display = 'block';
@@ -533,7 +545,7 @@
     localStorage.setItem('activeStudentUser', userName);
     document.getElementById('displayName').innerText = userName;
 
-    loadUserScores();
+    await loadUserScores();
 
     document.getElementById('signinView').classList.remove('active');
     document.getElementById('dashboardView').classList.add('active');
@@ -548,17 +560,44 @@
     document.getElementById('signinView').classList.add('active');
   }
 
-  function saveUserScores() {
-    let allRecords = JSON.parse(localStorage.getItem('studentScoresRecords') || '{}');
-    allRecords[userName] = scores;
-    localStorage.setItem('studentScoresRecords', JSON.stringify(allRecords));
+  // ONLINE CLOUD DATABASE INTEGRATION (JSONBin.io)
+  async function loadUserScores() {
+    try {
+      const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+        headers: { "X-Master-Key": API_KEY }
+      });
+      const data = await res.json();
+      let allRecords = data.record || {};
+      
+      scores = allRecords[userName] || { act1: 0, act2: 0, act3: 0, act4: 0 };
+      updateOverallAverage();
+      updateDashboardScoresUI();
+    } catch (err) {
+      console.error("Cloud connection failed:", err);
+    }
   }
 
-  function loadUserScores() {
-    let allRecords = JSON.parse(localStorage.getItem('studentScoresRecords') || '{}');
-    scores = allRecords[userName] || { act1: 0, act2: 0, act3: 0, act4: 0 };
-    updateOverallAverage();
-    updateDashboardScoresUI();
+  async function saveUserScores() {
+    try {
+      const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+        headers: { "X-Master-Key": API_KEY }
+      });
+      const data = await res.json();
+      let allRecords = data.record || {};
+
+      allRecords[userName] = scores;
+
+      await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Master-Key": API_KEY
+        },
+        body: JSON.stringify(allRecords)
+      });
+    } catch (err) {
+      console.error("Cloud update failed:", err);
+    }
   }
 
   function handleKeyPress(e) { if (e.key === 'Enter') signIn(); }
@@ -658,30 +697,39 @@
     updateOverallAverage();
   }
 
-  function openStudentsModal() {
+  async function openStudentsModal() {
     const container = document.getElementById('studentsListContainer');
-    container.innerHTML = "";
-
-    let allRecords = JSON.parse(localStorage.getItem('studentScoresRecords') || '{}');
-    const names = Object.keys(allRecords);
-
-    if (names.length === 0) {
-      container.innerHTML = "<div class='student-item'><span>No explorer records found.</span></div>";
-    } else {
-      names.forEach(nameKey => {
-        let stScores = allRecords[nameKey];
-        let total = (stScores.act1 || 0) + (stScores.act2 || 0) + (stScores.act3 || 0) + (stScores.act4 || 0);
-        let pct = ((total / 100) * 100).toFixed(0);
-
-        container.innerHTML += `
-          <div class="student-item">
-            <span style="font-weight:600;">${nameKey}</span>
-            <span style="font-weight:700; color:var(--primary);">${pct}% (${total}/100)</span>
-          </div>`;
-      });
-    }
-
+    container.innerHTML = "Fetching latest records from server...";
     document.getElementById('studentsModal').style.display = 'flex';
+
+    try {
+      const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+        headers: { "X-Master-Key": API_KEY }
+      });
+      const data = await res.json();
+      let allRecords = data.record || {};
+      const names = Object.keys(allRecords);
+
+      container.innerHTML = "";
+
+      if (names.length === 0) {
+        container.innerHTML = "<div class='student-item'><span>No explorer records found in database.</span></div>";
+      } else {
+        names.forEach(nameKey => {
+          let stScores = allRecords[nameKey];
+          let total = (stScores.act1 || 0) + (stScores.act2 || 0) + (stScores.act3 || 0) + (stScores.act4 || 0);
+          let pct = ((total / 100) * 100).toFixed(0);
+
+          container.innerHTML += `
+            <div class="student-item">
+              <span style="font-weight:bold;">${nameKey}</span>
+              <span style="font-weight:bold; color:var(--primary);">${pct}% (${total}/100)</span>
+            </div>`;
+        });
+      }
+    } catch (err) {
+      container.innerHTML = "<div class='student-item'><span style='color:red;'>Failed to load student scores. Check API configuration.</span></div>";
+    }
   }
 
   function closeStudentsModal() {
