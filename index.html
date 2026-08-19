@@ -35,7 +35,6 @@
     .view { display: none; }
     .view.active { display: block; }
 
-    /* TOP RIGHT FLOATING BADGE */
     .top-right-avg {
       position: absolute;
       top: 20px;
@@ -50,7 +49,6 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
 
-    /* TOP OVERALL BANNER */
     .top-avg-banner {
       background: linear-gradient(135deg, #0284c7, #0d9488);
       color: #ffffff;
@@ -63,7 +61,6 @@
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
 
-    /* SIGN-IN SCREEN */
     .signin-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
@@ -91,7 +88,6 @@
     .input-group input:focus { border-color: var(--primary); }
     .error-msg { color: #dc2626; font-size: 0.85rem; margin-top: 6px; display: none; }
 
-    /* USER BANNER */
     .user-welcome {
       background: #eff6ff;
       border: 1px solid #bfdbfe;
@@ -115,7 +111,6 @@
       font-weight: 600;
     }
 
-    /* DASHBOARD */
     .dashboard-header { text-align: center; margin-bottom: 28px; }
     .dashboard-header h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 8px; color: #1e3a8a; }
     .dashboard-header p { color: var(--text-muted); }
@@ -185,7 +180,6 @@
     .card-footer { font-weight: 600; color: var(--primary); font-size: 0.9rem; }
     .story-card.science-card .card-footer { color: var(--science-primary); }
 
-    /* QUIZ & CONTENT */
     .quiz-container {
       background: var(--card-bg);
       padding: 28px;
@@ -281,12 +275,10 @@
 </head>
 <body>
 
-<!-- TOP RIGHT OVERALL AVERAGE PILL -->
 <div class="top-right-avg" id="topRightAvg">Overall Average: 0.0 / 25 (0.0%)</div>
 
 <div class="container">
 
-  <!-- SIGN-IN SCREEN -->
   <div id="signinView" class="view active">
     <div class="signin-card">
       <h1>Reading Comprehension Time</h1>
@@ -302,14 +294,12 @@
     </div>
   </div>
 
-  <!-- DASHBOARD -->
   <div id="dashboardView" class="view">
     <div class="user-welcome">
       <span>Student: <strong id="displayName"></strong></span>
       <button class="change-user-btn" onclick="signOut()">Change Name</button>
     </div>
 
-    <!-- OVERALL AVERAGE MAIN BANNER -->
     <div class="top-avg-banner" id="topAvgBanner">
       🏆 Overall Average: 0.0 / 25 (0.0%) — Total Points: 0/100
     </div>
@@ -325,7 +315,7 @@
         <div>
           <span class="card-badge">Tagalog Reading</span>
           <h2 class="card-title">Activity 1: Ang Proyekto ng Magkakaibigan</h2>
-          <p class="card-desc">5 Chapters (Tagalog) • Basahin ang kwento ng pagtulong sa paglilinis ng lumang halamanan.</p>
+          <p class="card-desc">Basahin ang kwento ng pagtulong sa paglilinis ng lumang halamanan.</p>
           <div class="score-badge" id="score-act1">Latest Score: 0 / 25</div>
         </div>
         <div class="card-footer">Start Reading Activity 1 &rarr;</div>
@@ -335,7 +325,7 @@
         <div>
           <span class="card-badge">English Reading</span>
           <h2 class="card-title">Activity 2: The Great Forest Adventure</h2>
-          <p class="card-desc">5 Chapters (English) • Read how the team decodes map puzzles and travels through the woods.</p>
+          <p class="card-desc">Read how the team decodes map puzzles and travels through the woods.</p>
           <div class="score-badge" id="score-act2">Latest Score: 0 / 25</div>
         </div>
         <div class="card-footer">Start Reading Activity 2 &rarr;</div>
@@ -348,7 +338,7 @@
         <div>
           <span class="card-badge science">Tagalog Science Reading</span>
           <h2 class="card-title">Activity 3: Ang Lihim ng Ecosystem</h2>
-          <p class="card-desc">5 Chapters (Tagalog) • Unawain ang teksto tungkol sa Biotic/Abiotic factors, Photosynthesis, at Food Chains.</p>
+          <p class="card-desc">Unawain ang teksto tungkol sa Biotic/Abiotic factors, Photosynthesis, at Food Chains.</p>
           <div class="score-badge" id="score-act3">Latest Score: 0 / 25</div>
         </div>
         <div class="card-footer">Start Reading Activity 3 &rarr;</div>
@@ -358,7 +348,7 @@
         <div>
           <span class="card-badge science">English Science Reading</span>
           <h2 class="card-title">Activity 4: Energy & Forces Adventure</h2>
-          <p class="card-desc">5 Chapters (English) • Read informative science passages on Energy forms, Friction, Gravity, and Circuits.</p>
+          <p class="card-desc">Read informative science passages on Energy forms, Friction, Gravity, and Circuits.</p>
           <div class="score-badge" id="score-act4">Latest Score: 0 / 25</div>
         </div>
         <div class="card-footer">Start Reading Activity 4 &rarr;</div>
@@ -366,7 +356,6 @@
     </div>
   </div>
 
-  <!-- ACTIVITY PAGE -->
   <div id="activityView" class="view">
     <div class="quiz-container">
       <div class="top-nav">
@@ -407,7 +396,6 @@
   let currentChapterIdx = 0;
   let userAnswers = {};
   
-  // Track activity scores (defaulting to 0 out of 25)
   let scores = { act1: 0, act2: 0, act3: 0, act4: 0 };
 
   const activitiesData = {
@@ -586,10 +574,8 @@
       });
     });
 
-    // Save score out of 25 (scaled or total)
     scores[currentActId] = score;
 
-    // Update UI Elements
     document.getElementById('score-' + currentActId).innerText = `Latest Score: ${score} / 25`;
     document.getElementById('pageContainer').innerHTML = '';
     document.getElementById('controlBox').style.display = 'none';
