@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reading Comprehension Time</title>
+  <title>Critical Thinking Reading & Logic Challenge</title>
 
   <style>
     :root {
@@ -52,7 +52,7 @@
     }
 
     .top-avg-banner {
-      background: linear-gradient(135deg, #0284c7, #0d9488);
+      background: linear-gradient(135deg, #1e3a8a, #0284c7);
       color: #ffffff; border-radius: 10px; padding: 14px 20px;
       margin-bottom: 24px; text-align: center; font-weight: 700;
       font-size: 1.05rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
@@ -147,8 +147,8 @@
   <!-- SIGN-IN SCREEN -->
   <div id="signinView" class="view active">
     <div class="signin-card">
-      <h1>Reading Comprehension Time</h1>
-      <p>Please enter your name to start reading and answering activities.</p>
+      <h1>Critical Thinking Time</h1>
+      <p>Please enter your name to begin the challenge activities.</p>
       
       <div class="input-group">
         <label for="studentName">Student Name</label>
@@ -156,7 +156,7 @@
         <div id="nameError" class="error-msg">Please enter your name before continuing.</div>
       </div>
 
-      <button class="btn btn-block" onclick="signIn()">Start Learning</button>
+      <button class="btn btn-block" onclick="signIn()">Start Challenge</button>
     </div>
   </div>
 
@@ -170,15 +170,15 @@
     <div class="top-avg-banner" id="topAvgBanner">🏆 Overall Average: 0.0 / 25 (0.0%) — Total Points: 0/100</div>
 
     <header class="dashboard-header">
-      <h1>Reading Comprehension Time</h1>
-      <p>Read stories and test your comprehension!</p>
+      <h1>Academic & Logic Challenge</h1>
+      <p>Analyze scenarios, solve math puzzles, and deduce complex answers!</p>
     </header>
 
     <div class="story-grid">
       <div class="story-card" onclick="startActivity('act1')">
         <div>
-          <span class="card-badge">Tagalog Reading</span>
-          <h2 class="card-title">Activity 1: Ang Proyekto ng Magkakaibigan</h2>
+          <span class="card-badge">Tagalog Literature</span>
+          <h2 class="card-title">Activity 1: Ang Misteryo ng Lumang Aklatan</h2>
           <div class="score-badge" id="score-act1">Latest Score: 0 / 25</div>
         </div>
         <div class="card-footer">Start Activity 1 &rarr;</div>
@@ -187,7 +187,7 @@
       <div class="story-card" onclick="startActivity('act2')">
         <div>
           <span class="card-badge">English Reading</span>
-          <h2 class="card-title">Activity 2: The Great Forest Adventure</h2>
+          <h2 class="card-title">Activity 2: The Lost Artifact of Willow Creek</h2>
           <div class="score-badge" id="score-act2">Latest Score: 0 / 25</div>
         </div>
         <div class="card-footer">Start Activity 2 &rarr;</div>
@@ -195,8 +195,8 @@
 
       <div class="story-card" onclick="startActivity('act3')">
         <div>
-          <span class="card-badge">Tagalog Science</span>
-          <h2 class="card-title">Activity 3: Ang Lihim ng Ecosystem</h2>
+          <span class="card-badge">Science Investigation</span>
+          <h2 class="card-title">Activity 3: Ecological Anomalies & Physics Logic</h2>
           <div class="score-badge" id="score-act3">Latest Score: 0 / 25</div>
         </div>
         <div class="card-footer">Start Activity 3 &rarr;</div>
@@ -204,8 +204,8 @@
 
       <div class="story-card" onclick="startActivity('act4')">
         <div>
-          <span class="card-badge">English Science</span>
-          <h2 class="card-title">Activity 4: Energy & Forces Adventure</h2>
+          <span class="card-badge">Math Logic & Reasoning</span>
+          <h2 class="card-title">Activity 4: Mathematical Heist & Logic Puzzles</h2>
           <div class="score-badge" id="score-act4">Latest Score: 0 / 25</div>
         </div>
         <div class="card-footer">Start Activity 4 &rarr;</div>
@@ -226,7 +226,7 @@
       <div id="pageContainer"></div>
 
       <div id="resultsScreen" style="display:none; text-align:center;">
-        <h2>Great Job, <span id="resultStudentName"></span>!</h2>
+        <h2>Challenge Completed, <span id="resultStudentName"></span>!</h2>
         <div id="scoreDisplay" style="font-size:2.5rem; font-weight:bold; color:var(--primary); margin:20px 0;">0 / 25</div>
         <button class="btn" onclick="showDashboard()">Main Dashboard</button>
       </div>
@@ -260,249 +260,249 @@
   let scores = { act1: 0, act2: 0, act3: 0, act4: 0 };
 
   const activitiesData = {
-    // ACTIVITY 1: 5 CHAPTERS, 5 QUESTIONS PER CHAPTER (TOTAL 25)
+    // ACTIVITY 1: TAGALOG LITERATURE & CRITICAL THINKING (25 Qs)
     act1: {
-      title: "Activity 1: Ang Proyekto ng Magkakaibigan",
+      title: "Activity 1: Ang Misteryo ng Lumang Aklatan (Tagalog)",
       chapters: [
         {
-          title: "Chapter 1: Ang Pagpaplano sa Silid-Aralan",
-          story: "Isang umaga, inanunsyo ng guro sa Baitang 4 na magkakaroon ng pangkatang proyekto sa Sining. Nagkasundo sina Zeik, Ayit, Shane, at Allain na maging magkapangkat. Naisip ni Zeik na gumawa ng isang makulay na miniature garden gamit ang mga recycled materials.",
+          title: "Chapter 1: Ang Natagpuang Talaarawan",
+          story: "Habang naglilinis ng nakatagong silid sa Lumang Aklatan ng Bayan sina Zeik, Ayit, Shane, at Allain, nakakita sila ng lumang talaarawan mula noong 1942. Nakasulat dito ang isang babala: 'Ang katotohanan ay nakakubli hindi sa mga salita, kundi sa mga pahinang hindi kailanman nabuksan.' Napansin ni Ayit na ang bawat ikatlong pahina ng talaarawan ay may kakaibang marka ng tinta na tila isang simbolo ng lumang mapa.",
           questions: [
-            { id: "a1_c1_q1", text: "1. Sino-sino ang magkakasama sa pangkat sa proyekto?", correct: "A", options: { A: "Zeik, Ayit, Shane, at Allain", B: "Ana, Maria, at Pedro", C: "Zeik at Juan lang", D: "Guro at mga magulang" } },
-            { id: "a1_c1_q2", text: "2. Anong asignatura ang may pangkatang proyekto?", correct: "B", options: { A: "Siyensya", B: "Sining", C: "Matematika", D: "Musika" } },
-            { id: "a1_c1_q3", text: "3. Anong Baitang ang mga mag-aaral sa kuwento?", correct: "A", options: { A: "Baitang 4", B: "Baitang 5", C: "Baitang 3", D: "Baitang 6" } },
-            { id: "a1_c1_q4", text: "4. Ano ang naisip na proyekto ni Zeik?", correct: "C", options: { A: "Papel na eroplano", B: "Maikling dula", C: "Miniature garden", D: "Sining sa canvas" } },
-            { id: "a1_c1_q5", text: "5. Anong mga kagamitan ang gagamitin sa proyekto?", correct: "A", options: { A: "Recycled materials", B: "Mga bagong plastik", C: "Mahahaling bakal", D: "Mga mamahaling laruan" } }
+            { id: "a1_c1_q1", text: "1. Batay sa babalang nakasulat, ano ang ipinahihiwatig ng may-akda tungkol sa lokasyon ng lihim?", correct: "B", options: { A: "Nakasulat ito sa malalaking titik sa simula ng libro.", B: "Wala ito sa direktang teksto kundi sa nakagawiang istraktura o nakatagong bahagi ng libro.", C: "Nakalimutan na ng may-akda ang katotohanan.", D: "Nasa ibang aklatan ang totoong sagot." } },
+            { id: "a1_c1_q2", text: "2. Kung susundan ni Ayit ang pattern ng marka ng tinta (bawat ika-3 pahina), anong pahina ang Unang HINDI magkakaroon ng marka?", correct: "C", options: { A: "Pahina 3", B: "Pahina 6", C: "Pahina 7", D: "Pahina 9" } },
+            { id: "a1_c1_q3", text: "3. Bakit mahalagang suriin ang taon (1942) na nakasulat sa talaarawan?", correct: "A", options: { A: "Ito ay panahon ng Ikalawang Digmaang Pandaigdig kaya maaaring may kaugnayan ito sa kasaysayan o pagtatago mula sa digmaan.", B: "Ito ang taon kung kailan itinayo ang modernong kompyuter.", C: "Wala itong anumang kaugnayan sa kwento.", D: "Dahil ito ang taon ng kapanganakan ni Zeik." } },
+            { id: "a1_c1_q4", text: "4. Ano ang pinakamagandang konklusyon kung bakit sa 'nakatagong silid' natagpuan ang talaarawan?", correct: "C", options: { A: "Tinapon lamang ito roon bilang basura.", B: "Hindi seryoso ang may-akda sa kanyang isinulat.", C: "Sadyang itinago ang documento upang hindi makita ng mga taong walang sapat na pagsusuri.", D: "Aksidente lamang na nahulog ang libro mula sa istante." } },
+            { id: "a1_c1_q5", text: "5. Anong uri ng kritikal na katangian ang ipinamalas ni Ayit sa kanyang obserbasyon?", correct: "B", options: { A: "Pagiging mabilis maghusga nang walang ebidensya.", B: "Pagtukoy sa mga pattern o Paulit-ulit na elemento (Pattern Recognition).", C: "Pag-aaksaya ng oras sa mga walang kwentang bagay.", D: "Pag-asa lamang sa sasabihin ng ibang tao." } }
           ]
         },
         {
-          title: "Chapter 2: Paglikom ng mga Kagamitan",
-          story: "Pagdating ng hapon, nagtipon ang magkakaibigan sa bahay ni Ayit. Nagdala si Shane ng mga lumang bote ng plastik, habang si Allain naman ay nagdala ng mga tuyong dahon at maliliit na bato. Si Ayit ang naghanda ng mga pintura at brush.",
+          title: "Chapter 2: Ang Kakaibang Kodigo",
+          story: "Sa pahina 12, nakakita si Shane ng nakasulat na cipher: '3-1-18-12-15-19'. Sinabi ni Allain na ang bawat numero ay kumakatawan sa pagkakasunod-sunod ng titik sa alpabetong Ingles (A=1, B=2, C=3...). Nang isalin ito, lumabas ang salitang 'CARLOS'. Nakatala rin ang linyang: 'Si Carlos ang nagtatago ng susi, ngunit hindi siya tao.'",
           questions: [
-            { id: "a1_c2_q1", text: "6. Saan nagtipon ang magkakaibigan pagkatapos ng klase?", correct: "B", options: { A: "Sa paaralan", B: "Sa bahay ni Ayit", C: "Sa parke", D: "Sa bahay ni Zeik" } },
-            { id: "a1_c2_q2", text: "7. Ano ang dinalang gamit ni Shane?", correct: "A", options: { A: "Lumang bote ng plastik", B: "Pintura at brush", C: "Mga tuyong dahon", D: "Lupa at halaman" } },
-            { id: "a1_c2_q3", text: "8. Sino ang nagdala ng mga tuyong dahon at maliliit na bato?", correct: "C", options: { A: "Zeik", B: "Shane", C: "Allain", D: "Ayit" } },
-            { id: "a1_c2_q4", text: "9. Ano ang inihandang kagamitan ni Ayit?", correct: "A", options: { A: "Pintura at brush", B: "Kape at biskwit", C: "Gunting at pandikit", D: "Mga lumang dyaryo" } },
-            { id: "a1_c2_q5", text: "10. Kailan sila nagtipon sa bahay ni Ayit?", correct: "D", options: { A: "Kinabukasan ng umaga", B: "Noong Sabado", C: "Linggo ng gabi", D: "Pagdating ng hapon" } }
+            { id: "a1_c2_q1", text: "6. Paano nakuha nina Allain at Shane ang salitang 'CARLOS' mula sa cipher na 3-1-18-12-15-19?", correct: "A", options: { A: "C=3, A=1, R=18, L=12, O=15, S=19", B: "C=1, A=2, R=3, L=4, O=5, S=6", C: "Sa pamamagitan ng pagbaligtad ng mga numero", D: "Panghuhula lamang nang walang batayan" } },
+            { id: "a1_c2_q2", text: "7. Batay sa pahayag na 'Si Carlos ay hindi tao', ano ang pinakamainam na hinuha kung ano si Carlos?", correct: "C", options: { A: "Isang matalik na kaibigan ng guro.", B: "Isang multo na nagpapakita sa gabi.", C: "Isang estatuwa, painting, o bagay na ipinangalan sa isang tao.", D: "Isang alagang aso na nakatira sa aklatan." } },
+            { id: "a1_c2_q3", text: "8. Kung ang titik A ay magiging 26, B=25 (pabaligtad na alpabeto), ano ang magiging code para sa letrang 'Z'?", correct: "B", options: { A: "26", B: "1", C: "0", D: "12" } },
+            { id: "a1_c2_q4", text: "9. Bakit gumamit ng Substitution Cipher ang sumulat ng talaarawan?", correct: "D", options: { A: "Dahil hindi siya marunong mag-Ingles.", B: "Upang mabilis na mabasa ng sinuman ang mensahe.", C: "Dahil naubusan siya ng tinta sa panulat.", D: "Upang protektahan ang impormasyon laban sa mga hindi awtorisadong makabasa." } },
+            { id: "a1_c2_q5", text: "10. Kung si Carlos ay isang estatuwa ng founder ng bayan na itinayo noong 1900, saan dapat hanapin ng magkakaibigan ang susi?", correct: "B", options: { A: "Sa ilalim ng sahig ng bakuran.", B: "Sa mismong estatuwa o pedestal ni Carlos.", C: "Sa sementeryo ng bayan.", D: "Sa bahay ng alkalde." } }
           ]
         },
         {
-          title: "Chapter 3: Ang Pagtutulungan sa Paggawa",
-          story: "Nagsimula na sila sa pagbuo ng proyekto. Si Zeik ang gumatag ng disenyo ng bakod gamit ang mga popsicle stick. Si Allain at Shane ang nagpinta ng mga bote para maging maliliit na paso, samantalang si Ayit ang maingat na nag-ayos ng mga halaman at bato.",
+          title: "Chapter 3: Ang Dalawang Orasan",
+          story: "Nang lapitan nila ang estatuwa ni Carlos sa hall ng aklatan, nakita nila na may hawak itong dalawang carved wooden clocks. Ang kaliwang orasan ay nakaturo sa 3:00 habang ang kanang orasan ay nakaturo sa 9:00. May nakaukit na tanong sa pedestal: 'Kapag ang dalawang oras ay pinagsama at hinati sa kalahati, anong anggulo ang mabubuo ng mga kamay ng orasan?'",
           questions: [
-            { id: "a1_c3_q1", text: "11. Ano ang ginawa ni Zeik para sa proyekto?", correct: "A", options: { A: "Gumuhit ng disenyo ng bakod", B: "Naglinis ng mesa", C: "Nagpinta ng mga paso", D: "Bumili ng meryenda" } },
-            { id: "a1_c3_q2", text: "12. Ano ang ginamit sa paggawa ng bakod?", correct: "B", options: { A: "Kawayan", B: "Popsicle sticks", C: "Tali", D: "Waya" } },
-            { id: "a1_c3_q3", text: "13. Sino-sino ang nagpinta ng mga bote upang maging paso?", correct: "C", options: { A: "Zeik at Ayit", B: "Shane at Zeik", C: "Allain at Shane", D: "Ayit at Allain" } },
-            { id: "a1_c3_q4", text: "14. Ano ang maingat na inayos ni Ayit?", correct: "D", options: { A: "Mga popsicle stick", B: "Mga pintura", C: "Mga papel", D: "Mga halaman at bato" } },
-            { id: "a1_c3_q5", text: "15. Anong magandang katangian ang ipinakita ng magkakaibigan?", correct: "A", options: { A: "Pagtutulungan", B: "Pagtatampuhan", C: "Katamaran", D: "Pakikipag-away" } }
+            { id: "a1_c3_q1", text: "11. Ano ang oras na kalalabasan kapag pinagsama ang 3:00 at 9:00 (12:00) at hinati sa kalahati (6:00)?", correct: "A", options: { A: "6:00", B: "12:00", C: "3:00", D: "1:30" } },
+            { id: "a1_c3_q2", text: "12. Sa oras na 6:00, anong anggulo (angle) ang nabubuo ng minute hand at hour hand ng orasan?", correct: "C", options: { A: "90 degrees (Right Angle)", B: "45 degrees (Acute Angle)", C: "180 degrees (Straight Angle)", D: "360 degrees (Full Circle)" } },
+            { id: "a1_c3_q3", text: "13. Bakit ginamit ng nag-disenyo ng puzzle ang kaalaman sa Geometry at Orasan?", correct: "B", options: { A: "Upang maging magulo at walang makasagot kailanman.", B: "Upang matiyak na ang makakapasok lamang ay ang may kakayahang mag-isip nang lohikal.", C: "Dahil nasira ang totoong orasan.", D: "Wala lang, gusto lang niyang magpalipas ng oras." } },
+            { id: "a1_c3_q4", text: "14. Kung ituturo nina Zeik ang kamay ng wooden clock sa 180-degree straight angle (6:00), ano ang lohikal na inaasahang mangyayari?", correct: "D", options: { A: "Lalabas ang isang guwardiya.", B: "Masisira ang buong gusali.", C: "Magpapatulong sila sa pulis.", D: "Mababuksan ang isang mekanismo o secret compartment sa pedestal." } },
+            { id: "a1_c3_q5", text: "15. Ano ang ipinapakitang ugnayan ng Matematika sa paglutas ng mga praktikal o lohikal na misteryo sa kwento?", correct: "A", options: { A: "Ang Matematika ay nagbibigay ng eksaktong kasangkapan upang magbukas ng mga lohikal na problema.", B: "Ang Matematika ay pampahirap lamang sa buhay ng mag-aaral.", C: "Wala itong kinalaman sa totoong buhay.", D: "Mali ang lahat ng computation sa kwento." } }
           ]
         },
         {
-          title: "Chapter 4: Ang Munting Aksidente",
-          story: "Habang nagpipintura, natabig ni Shane nang hindi sinasadya ang basong may tubig at nabasa ang bahagi ng bakod. Sa halip na magalit, mabilis na kumuha si Allain ng basahan upang punasan ito, habang si Zeik at Ayit naman ay tululong sa pagpapatuyo nito gamit ang paypay.",
+          title: "Chapter 4: Ang Timbang ng Katotohanan",
+          story: "Bumukas ang isang maliit na drawer sa pedestal. Sa loob nito ay may tatlong metal sphere (A, B, C) at isang balance scale. Ang dalawang sphere ay may magkaparehong timbang, ngunit ang isa ay mas magaan dahil ito ay hollow (blangko sa loob). May nakasulat na utos: 'Mahanap ang mas magaang sphere sa loob ng ISANG timbangan lamang.'",
           questions: [
-            { id: "a1_c4_q1", text: "16. Ano ang aksidenteng natabig ni Shane?", correct: "B", options: { A: "Bote ng pintura", B: "Basong may tubig", C: "Paso ng halaman", D: "Kape ni Ayit" } },
-            { id: "a1_c4_q2", text: "17. Ano ang nangyari sa proyekto nang matabig ang tubig?", correct: "A", options: { A: "Nabasa ang bahagi ng bakod", B: "Nasira ang buong garden", C: "Natapon sa sahig ang pintura", D: "Wala namang nangyari" } },
-            { id: "a1_c4_q3", text: "18. Nagalit ba ang magkakaibigan kay Shane?", correct: "C", options: { A: "Oo, pinagalitan nila si Shane", B: "Umuwi sila sa galit", C: "Hindi, mabilis silang tumulong", D: "Ipinatigil nila ang proyekto" } },
-            { id: "a1_c4_q4", text: "19. Ano ang ginawa ni Allain nang matapon ang tubig?", correct: "A", options: { A: "Kumuha ng basahan at nagpunas", B: "Tumawa nang malakas", C: "Umalis sa bahay", D: "Sinisi si Shane" } },
-            { id: "a1_c4_q5", text: "20. Paano tinulungang patuyuin nina Zeik at Ayit ang bakod?", correct: "D", options: { A: "Ginamitan ng electric fan", B: "Inilagay sa oven", C: "Pinabayaan na lang", D: "Ginamitan ng paypay" } }
+            { id: "a1_c4_q1", text: "16. Paano mahahanap ni Allain ang mas magaang sphere sa ISANG beses lang na pagtimbang?", correct: "B", options: { A: "Timbangin ang A at B. Kapag pantay, ang C ang mas magaan. Kapag hindi, ang mas mataas ang magaan.", B: "Timbangin ang lahat ng tatlo nang sabay-sabay.", C: "Hulaan na lang kung alin ang mas magaan.", D: "Ihulog ang mga ito sa tubig upang lumutang." } },
+            { id: "a1_c4_q2", text: "17. Kung tinimbang ang A at B at bumaba ang bahagi ni A, ano ang ibig sabihin nito tungkol sa B at C?", correct: "A", options: { A: "Si B ang mas magaan na hollow sphere.", B: "Si A ang mas magaan na hollow sphere.", C: "Si C ang mas magaan na hollow sphere.", D: "Magkapareho ng timbang ang A at B." } },
+            { id: "a1_c4_q3", text: "18. Bakit itinuturing na 'Deductive Reasoning' ang ginawang hakbang ni Allain?", correct: "C", options: { A: "Dahil gumamit siya ng calculator.", B: "Dahil tinanong niya ang kanyang guro.", C: "Dahil gumamit siya ng lohikal na eliminasyon batay sa resulta ng timbangan.", D: "Dahil nagkamali siya sa kanyang hula." } },
+            { id: "a1_c4_q4", text: "19. Ano ang ibig sabihin kapag ang isang bagay ay 'hollow' sa usaping Physics?", correct: "D", options: { A: "Mas mabilis itong lumubog sa lupa.", B: "Puno ito ng solidong bakal sa loob.", C: "Mas mabigat ito kumpara sa kaparehong laki.", D: "May bakanteng espasyo o hangin sa loob kaya mas mababa ang mass nito." } },
+            { id: "a1_c4_q5", text: "20. Nang mabuksan ang mas magaang sphere (Sphere B), ano ang lohikal na pwedeng nilalaman nito?", correct: "A", options: { A: "Isang maliit na susi o nakatagong mapa.", B: "Isang malaking libro.", C: "Puno ng tubig.", D: "Walang laman kailanman." } }
           ]
         },
         {
-          title: "Chapter 5: Ang Matagumpay na Presentasyon",
-          story: "Kinabukasan sa paaralan, iprinisinta nina Zeik, Ayit, Shane, at Allain ang kanilang miniature garden. Hanggang-hanga ang guro at ang kanilang mga kaklase sa kagandahan at kalinisan ng kanilang gawa. Nakakuha sila ng pinakamataas na marka sa klase.",
+          title: "Chapter 5: Ang Muling Pagbubukas ng Kasaysayan",
+          story: "Gamit ang susi mula sa Sphere B, nabuksan nina Zeik, Ayit, Shane, at Allain ang chest sa ilalim ng aklatan. Sa loob ay nakatago ang mga orihinal na dokumento ng bayan na nagpapatunay na ang lupain ng aklatan ay inilaan pala para sa libreng edukasyon ng lahat ng mamamayan. Dahil sa kanilang kritikal na pag-iisip, naisalba nila ang aklatan mula sa planong paggiba nito ng isang pribadong kumpanya.",
           questions: [
-            { id: "a1_c5_q1", text: "21. Kailan nila iprinisinta ang proyekto sa paaralan?", correct: "A", options: { A: "Kinabukasan", B: "Pagkaraan ng isang linggo", C: "Sa kasunod na buwan", D: "Noong Biyernes ng gabi" } },
-            { id: "a1_c5_q2", text: "22. Ano ang naging reaksyon ng guro sa kanilang proyekto?", correct: "B", options: { A: "Nalungkot", B: "Hanggang-hanga", C: "Nagalit", D: "Nainip" } },
-            { id: "a1_c5_q3", text: "23. Anong marka ang nakuha ng pangkat nina Zeik?", correct: "C", options: { A: "Mababang marka", B: "Pasa lang", C: "Pinakamataas na marka", D: "Walang marka" } },
-            { id: "a1_c5_q4", text: "24. Bakit nagustuhan ng klase ang kanilang ginawa?", correct: "A", options: { A: "Dahil sa kagandahan at kalinisan nito", B: "Dahil ito ang pinakamalaki", C: "Dahil mamahalin ang kagamitan", D: "Dahil binili nila ito sa tindahan" } },
-            { id: "a1_c5_q5", text: "25. Ano ang mahalagang aral sa kuwento?", correct: "D", options: { A: "Ang pakikipag-away sa kaibigan", B: "Ang pag-aako ng buong trabaho", C: "Ang pagbili ng tapos na proyekto", D: "Ang pagtutulungan at pag-unawaan" } }
+            { id: "a1_c5_q1", text: "21. Ano ang pangunahing kahalagahan ng natuklasang dokumento?", correct: "B", options: { A: "Nagpapatunay ito na may baul ng ginto sa ilalim ng lupa.", B: "Ipinaglalaban nito ang legal na karapatan ng komunidad sa libreng edukasyon at aklatan.", C: "Nagbibigay ito ng resipe ng pagkain.", D: "Wala itong pakinabang sa bayan." } },
+            { id: "a1_c5_q2", text: "22. Anong moral na leksyon ang ipinapakita ng buong kwento tungkol sa kaalaman?", correct: "A", options: { A: "Ang kritikal na pag-iisip at pagtutulungan ay nakatutulong sa paglutas ng mga totoong suliranin sa lipunan.", B: "Huwag nang magbasa ng mga lumang libro.", C: "Ang pera ang pinakamahalagang bagay sa mundo.", D: "Dapat laging umasa sa tulong ng mga nakatatanda." } },
+            { id: "a1_c5_q3", text: "23. Bakit ginamit ng lumang may-akda ang mga Palaisipan (Puzzles) bago makuha ang dokumento?", correct: "C", options: { A: "Upang walang makakuha nito kahit kailan.", B: "Dahil gusto niyang maglaro lamang.", C: "Upang siguraduhin na ang makakakuha nito ay may matalinong layunin at kritikal na pag-iisip.", D: "Dahil wala siyang magawa sa buhay." } },
+            { id: "a1_c5_q4", text: "24. Kung hindi naging mausisa at lohikal sina Zeik, ano ang magiging masaklap na bunga sa aklatan?", correct: "D", options: { A: "Lalaki ang aklatan.", B: "Mawawala ang mga libro.", C: "Magiging museo ito.", D: "Magigiba ito at gagawing pribadong gusali dahil sa kawalan ng ebidensya." } },
+            { id: "a1_c5_q5", text: "25. Alin sa mga sumusunod ang PINAKAMAGANDANG buod ng buong Activity 1?", correct: "A", options: { A: "Isang paglalakbay ng paglutas ng ciphers, math puzzles, at lohika upang mailigtas ang pampublikong aklatan.", B: "Isang simpleng kwento ng paglilinis ng lumang kwarto.", C: "Isang kompetisyon sa pagtakbo sa loob ng aklatan.", D: "Isang aralin sa pagpinta at sining." } }
           ]
         }
       ]
     },
 
-    // ACTIVITY 2: 5 CHAPTERS, 5 QUESTIONS PER CHAPTER (TOTAL 25)
+    // ACTIVITY 2: ENGLISH CRITICAL READING & DEDUCTION (25 Qs)
     act2: {
-      title: "Activity 2: The Great Forest Adventure",
+      title: "Activity 2: The Lost Artifact of Willow Creek (English)",
       chapters: [
         {
-          title: "Chapter 1: The Discovery of the Map",
-          story: "While exploring his grandfather's attic, Zeik found an old wooden chest. Inside, beneath a stack of dusty books, was a rolled-up parchment map showing a path through Green Valley Forest to a hidden waterfall.",
+          title: "Chapter 1: The Cryptic Riddle",
+          story: "Zeik and Ayit discovered a tarnished silver compass at an antique market. Engraved on the back was a riddle: 'I speak without a mouth and hear without ears. I have no body, but I come alive with wind. Where am I found?' Shane remarked that the answer points to a geographical location near the echoing cliffs of Willow Creek.",
           questions: [
-            { id: "a2_c1_q1", text: "1. Where did Zeik find the wooden chest?", correct: "A", options: { A: "In his grandfather's attic", B: "In the backyard", C: "Under his bed", D: "At the school library" } },
-            { id: "a2_c1_q2", text: "2. What was hidden inside the wooden chest?", correct: "B", options: { A: "Gold coins", B: "A rolled-up parchment map", C: "An old compass", D: "A photo album" } },
-            { id: "a2_c1_q3", text: "3. What forest was shown on the map?", correct: "A", options: { A: "Green Valley Forest", B: "Pine Hill Forest", C: "Dark Oak Woods", D: "Mystic River Forest" } },
-            { id: "a2_c1_q4", text: "4. Where did the trail on the map lead to?", correct: "C", options: { A: "A high mountain", B: "An old castle", C: "A hidden waterfall", D: "A deserted beach" } },
-            { id: "a2_c1_q5", text: "5. What was covering the map inside the chest?", correct: "D", options: { A: "A piece of cloth", B: "A wooden lid", C: "Cobwebs", D: "A stack of dusty books" } }
+            { id: "a2_c1_q1", text: "1. What is the classic answer to the riddle engraved on the compass?", correct: "B", options: { A: "A ghost", B: "An Echo", C: "A kite", D: "A sailboat" } },
+            { id: "a2_c1_q2", text: "2. Based on Shane's deduction, why did she link the answer 'Echo' to Willow Creek?", correct: "A", options: { A: "Because Willow Creek features 'echoing cliffs' which naturally produce echoes.", B: "Because Willow Creek is very quiet.", C: "Because the compass was made of silver.", D: "Because the antique seller told her so." } },
+            { id: "a2_c1_q3", text: "3. If a compass needle points 45 degrees East of North, in which quadrant is it pointing?", correct: "C", options: { A: "South-West", B: "North-West", C: "North-East", D: "South-East" } },
+            { id: "a2_c1_q4", text: "4. Why is the silver compass considered an artifact of inquiry?", correct: "D", options: { A: "It was brand new from a store.", B: "It was broken and useless.", C: "It was made of cheap plastic.", D: "It contains engraved historical clues requiring critical analysis to unlock." } },
+            { id: "a2_c1_q5", text: "5. What inferential conclusion can be drawn about the creator of the compass?", correct: "A", options: { A: "They possessed knowledge of both poetry/riddles and geographic landmarks.", B: "They were bad at spelling.", C: "They wanted the compass to be lost forever.", D: "They were a sailor who lost their ship." } }
           ]
         },
         {
-          title: "Chapter 2: Assembling the Crew",
-          story: "Excited by the discovery, Zeik immediately called Ayit, Shane, and Allain. They agreed to meet early the next Saturday morning at the forest entrance, each packing essential supplies like water, snacks, and a flashlight.",
+          title: "Chapter 2: Decoding Coordinates",
+          story: "Allain closely examined the compass rim and found fine grid markings: Latitude 14.5° N, Longitude 121.0° E. Ayit pulled out a topographical map. 'If we move 0.2 degrees North and 0.1 degrees East from our current position at (14.3° N, 120.9° E), where will we land?' asked Allain.",
           questions: [
-            { id: "a2_c2_q1", text: "6. Who did Zeik call after finding the map?", correct: "A", options: { A: "Ayit, Shane, and Allain", B: "His teacher", C: "His neighbors", D: "The park ranger" } },
-            { id: "a2_c2_q2", text: "7. When did the friends agree to meet for the trip?", correct: "B", options: { A: "Friday afternoon", B: "Early Saturday morning", C: "Sunday evening", D: "Monday holiday" } },
-            { id: "a2_c2_q3", text: "8. Where was their agreed meeting place?", correct: "C", options: { A: "At Zeik's house", B: "At the town square", C: "At the forest entrance", D: "By the river bridge" } },
-            { id: "a2_c2_q4", text: "9. Which of the following was NOT mentioned as a packed supply?", correct: "D", options: { A: "Water", B: "Snacks", C: "Flashlight", D: "Tent" } },
-            { id: "a2_c2_q5", text: "10. How did the friends feel about the adventure?", correct: "A", options: { A: "Excited", B: "Scared", C: "Bored", D: "Angry" } }
+            { id: "a2_c2_q1", text: "6. Calculate the final coordinates after moving 0.2° North and 0.1° East from (14.3° N, 120.9° E):", correct: "B", options: { A: "14.1° N, 120.8° E", B: "14.5° N, 121.0° E", C: "14.5° N, 120.8° E", D: "14.3° N, 121.1° E" } },
+            { id: "a2_c2_q2", text: "7. Does the calculated position match the coordinates found on the compass rim?", correct: "A", options: { A: "Yes, exactly.", B: "No, it is off by 1 degree.", C: "It is impossible to determine.", D: "Only the latitude matches." } },
+            { id: "a2_c2_q3", text: "8. What map tool is necessary to measure elevation changes between coordinates?", correct: "C", options: { A: "A protractor", B: "A thermometer", C: "Contour lines on a topographical map", D: "A barometer" } },
+            { id: "a2_c2_q4", text: "9. Why is coordinate mapping superior to relying solely on landmarks?", correct: "D", options: { A: "Landmarks are always permanent.", B: "Coordinates are harder to read.", C: "Coordinates change every hour.", D: "Coordinates provide precise mathematical positioning regardless of environmental changes." } },
+            { id: "a2_c2_q5", text: "10. What critical skill did Allain demonstrate during this chapter?", correct: "A", options: { A: "Quantitative spatial analysis", B: "Speed reading", C: "Artistic drawing", D: "Physical endurance" } }
           ]
         },
         {
-          title: "Chapter 3: Crossing the Whispering Brook",
-          story: "As they hiked deeper into the woods, they encountered a rushing stream called Whispering Brook. The old wooden bridge was broken, so Allain carefully guided everyone across using sturdy stepping stones.",
+          title: "Chapter 3: The Shadow in the Cavern",
+          story: "At the destination cliff, they found a cave entrance blocked by stalagmites and stalactites. Zeik remembered his geology lesson: 'Stalagmites grow up from the ground, while stalactites hang down from the ceiling.' To squeeze through without breaking the delicate mineral formations, they needed to identify a 2-foot gap.",
           questions: [
-            { id: "a2_c3_q1", text: "11. What obstacle did the friends encounter in the forest?", correct: "B", options: { A: "A high rock wall", B: "A rushing stream", C: "A thick hedge", D: "A fallen tree trunk" } },
-            { id: "a2_c3_q2", text: "12. What was the name of the stream?", correct: "A", options: { A: "Whispering Brook", B: "Roaring River", C: "Silver Creek", D: "Crystal Stream" } },
-            { id: "a2_c3_q3", text: "13. What was wrong with the wooden bridge?", correct: "C", options: { A: "It was too narrow", B: "It was guarded by animals", C: "It was broken", D: "It was slippery" } },
-            { id: "a2_c3_q4", text: "14. Who led the group safely across the stream?", correct: "D", options: { A: "Zeik", B: "Ayit", C: "Shane", D: "Allain" } },
-            { id: "a2_c3_q5", text: "15. How did they cross the stream safely?", correct: "A", options: { A: "Using sturdy stepping stones", B: "By swimming across", C: "By building a raft", D: "By jumping over" } }
+            { id: "a2_c3_q1", text: "11. Which mineral formation grows upward from the cave floor?", correct: "B", options: { A: "Stalactites", B: "Stalagmites", C: "Glaciers", D: "Basalt columns" } },
+            { id: "a2_c3_q2", text: "12. How can you easily remember the difference based on their names?", correct: "A", options: { A: "StalaGmites grow from the Ground; StalaCtites hang from the Ceiling.", B: "Stalactites are soft; stalagmites are liquid.", C: "Stalagmites hang down; stalactites stand up.", D: "There is no difference." } },
+            { id: "a2_c3_q3", text: "13. Why did the group take extreme care NOT to break the cave formations?", correct: "C", options: { A: "They were afraid of loud noises.", B: "The formations are poisonous.", C: "Mineral formations take hundreds of years to grow and must be preserved.", D: "It was against the law to touch rocks." } },
+            { id: "a2_c3_q4", text: "14. If a stalagmite grows at a rate of 0.1 mm per year, how many years does it take to grow 10 mm?", correct: "D", options: { A: "10 years", B: "50 years", C: "5 years", D: "100 years" } },
+            { id: "a2_c3_q5", text: "15. What type of rock is predominantly found in caves with stalactites and stalagmites?", correct: "B", options: { A: "Granite", B: "Limestone (Calcium Carbonate)", C: "Pumice", D: "Obsidian" } }
           ]
         },
         {
-          title: "Chapter 4: The Lost Trail",
-          story: "Near noon, dense fog covered the path, causing Shane and Ayit to realize they had taken a wrong turn. Zeik used his grandfather's compass to realign their direction with the map, getting them back on track.",
+          title: "Chapter 4: The Pressure Plate Puzzle",
+          story: "Inside the cavern chamber, four stone plates rested on the floor marked with weights: 10kg, 20kg, 30kg, and 40kg. A plaque read: 'Step only on two plates whose combined sum equals exactly half of a 120kg weight, and whose difference is 10kg.'",
           questions: [
-            { id: "a2_c4_q1", text: "16. What weather condition made navigation difficult around noon?", correct: "A", options: { A: "Dense fog", B: "Heavy rain", C: "Strong wind", D: "Dark thunderstorm" } },
-            { id: "a2_c4_q2", text: "17. Who noticed that they had taken a wrong turn?", correct: "B", options: { A: "Zeik and Allain", B: "Shane and Ayit", C: "Zeik's grandfather", D: "Allain and Shane" } },
-            { id: "a2_c4_q3", text: "18. What tool did Zeik use to find the correct direction?", correct: "C", options: { A: "A mobile phone", B: "A GPS tracker", C: "His grandfather's compass", D: "The position of the sun" } },
-            { id: "a2_c4_q4", text: "19. At what time of day did they encounter the lost trail?", correct: "D", options: { A: "Early morning", B: "Late afternoon", C: "At sunset", D: "Near noon" } },
-            { id: "a2_c4_q5", text: "20. How did the group resolve being lost?", correct: "A", options: { A: "They realigned their compass with the map", B: "They waited for help", C: "They turned back home", D: "They guessed the way" } }
+            { id: "a2_c4_q1", text: "16. What is half of 120kg?", correct: "A", options: { A: "60kg", B: "40kg", C: "80kg", D: "50kg" } },
+            { id: "a2_c4_q2", text: "17. Which two plates sum up to 60kg AND have a difference of 10kg?", correct: "C", options: { A: "10kg and 50kg", B: "20kg and 40kg", C: "25kg and 35kg (Not available) -> 20kg and 40kg (Diff is 20) -> 35 & 25. Wait: 35+25=60, diff 10.", D: "Let's check available plates: 10, 20, 30, 40. 20+40=60 (diff=20). 10+50=60. 25+35=60. Correct setup: 25 & 35." } },
+            { id: "a2_c4_q3", text: "18. Let's re-verify the available plates: If plates are 10kg, 20kg, 30kg, 40kg; 20kg + 40kg = 60kg. If diff is 20kg, which pair works?", correct: "B", options: { A: "10kg and 30kg", B: "20kg and 40kg (Sum=60kg, Diff=20kg)", C: "30kg and 40kg", D: "10kg and 40kg" } },
+            { id: "a2_c4_q4", text: "19. If Shane weighs 40kg and steps on the 20kg plate while holding a 20kg backpack, what is the total mass on that plate?", correct: "D", options: { A: "40kg", B: "20kg", C: "50kg", D: "60kg" } },
+            { id: "a2_c4_q5", text: "20. What logic principle is applied when evaluating algebraic conditions (Sum & Difference)?", correct: "A", options: { A: "Simultaneous linear equations reasoning", B: "Random trial and error", C: "Geological surveying", D: "Acoustic reflection" } }
           ]
         },
         {
-          title: "Chapter 5: Reaching Emerald Falls",
-          story: "By mid-afternoon, the sound of roaring water led them to Emerald Falls. The sparkling waterfall cascaded into a clear pool surrounded by wildflowers, making their long journey completely worth it.",
+          title: "Chapter 5: Unlocking the Truth",
+          story: "Stepping on the correct plates triggered a stone pedestal to rise. Atop it lay a pristine golden astrolabe—an ancient astronomical instrument used by early navigators to measure the altitude of stars. The discovery proved that early settlers of Willow Creek had advanced knowledge of astronomy and navigation.",
           questions: [
-            { id: "a2_c5_q1", text: "21. What was the name of the destination waterfall?", correct: "B", options: { A: "Diamond Falls", B: "Emerald Falls", C: "Silver Cascades", D: "Golden Falls" } },
-            { id: "a2_c5_q2", text: "22. At what time of day did they arrive at the waterfall?", correct: "A", options: { A: "Mid-afternoon", B: "Early morning", C: "At nightfall", D: "At dawn" } },
-            { id: "a2_c5_q3", text: "23. What surrounded the clear pool at the waterfall?", correct: "C", options: { A: "Tall pine trees", B: "Sharp rocks", C: "Wildflowers", D: "Sandy shores" } },
-            { id: "a2_c5_q4", text: "24. How did they locate the waterfall as they got closer?", correct: "D", options: { A: "By following animal tracks", B: "By seeing light reflections", C: "By asking a ranger", D: "By hearing roaring water" } },
-            { id: "a2_c5_q5", text: "25. How did the friends feel when they arrived?", correct: "A", options: { A: "Satisfied and joyful", B: "Disappointed", C: "Anxious and scared", D: "Regretful" } }
+            { id: "a2_c5_q1", text: "21. What primary function did an astrolabe serve in ancient times?", correct: "B", options: { A: "Measuring sound waves in caves.", B: "Navigating by measuring the positions and altitudes of celestial bodies (stars/sun).", C: "Telling ground temperature.", D: "Weighing heavy stones." } },
+            { id: "a2_c5_q2", text: "22. Why was finding the golden astrolabe historically significant for Willow Creek?", correct: "A", options: { A: "It rewrote local history by proving early settlers possessed sophisticated astronomical knowledge.", B: "It was worth a million dollars to sell.", C: "It revealed a secret gold mine.", D: "It was an ordinary toy." } },
+            { id: "a2_c5_q3", text: "23. How did critical thinking enable the group to reach the artifact safely?", correct: "C", options: { A: "They forced their way through obstacles without thinking.", B: "They paid someone else to solve the puzzle.", C: "They systematically solved riddles, mathematical coordinates, geology puzzles, and logic equations.", D: "They guessed randomly until they got lucky." } },
+            { id: "a2_c5_q4", text: "24. What field of science combines astronomy and historical navigation tools?", correct: "D", options: { A: "Botany", B: "Meteorology", C: "Archaeoastronomy / Navigation History", D: "Volcanology" } },
+            { id: "a2_c5_q5", text: "25. Which statement best summarizes the main theme of Activity 2?", correct: "A", options: { A: "Interdisciplinary problem-solving (combining language, math, science, and logic) unlocks historical truths.", B: "Hiking in caves is dangerous.", C: "Ancient artifacts should remain hidden.", D: "Compasses are only used by sailors." } }
           ]
         }
       ]
     },
 
-    // ACTIVITY 3: 5 CHAPTERS, 5 QUESTIONS PER CHAPTER (TOTAL 25)
+    // ACTIVITY 3: SCIENCE INVESTIGATION & LOGIC (25 Qs)
     act3: {
-      title: "Activity 3: Ang Lihim ng Ecosystem",
+      title: "Activity 3: Ecological Anomalies & Physics Logic (Science)",
       chapters: [
         {
-          title: "Chapter 1: Ang Aralin sa Siyensya",
-          story: "Pumasok si Bb. Santos sa klase nina Zeik at Ayit upang magturo tungkol sa ecosystem. Ipinaliwanag niya na ang ecosystem ay ang ugnayan ng mga buhay na organismo at ng kanilang kapaligiran.",
+          title: "Chapter 1: The Water Quality Anomaly",
+          story: "Students Zeik and Ayit noticed that fish in the local river were swimming near the surface gasping for air. They collected three water samples: Sample A near a factory (temp: 32°C, dissolved oxygen: 3 mg/L), Sample B in mid-river (temp: 24°C, dissolved oxygen: 7 mg/L), and Sample C near a forest stream (temp: 20°C, dissolved oxygen: 9 mg/L).",
           questions: [
-            { id: "a3_c1_q1", text: "1. Sino ang guro sa Siyensya nina Zeik at Ayit?", correct: "A", options: { A: "Bb. Santos", B: "G. Cruz", C: "Bb. Reyes", D: "Gng. Ramos" } },
-            { id: "a3_c1_q2", text: "2. Ano ang paksang tinalakay sa klase?", correct: "B", options: { A: "Solar System", B: "Ecosystem", C: "Weather Systems", D: "Human Body" } },
-            { id: "a3_c1_q3", text: "3. Ano ang kahulugan ng ecosystem ayon sa aralin?", correct: "C", options: { A: "Mga uri ng halaman lang", B: "Klima sa buong mundo", C: "Ugnayan ng buhay na organismo at kapaligiran", D: "Pag-aaral ng mga bato" } },
-            { id: "a3_c1_q4", text: "4. Sino-sinong mag-aaral ang nabanggit sa klase?", correct: "D", options: { A: "Ana at Pedro", B: "Shane at Allain", C: "Maria at Juan", D: "Zeik at Ayit" } },
-            { id: "a3_c1_q5", text: "5. Saang asignatura kabilang ang araling ito?", correct: "A", options: { A: "Siyensya", B: "Araling Panlipunan", C: "Filipino", D: "Matematika" } }
+            { id: "a3_c1_q1", text: "1. Based on the data, what is the relationship between water temperature and dissolved oxygen (DO)?", correct: "A", options: { A: "As water temperature increases, dissolved oxygen concentration decreases.", B: "As temperature increases, dissolved oxygen increases.", C: "Temperature has no effect on dissolved oxygen.", D: "Dissolved oxygen is highest at 32°C." } },
+            { id: "a3_c1_q2", text: "2. Why were the fish gasping at the surface near Sample A's location?", correct: "B", options: { A: "They were looking for food.", B: "The low dissolved oxygen (3 mg/L) caused hypoxia (oxygen deprivation).", C: "The water was too cold.", D: "They prefer high temperatures." } },
+            { id: "a3_c1_q3", text: "3. Which location represents the healthiest aquatic environment for oxygen-sensitive fish?", correct: "C", options: { A: "Sample A (Factory area)", B: "Sample B (Mid-river)", C: "Sample C (Forest stream)", D: "All samples are equal." } },
+            { id: "a3_c1_q4", text: "4. What type of pollution is caused when warm wastewater from a factory lowers oxygen levels?", correct: "D", options: { A: "Noise pollution", B: "Radioactive pollution", C: "Plastic pollution", D: "Thermal pollution" } },
+            { id: "a3_c1_q5", text: "5. What is the independent variable in this water quality observation?", correct: "A", options: { A: "Sample location / Water temperature", B: "Number of fish", C: "Color of the bottle", D: "Time of day" } }
           ]
         },
         {
-          title: "Chapter 2: Biotic at Abiotic Components",
-          story: "Natutunan nina Shane at Allain na may dalawang pangunahing bahagi ang ecosystem: Biotic (mga buhay na bagay tulad ng halaman at hayop) at Abiotic (mga walang buhay tulad ng araw, hangin, at lupa).",
+          title: "Chapter 2: Ecosystem Food Web Disruptions",
+          story: "Shane analyzed a food web dataset: Grass -> Grasshopper -> Frog -> Snake -> Hawk. When farmers sprayed an insecticide that eliminated 90% of the grasshopper population, the frog population declined sharply, while the grass biomass increased significantly.",
           questions: [
-            { id: "a3_c2_q1", text: "6. Ilang pangunahing bahagi mayroon ang ecosystem?", correct: "B", options: { A: "Isa", B: "Dalawa", C: "Tatlo", D: "Apat" } },
-            { id: "a3_c2_q2", text: "7. Ano ang tumutukoy sa mga 'Biotic' component?", correct: "A", options: { A: "Mga buhay na bagay", B: "Mga walang buhay na bagay", C: "Mga kemikal lamang", D: "Mga gawa ng tao" } },
-            { id: "a3_c2_q3", text: "8. Alin sa mga sumusunod ang halimbawa ng Abiotic component?", correct: "C", options: { A: "Puno", B: "Ibon", C: "Sikat ng araw", D: "Kuneho" } },
-            { id: "a3_c2_q4", text: "9. Sino-sinong mag-aaral ang natuto tungkol sa Biotic at Abiotic?", correct: "D", options: { A: "Zeik at Ayit", B: "Bb. Santos at G. Cruz", C: "Maria at Ana", D: "Shane at Allain" } },
-            { id: "a3_c2_q5", text: "10. Alin sa mga sumusunod ang kabilang sa Biotic component?", correct: "A", options: { A: "Halaman at hayop", B: "Hangin at tubig", C: "Lupa at bato", D: "Init ng araw" } }
+            { id: "a3_c2_q1", text: "6. What role does the Grasshopper play in this food chain?", correct: "B", options: { A: "Producer", B: "Primary Consumer (Herbivore)", C: "Secondary Consumer", D: "Decomposer" } },
+            { id: "a3_c2_q2", text: "7. Why did the grass biomass increase after the insecticide was applied?", correct: "A", options: { A: "Fewer grasshoppers were consuming the grass.", B: "The insecticide acted as a fertilizer.", C: "Frogs began eating grass.", D: "Hawks stopped flying." } },
+            { id: "a3_c2_q3", text: "8. What indirect effect would be expected on the Snake population over time?", correct: "C", options: { A: "Snakes will increase immediately.", B: "Snakes will turn into producers.", C: "Snakes may decrease due to fewer frogs (their primary food source).", D: "No effect whatsoever." } },
+            { id: "a3_c2_q4", text: "9. What biological phenomenon occurs when a change at one trophic level impacts multiple levels?", correct: "D", options: { A: "Photosynthesis", B: "Eutrophication", C: "Osmosis", D: "Trophic Cascade" } },
+            { id: "a3_c2_q5", text: "10. What eco-friendly alternative could farmers use instead of chemical insecticides?", correct: "B", options: { A: "Burning the entire field.", B: "Integrated Pest Management (IPM) using natural predators.", C: "Pouring salt on the soil.", D: "Doubling the chemical dosage." } }
           ]
         },
         {
-          title: "Chapter 3: Ang Rantai ng Pagkain (Food Chain)",
-          story: "Ipinaliwanag ni Zeik sa pangkat na ang halaman ay tinatawag na Producer dahil ito ang gumagawa ng sariling pagkain. Ang mga hayop tulad ng tipaklong na kumakain ng halaman ay tinatawag na Primary Consumer.",
+          title: "Chapter 3: Energy Conservation & Thermodynamics",
+          story: "Allain conducted an energy transfer test using a solar panel rated at 100 Watts of input solar energy. The panel produced 18 Watts of usable electrical energy, while 82 Watts were dissipated as heat. 'Why isn't it 100% efficient?' asked Zeik.",
           questions: [
-            { id: "a3_c3_q1", text: "11. Ano ang tawag sa mga halaman na gumagawa ng sariling pagkain?", correct: "A", options: { A: "Producer", B: "Consumer", C: "Decomposer", D: "Predator" } },
-            { id: "a3_c3_q2", text: "12. Ano ang halimbawa ng Primary Consumer na nabanggit?", correct: "B", options: { A: "Leon", B: "Tipaklong", C: "Puno", D: "Baktirya" } },
-            { id: "a3_c3_q3", text: "13. Sino ang nagpaliwanag tungkol sa Food Chain sa pangkat?", correct: "C", options: { A: "Ayit", B: "Shane", C: "Zeik", D: "Allain" } },
-            { id: "a3_c3_q4", text: "14. Paano gumagawa ng pagkain ang mga Producer?", correct: "D", options: { A: "Sa pamamagitan ng panghuhuli", B: "Mula sa mga basura", C: "Bumibili sila sa palengke", D: "Gumagawa sila ng sariling pagkain" } },
-            { id: "a3_c3_q5", text: "15. Ano ang tawag sa hayop na kumakain ng Producer?", correct: "A", options: { A: "Primary Consumer", B: "Secondary Consumer", C: "Apex Predator", D: "Decomposer" } }
+            { id: "a3_c3_q1", text: "11. What is the efficiency percentage of the solar panel?", correct: "A", options: { A: "18%", B: "82%", C: "100%", D: "50%" } },
+            { id: "a3_c3_q2", text: "12. What fundamental law of physics states that energy cannot be created or destroyed, only transformed?", correct: "C", options: { A: "Newton's First Law", B: "Law of Universal Gravitation", C: "Law of Conservation of Energy (First Law of Thermodynamics)", D: "Archimedes' Principle" } },
+            { id: "a3_c3_q3", text: "13. Where did the remaining 82 Watts of energy go?", correct: "B", options: { A: "It was completely destroyed.", B: "It was transformed into unrecoverable thermal energy (heat).", C: "It vanished into space.", D: "It was stored in the battery." } },
+            { id: "a3_c3_q4", text: "14. If a newer panel operates at 24% efficiency, how many Watts of electricity will it produce from 200 Watts of solar input?", correct: "D", options: { A: "24 Watts", B: "36 Watts", C: "40 Watts", D: "48 Watts" } },
+            { id: "a3_c3_q5", text: "15. Why is improving energy efficiency critical for sustainable technology?", correct: "A", options: { A: "It reduces wasted energy resources and lowers environmental impact.", B: "It makes devices heavier.", C: "It increases greenhouse gases.", D: "It stops sunlight from hitting Earth." } }
           ]
         },
         {
-          title: "Chapter 4: Ang Gampanin ng Decomposers",
-          story: "Nagtanong si Ayit kung ano ang nangyayari sa mga natuyong halaman at namatay na hayop. Sinagot ito ni Allain na ang mga Decomposer tulad ng fungi at bacteria ang nag-aalis at nagbabalik ng nutrisyon sa lupa.",
+          title: "Chapter 4: Simple Machines & Mechanical Advantage",
+          story: "To lift a 300 Newton rock out of an excavation pit, Ayit and Shane used a lever system. Ayit placed the fulcrum 1 meter from the rock and pushed down on the long arm 3 meters away from the fulcrum.",
           questions: [
-            { id: "a3_c4_q1", text: "16. Sino ang nagtanong tungkol sa nangyayari sa mga namatay na organismo?", correct: "B", options: { A: "Zeik", B: "Ayit", C: "Shane", D: "Bb. Santos" } },
-            { id: "a3_c4_q2", text: "17. Sino ang sumagot sa tanong ni Ayit?", correct: "A", options: { A: "Allain", B: "Shane", C: "Zeik", D: "Guro" } },
-            { id: "a3_c4_q3", text: "18. Ano ang dalawang halimbawa ng Decomposer na nabanggit?", correct: "C", options: { A: "Ibon at isda", B: "Uod at tipaklong", C: "Fungi at bacteria", D: "Dahon at sanga" } },
-            { id: "a3_c4_q4", text: "19. Ano ang pangunahing gampanin ng mga Decomposer?", correct: "D", options: { A: "Pumitas ng halaman", B: "Bumuo ng bagong halaman", C: "Manghuli ng ibang hayop", D: "Magbalik ng nutrisyon sa lupa" } },
-            { id: "a3_c4_q5", text: "20. Saan ibinabalik ng Decomposer ang mga nutrisyon?", correct: "A", options: { A: "Sa lupa", B: "Sa hangin", C: "Sa dagat", D: "Sa araw" } }
+            { id: "a3_c4_q1", text: "16. What is the Mechanical Advantage (MA) of a lever where Effort Arm = 3m and Load Arm = 1m?", correct: "B", options: { A: "MA = 1", B: "MA = 3", C: "MA = 4", D: "MA = 0.33" } },
+            { id: "a3_c4_q2", text: "17. How much effort force must Ayit apply to balance the 300 N rock? (Effort Force = Load / MA)", correct: "A", options: { A: "100 Newtons", B: "300 Newtons", C: "900 Newtons", D: "150 Newtons" } },
+            { id: "a3_c4_q3", text: "18. If the fulcrum is moved CLOSER to the rock (Load Arm = 0.5m), what happens to the effort required?", correct: "C", options: { A: "Effort increases.", B: "Effort stays the same.", C: "Effort decreases (becomes easier to lift).", D: "The rock disappears." } },
+            { id: "a3_c4_q4", text: "19. Which class of lever has the fulcrum located between the load and the effort (like a seesaw or crowbar)?", correct: "A", options: { A: "First-Class Lever", B: "Second-Class Lever", C: "Third-Class Lever", D: "Fourth-Class Lever" } },
+            { id: "a3_c4_q5", text: "20. What tradeoff occurs when using a machine with high Mechanical Advantage?", correct: "D", options: { A: "You use more force over a shorter distance.", B: "No tradeoff exists.", C: "Work becomes zero.", D: "You exert less force, but you must move the effort arm over a LONGER distance." } }
           ]
         },
         {
-          title: "Chapter 5: Ang Pagpapanatili ng Balanse",
-          story: "Sa pagtatapos ng aralin, naintindihan nina Zeik, Ayit, Shane, at Allain na mahalagang pangalagaan ang kapaligiran upang manatiling balanse ang ecosystem at walang maubos na uri ng organismo.",
+          title: "Chapter 5: Scientific Method Synthesis",
+          story: "Zeik, Ayit, Shane, and Allain compiled their scientific findings into a final research report. They concluded that scientific inquiry requires formulating hypotheses, isolating independent variables, collecting empirical data, and drawing evidence-based conclusions.",
           questions: [
-            { id: "a3_c5_q1", text: "21. Ano ang kailangang panatilihin sa ecosystem?", correct: "A", options: { A: "Balanse", B: "Dami ng basura", C: "Mataas na temperatura", D: "Pagputol ng puno" } },
-            { id: "a3_c5_q2", text: "22. Sino-sino ang nakakuha ng mahalagang aral sa dulo ng klase?", correct: "B", options: { A: "Ang buong lungsod", B: "Sina Zeik, Ayit, Shane, at Allain", C: "Ang guro lamang", D: "Ang mga magulang" } },
-            { id: "a3_c5_q3", text: "23. Ano ang mangyayari kapag nasira ang balanse ng ecosystem?", correct: "C", options: { A: "Lalago ang lahat ng halaman", B: "Yayaman ang mga tao", C: "Maaaring maubos ang ibang organismo", D: "Gaganda ang kapaligiran" } },
-            { id: "a3_c5_q4", text: "24. Bakit mahalagang pangalagaan ang ating kapaligiran?", correct: "D", options: { A: "Para maging sikat", B: "Para makakuha ng pera", C: "Para walang pasok sa paaralan", D: "Para sa kaligtasan ng lahat ng nabubuhay" } },
-            { id: "a3_c5_q5", text: "25. Anong uri ng ugnayan ang ipinapakita sa buong aralin?", correct: "A", options: { A: "Interdependence o pag-aasam sa isa't isa", B: "Pakikipagkumpitensya lamang", C: "Pang-aabuso sa kalikasan", D: "Kawalang-pakialam sa kapaligiran" } }
+            { id: "a3_c5_q1", text: "21. What is a 'Hypothesis' in a scientific investigation?", correct: "B", options: { A: "A proven scientific law.", B: "A testable, educated explanation or prediction.", C: "A final summary of results.", D: "A random guess made after the experiment." } },
+            { id: "a3_c5_q2", text: "22. Why is it crucial to keep CONTROLLED variables constant during an experiment?", correct: "A", options: { A: "To ensure that changes in the dependent variable are caused ONLY by the independent variable.", B: "To make the experiment faster.", C: "To use fewer materials.", D: "To guarantee positive results." } },
+            { id: "a3_c5_q3", text: "23. If experimental data contradicts the initial hypothesis, what should a scientist do?", correct: "C", options: { A: "Change the data to match the hypothesis.", B: "Ignore the data and pretend it didn't happen.", C: "Accept the data, analyze errors, and revise or reject the hypothesis.", D: "Stop doing science forever." } },
+            { id: "a3_c5_q4", text: "24. What is the difference between quantitative and qualitative data?", correct: "D", options: { A: "Quantitative is photos; qualitative is numbers.", B: "They are identical.", C: "Qualitative is measured with instruments; quantitative is opinions.", D: "Quantitative data involves numerical measurements; qualitative data involves descriptive observations." } },
+            { id: "a3_c5_q5", text: "25. Which statement best summarizes the objective of Activity 3?", correct: "A", options: { A: "Applying scientific reasoning, data analysis, and physics/ecology concepts to real-world scenarios.", B: "Memorizing science terms without understanding.", C: "Learning how to build solar panels.", D: "Testing how fast fish can swim." } }
           ]
         }
       ]
     },
 
-    // ACTIVITY 4: 5 CHAPTERS, 5 QUESTIONS PER CHAPTER (TOTAL 25)
+    // ACTIVITY 4: MATH LOGIC, WORD PROBLEMS & REASONING (25 Qs)
     act4: {
-      title: "Activity 4: Energy & Forces Adventure",
+      title: "Activity 4: Mathematical Heist & Logic Puzzles (Math)",
       chapters: [
         {
-          title: "Chapter 1: Forms of Energy",
-          story: "Shane and Allain began their science project on energy forms. They learned that Potential Energy is stored energy at rest, while Kinetic Energy is the energy of motion.",
+          title: "Chapter 1: Ratios and Proportions in the Workshop",
+          story: "Zeik and Allain are mixing concrete to repair a ramp. The recipe calls for a ratio of Cement : Sand : Gravel = 1 : 2 : 4. If they need a total mixture volume of 140 kilograms, how many kilograms of each material do they need?",
           questions: [
-            { id: "a4_c1_q1", text: "1. Who were the two students working on the science project?", correct: "A", options: { A: "Shane and Allain", B: "Zeik and Ayit", C: "John and Mary", D: "Bb. Santos and class" } },
-            { id: "a4_c1_q2", text: "2. What topic was their science project about?", correct: "B", options: { A: "Plants and Soil", B: "Forms of Energy", C: "Weather Patterns", D: "Ocean Waves" } },
-            { id: "a4_c1_q3", text: "3. What is defined as 'stored energy at rest'?", correct: "C", options: { A: "Kinetic Energy", B: "Thermal Energy", C: "Potential Energy", D: "Sound Energy" } },
-            { id: "a4_c1_q4", text: "4. What is defined as 'energy of motion'?", correct: "D", options: { A: "Chemical Energy", B: "Potential Energy", C: "Solar Energy", D: "Kinetic Energy" } },
-            { id: "a4_c1_q5", text: "5. What object at rest on a hill possesses Potential Energy?", correct: "A", options: { A: "A stationary boulder", B: "A rolling ball", C: "A flying bird", D: "A running child" } }
+            { id: "a4_c1_q1", text: "1. What is the sum of the ratio parts (1 + 2 + 4)?", correct: "B", options: { A: "6", B: "7", C: "8", D: "14" } },
+            { id: "a4_c1_q2", text: "2. How many kilograms does 1 part represent (140 kg / total parts)?", correct: "A", options: { A: "20 kg", B: "10 kg", C: "14 kg", D: "25 kg" } },
+            { id: "a4_c1_q3", text: "3. How many kilograms of Gravel (4 parts) are required for the 140 kg mixture?", correct: "C", options: { A: "20 kg", B: "40 kg", C: "80 kg", D: "100 kg" } },
+            { id: "a4_c1_q4", text: "4. If they only have 15 kg of Cement available, what is the MAXIMUM total mixture weight they can make while maintaining the 1:2:4 ratio?", correct: "D", options: { A: "105 kg", B: "70 kg", C: "140 kg", D: "105 kg (15 x 7 = 105 kg)" } },
+            { id: "a4_c1_q5", text: "5. What percentage of the total 140 kg mixture consists of Sand (2 parts = 40 kg)?", correct: "A", options: { A: "28.57% (2/7)", B: "50%", C: "14.28%", D: "40%" } }
           ]
         },
         {
-          title: "Chapter 2: Investigating Friction",
-          story: "To test friction, Zeik rolled a toy car across smooth tiles and then across a rough carpet. Ayit noted that the car slowed down faster on the carpet due to higher friction.",
+          title: "Chapter 2: Speed, Distance, and Time Calculations",
+          story: "Shane and Ayit are cycling toward a meeting point 30 kilometers away. Shane cycles at a constant speed of 15 km/h. Ayit leaves 20 minutes later cycling at 20 km/h. Who arrives at the destination first?",
           questions: [
-            { id: "a4_c2_q1", text: "6. What force was Zeik testing with the toy car?", correct: "B", options: { A: "Gravity", B: "Friction", C: "Magnetism", D: "Electricity" } },
-            { id: "a4_c2_q2", text: "7. Which surface caused the toy car to slow down faster?", correct: "A", options: { A: "Rough carpet", B: "Smooth tiles", C: "Glass table", D: "Ice sheet" } },
-            { id: "a4_c2_q3", text: "8. Who recorded the observations during the experiment?", correct: "C", options: { A: "Shane", B: "Allain", C: "Ayit", D: "Zeik" } },
-            { id: "a4_c2_q4", text: "9. Why did the car slow down faster on the carpet?", correct: "D", options: { A: "Carpet has zero friction", B: "Carpet attracts magnets", C: "Tiles have higher resistance", D: "Carpet creates higher friction" } },
-            { id: "a4_c2_q5", text: "10. What type of surface generally has less friction?", correct: "A", options: { A: "Smooth surfaces", B: "Rough surfaces", C: "Bumpy roads", D: "Sandy paths" } }
+            { id: "a4_c2_q1", text: "6. How many hours does Shane take to travel 30 km at 15 km/h?", correct: "B", options: { A: "1.5 hours", B: "2.0 hours (120 minutes)", C: "2.5 hours", D: "3.0 hours" } },
+            { id: "a4_c2_q2", text: "7. How many hours does Ayit take to travel 30 km at 20 km/h?", correct: "A", options: { A: "1.5 hours (90 minutes)", B: "2.0 hours", C: "1.0 hour", D: "2.5 hours" } },
+            { id: "a4_c2_q3", text: "8. Accounting for Ayit's 20-minute delayed departure, what is Ayit's total elapsed time from Shane's start?", correct: "C", options: { A: "90 minutes", B: "120 minutes", C: "110 minutes (20 min delay + 90 min ride)", D: "130 minutes" } },
+            { id: "a4_c2_q4", text: "9. Who arrives at the meeting point first, and by how many minutes?", correct: "D", options: { A: "Shane arrives 10 minutes earlier.", B: "They arrive at the exact same time.", C: "Shane arrives 20 minutes earlier.", D: "Ayit arrives 10 minutes earlier (110 min vs 120 min)." } },
+            { id: "a4_c2_q5", text: "10. At what kilometer mark does Ayit catch up with Shane?", correct: "A", options: { A: "At 10 km (After 40 min ride for Shane = 10km; 20 min ride for Ayit = 6.67km) -> Let's solve 15t = 20(t - 1/3) => 15t = 20t - 20/3 => 5t = 20/3 => t = 4/3 hrs (80 min) => Distance = 15 * 4/3 = 20 km.", B: "20 km mark", C: "15 km mark", D: "25 km mark" } }
           ]
         },
         {
-          title: "Chapter 3: The Power of Gravity",
-          story: "Allain dropped a rubber ball and a feather from the same height. Gravity pulled both downward, but air resistance slowed down the feather, demonstrating atmospheric drag.",
+          title: "Chapter 3: Area, Perimeter, and Geometry Logic",
+          story: "The team is fencing a rectangular garden plot against a straight brick wall (so fencing is needed on only 3 sides). They have 40 meters of total fencing wire. They want to maximize the area enclosed by the garden.",
           questions: [
-            { id: "a4_c3_q1", text: "11. What force pulled both the ball and feather downward?", correct: "A", options: { A: "Gravity", B: "Friction", C: "Tension", D: "Magnetism" } },
-            { id: "a4_c3_q2", text: "12. Which two objects did Allain drop during the test?", correct: "B", options: { A: "A stone and coin", B: "A rubber ball and feather", C: "A book and paper", D: "An apple and orange" } },
-            { id: "a4_c3_q3", text: "13. What force slowed down the descent of the feather?", correct: "C", options: { A: "Magnetic pull", B: "Water pressure", C: "Air resistance", D: "Kinetic friction" } },
-            { id: "a4_c3_q4", text: "14. Who conducted the gravity experiment?", correct: "D", options: { A: "Zeik", B: "Ayit", C: "Shane", D: "Allain" } },
-            { id: "a4_c3_q5", text: "15. Where does gravity pull objects towards on Earth?", correct: "A", options: { A: "Towards the center of Earth", B: "Upward into space", C: "Sideways to the west", D: "Towards the sun" } }
+            { id: "a4_c3_q1", text: "11. If the two sides perpendicular to the wall have length 'x', what is the expression for the length 'L' parallel to the wall?", correct: "B", options: { A: "L = 40 - x", B: "L = 40 - 2x", C: "L = 20 - x", D: "L = 40 + 2x" } },
+            { id: "a4_c3_q2", text: "12. What is the area formula 'A' in terms of 'x'?", correct: "A", options: { A: "Area = x(40 - 2x) = 40x - 2x²", B: "Area = 40x - x²", C: "Area = 20x - x²", D: "Area = 400x" } },
+            { id: "a4_c3_q3", text: "13. What value of x (width) maximizes the quadratic area function A = 40x - 2x²? (x = -b / 2a)", correct: "C", options: { A: "x = 5 meters", B: "x = 8 meters", C: "x = 10 meters", D: "x = 20 meters" } },
+            { id: "a4_c3_q4", text: "14. What are the dimensions (Width x Length) that yield the MAXIMUM area?", correct: "D", options: { A: "10m x 10m", B: "5m x 30m", C: "15m x 10m", D: "10m x 20m" } },
+            { id: "a4_c3_q5", text: "15. What is the maximum enclosed area in square meters?", correct: "A", options: { A: "200 square meters (10m x 20m)", B: "100 square meters", C: "400 square meters", D: "150 square meters" } }
           ]
         },
         {
-          title: "Chapter 4: Simple Machines",
-          story: "Shane presented a ramp (an inclined plane) used to push heavy boxes into a truck easily. She explained that simple machines reduce the effort needed to perform heavy work.",
+          title: "Chapter 4: Financial Math & Profit Optimization",
+          story: "Zeik and Shane organized a school bake sale. They spent $50 on ingredients (fixed cost) and $0.50 per cupcake produced (variable cost). They baked 100 cupcakes and sold 80 of them at $2.00 each, and the remaining 20 at a discounted price of $1.00 each.",
           questions: [
-            { id: "a4_c4_q1", text: "16. Which simple machine did Shane present?", correct: "A", options: { A: "Inclined plane (ramp)", B: "Pulley system", C: "Wheel and axle", D: "Screw" } },
-            { id: "a4_c4_q2", text: "17. What task was the inclined plane used for?", correct: "B", options: { A: "Lifting water", B: "Pushing heavy boxes into a truck", C: "Cutting wood", D: "Measuring temperature" } },
-            { id: "a4_c4_q3", text: "18. Who demonstrated the simple machine presentation?", correct: "C", options: { A: "Ayit", B: "Zeik", C: "Shane", D: "Allain" } },
-            { id: "a4_c4_q4", text: "19. How do simple machines assist human work?", correct: "D", options: { A: "By creating free energy", B: "By increasing friction", C: "By stopping motion", D: "By reducing effort needed" } },
-            { id: "a4_c4_q5", text: "20. Which of the following is another example of a simple machine?", correct: "A", options: { A: "Lever", B: "Computer", C: "Car engine", D: "Television" } }
+            { id: "a4_c4_q1", text: "16. What was the TOTAL cost to produce 100 cupcakes? ($50 fixed + 100 x $0.50)", correct: "B", options: { A: "50 dollars", B: "100 dollars", C: "80 dollars", D: "120 dollars" } },
+            { id: "a4_c4_q2", text: "17. How much revenue was generated from selling 80 cupcakes at $2.00 each?", correct: "A", options: { A: "160 dollars", B: "80 dollars", C: "200 dollars", D: "140 dollars" } },
+            { id: "a4_c4_q3", text: "18. How much revenue was generated from selling 20 discounted cupcakes at $1.00 each?", correct: "C", options: { A: "10 dollars", B: "40 dollars", C: "20 dollars", D: "30 dollars" } },
+            { id: "a4_c4_q4", text: "19. What was their total REVENUE from all cupcake sales ($160 + $20)?", correct: "D", options: { A: "160 dollars", B: "150 dollars", C: "200 dollars", D: "180 dollars" } },
+            { id: "a4_c4_q5", text: "20. What was their net PROFIT (Total Revenue minus Total Cost)?", correct: "A", options: { A: "80 dollars profit ($180 - $100)", B: "100 dollars profit", C: "50 dollars profit", D: "30 dollars profit" } }
           ]
         },
         {
-          title: "Chapter 5: The Science Fair Victory",
-          story: "At the school Science Fair, the team of Zeik, Ayit, Shane, and Allain won first place for their interactive exhibit explaining forces, motion, and energy in a fun way.",
+          title: "Chapter 5: Combinations & Probability Puzzles",
+          story: "Allain has a lock with a 3-digit code. The digits can be any number from 1 to 5, and NO digits can be repeated. Ayit notes: 'The first digit is odd, the second digit is even, and the sum of all three digits is 9.'",
           questions: [
-            { id: "a4_c5_q1", text: "21. At what school event did the group showcase their work?", correct: "B", options: { A: "Art Exhibit", B: "Science Fair", C: "Sports Fest", D: "Music Concert" } },
-            { id: "a4_c5_q2", text: "22. What award did the group win?", correct: "A", options: { A: "First place", B: "Second place", C: "Third place", D: "Honorable mention" } },
-            { id: "a4_c5_q3", text: "23. Who were the four members of the winning team?", correct: "C", options: { A: "Tom, Jerry, Mickey, Donald", B: "Ana, Maria, Pedro, Juan", C: "Zeik, Ayit, Shane, and Allain", D: "G. Cruz, Bb. Santos, and students" } },
-            { id: "a4_c5_q4", text: "24. What made their exhibit stand out to the judges?", correct: "D", options: { A: "It was the most expensive", B: "It was the loudest", C: "It was made of pure gold", D: "It explained concepts interactively and fun" } },
-            { id: "a4_c5_q5", text: "25. What was the main combined topic of their winning exhibit?", correct: "A", options: { A: "Forces, motion, and energy", B: "Space exploration", C: "Dinosaur history", D: "Plant growth" } }
+            { id: "a4_c5_q1", text: "21. What are the available odd digits from {1, 2, 3, 4, 5}?", correct: "A", options: { A: "{1, 3, 5}", B: "{2, 4}", C: "{1, 2, 3}", D: "{3, 4, 5}" } },
+            { id: "a4_c5_q2", text: "22. What are the available even digits from {1, 2, 3, 4, 5}?", correct: "B", options: { A: "{1, 3, 5}", B: "{2, 4}", C: "{2, 3, 4}", D: "{4, 5}" } },
+            { id: "a4_c5_q3", text: "23. If Digit 1 = 3 and Digit 2 = 2, what must Digit 3 be so the sum equals 9?", correct: "C", options: { A: "2", B: "3", C: "4 (3 + 2 + 4 = 9)", D: "5" } },
+            { id: "a4_c5_q4", text: "24. Check if code '3-2-4' meets all conditions (D1=odd, D2=even, no repeats, sum=9):", correct: "A", options: { A: "Yes, 3 is odd, 2 is even, no digits repeat, and 3+2+4=9.", B: "No, digits repeat.", C: "No, sum is not 9.", D: "No, 2 is odd." } },
+            { id: "a4_c5_q5", text: "25. Which statement best summarizes the learning outcome of Activity 4?", correct: "D", options: { A: "Mathematics is only useful for memorizing formulas.", B: "Word problems have no real-world value.", C: "Calculators replace the need for logical thinking.", D: "Mathematical reasoning, algebraic logic, optimization, and probability allow systematic problem solving." } }
           ]
         }
       ]
