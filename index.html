@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reading Comprehension</title>
+  <title>Reading Assessment</title>
 
   <style>
     :root {
@@ -111,7 +111,6 @@
     }
     .card-footer { font-weight: bold; color: var(--primary); font-size: 0.95rem; }
 
-    /* Difficulty Modal */
     .modal-overlay {
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center;
@@ -153,7 +152,6 @@
     .controls { display: flex; justify-content: space-between; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border); }
     .btn { background-color: var(--primary); color: #fff; border: 1px solid var(--primary-hover); padding: 10px 22px; border-radius: 3px; font-size: 1rem; cursor: pointer; font-family: 'Georgia', serif; }
     .btn:hover { background-color: var(--primary-hover); }
-    .btn:disabled { background-color: #c2b5a3; border-color: #c2b5a3; cursor: not-allowed; }
     .btn-block { width: 100%; padding: 12px; font-weight: bold; }
   </style>
 </head>
@@ -198,7 +196,7 @@
       <div class="story-card" onclick="startActivity('act1')">
         <div>
           <span class="card-badge">Act 1 • Tagalog</span>
-          <h2 class="card-title" id="title-act1">Ang Masayang Pagnipis sa Halamanan</h2>
+          <h2 class="card-title" id="title-act1">Ang Masayang Pagluluto sa Bahay-Kubo</h2>
           <div class="score-badge" id="score-act1">Latest Score: 0 / 10</div>
         </div>
         <div class="card-footer">Begin Act 1 &rarr;</div>
@@ -269,101 +267,101 @@
   const activitiesData = {
     act1: {
       Easy: {
-        title: "Ang Masayang Pagnipis sa Halamanan",
-        story: "Isang maaliwalas na umaga ng Linggo, nagtipon-tipon sina Zera, Ayit, Allain, Lance, Ana, at Shane sa malaking bakuran nina Ana. May dala silang iba't ibang kagamitan para tulungan ang pamilya ni Ana na maglinis ng halamanan. Si Zera ay nagdala ng dilaw na timba, habang si Ayit naman ay may dalang maliit na pala.\n\nNagsimula silang magtrabaho ganap na 8:00 ng umaga. Si Allain at si Lance ang assigned na magwalis ng mga tuyong dahon sa ilalim ng puno ng mangga. Si Shane naman ang nagdilig sa mga makukulay na bulaklak gamit ang regadera. Pagkaraan ng dalawang oras na pagtutulungan, nakakolekta sila ng apat na malaking bag ng mga tuyong dahon at damo. Masayang inihanda ni Ana ang masarap na palamig na buko at tinapay bilang pasasalamat sa kanyang mga kaibigan.",
+        title: "Ang Masayang Pagluluto sa Bahay-Kubo",
+        story: "Isang Sabado ng umaga, nagtipon sina Zera, Ayit, Allain, Lance, Ana, at Shane sa bahay-kubo ni Lola Maria. Gusto nilang magluto ng masarap na meryenda para sa kanilang pamilya. Si Zera ay nagdala ng pulang kaserola, samantalang si Ayit naman ang naghanda ng limang pirasong saging na saba.\n\nNagsimula silang magluto pagpatak ng 9:00 ng umaga. Si Allain at si Lance ang tumulong sa pagbabalat ng mga saging at kamote. Si Shane naman ang nag-ayos ng kalan at nagbantay sa apoy upang hindi ito mamatay. Pagkalipas ng isang oras, nakagawa sila ng tatlong malaking pinggan ng masarap na turon at minatamis na kamote. Masayang ipinamahagi ni Ana ang kanilang inihandang pagkain sa kanilang mga kapitbahay habang masayang nagkukuwentuhan ang lahat.",
         questions: [
-          { id: "q1", text: "1. Saan nagtipon-tipon ang magkakaibigan?", correct: "A", options: { A: "Sa bakuran nina Ana", B: "Sa paaralan", C: "Sa parke", D: "Sa tabing-ilog" } },
-          { id: "q2", text: "2. Anong araw naganap ang paglilinis sa halamanan?", correct: "C", options: { A: "Sabado", B: "Biyernes", C: "Linggo", D: "Lunes" } },
-          { id: "q3", text: "3. Ano ang kulay ng timba na dala ni Zera?", correct: "B", options: { A: "Pula", B: "Dilaw", C: "Luntian", D: "Asul" } },
-          { id: "q4", text: "4. Sino ang may dalang maliit na pala?", correct: "D", options: { A: "Shane", B: "Lance", C: "Allain", D: "Ayit" } },
-          { id: "q5", text: "5. Anong oras nagsimula ang kanilang pagtutulungan?", correct: "A", options: { A: "8:00 ng umaga", B: "7:00 ng umaga", C: "9:00 ng umaga", D: "10:00 ng umaga" } },
-          { id: "q6", text: "6. Sino-sino ang nagwalis ng mga tuyong dahon?", correct: "C", options: { A: "Zera at Ayit", B: "Ana at Shane", C: "Allain at Lance", D: "Ayit at Shane" } },
-          { id: "q7", text: "7. Ano ang ginawa ni Shane sa halamanan?", correct: "B", options: { A: "Nagtanim ng puno", B: "Nagdilig ng mga bulaklak", C: "Nagwalis ng lupa", D: "Nagpaligo ng aso" } },
-          { id: "q8", text: "8. Ilang bag ng tuyong dahon ang kanilang naipon?", correct: "D", options: { A: "Dalawa", B: "Tatlo", C: "Lima", D: "Apat" } },
-          { id: "q9", text: "9. Anong palamig ang inihanda ni Ana para sa kanila?", correct: "A", options: { A: "Palamig na buko", B: "Sago't gulaman", C: "Iced tea", D: "Gatas" } },
-          { id: "q10", text: "10. Anong magandang katangian ang ipinakita ng magkakaibigan?", correct: "B", options: { A: "Pagiging matipid", B: "Pagtutulungan at pakikipagkaibigan", C: "Pagiging matapang", D: "Pagiging tahimik" } }
+          { id: "q1", text: "1. Saan nagtipon ang magkakaibigan upang magluto?", correct: "A", options: { A: "Sa bahay-kubo ni Lola Maria", B: "Sa tabing-dagat", C: "Sa silid-aralan", D: "Sa palengke" } },
+          { id: "q2", text: "2. Anong araw ginawa ng magkakaibigan ang kanilang pagluluto?", correct: "B", options: { A: "Biyernes", B: "Sabado", C: "Linggo", D: "Lunes" } },
+          { id: "q3", text: "3. Ano ang kulay ng kaserola na dala ni Zera?", correct: "C", options: { A: "Asul", B: "Dilaw", C: "Pulang kaserola", D: "Luntian" } },
+          { id: "q4", text: "4. Ilang pirasong saging na saba ang inihanda ni Ayit?", correct: "A", options: { A: "Limang piraso", B: "Sampung piraso", C: "Dalawang piraso", D: "Pito" } },
+          { id: "q5", text: "5. Anong oras sila nagsimulang magluto?", correct: "D", options: { A: "8:00 ng umaga", B: "10:00 ng umaga", C: "11:00 ng umaga", D: "9:00 ng umaga" } },
+          { id: "q6", text: "6. Sino-sino ang tumulong sa pagbabalat ng saging at kamote?", correct: "B", options: { A: "Zera at Ayit", B: "Allain at Lance", C: "Ana at Shane", D: "Ayit at Lance" } },
+          { id: "q7", text: "7. Ano ang naging tungkulin ni Shane sa bahay-kubo?", correct: "C", options: { A: "Maghugas ng pinggan", B: "Bumili ng mantika", C: "Mag-ayos ng kalan at magbantay ng apoy", D: "Magwalis ng bakuran" } },
+          { id: "q8", text: "8. Ilang pinggan ng meryenda ang kanilang naiserve?", correct: "A", options: { A: "Tatlong malaking pinggan", B: "Limang pinggan", C: "Isang pinggan", D: "Apat na pinggan" } },
+          { id: "q9", text: "9. Ano ang ginawa ni Ana sa inihandang meryenda?", correct: "D", options: { A: "Kinain niya lahat", B: "Ibinenta sa palengke", C: "Itinago sa cabinet", D: "Ipinamahagi sa mga kapitbahay" } },
+          { id: "q10", text: "10. Anong magandang aral ang ipinakita ng magkakaibigan?", correct: "B", options: { A: "Pagiging matipid sa pera", B: "Pagtutulungan at pagtatrabaho nang masaya", C: "Pagiging tahimik sa bahay", D: "Pag-aaway sa pagkain" } }
         ]
       },
       Medium: {
-        title: "Ang Lihim na Mapa sa Lumang Silid-Aklatan",
-        story: "Habang naghahanap ng mga sangguniang libro para sa kanilang proyekto sa Araling Panlipunan, pumasok sina Zera, Ayit, Allain, Lance, Ana, at Shane sa lumang bahagi ng silid-aklatan ng kanilang paaralan. Habang inaayos ni Shane ang mga libro sa ikatlong istante, may nahulog na lumang sobre mula sa isang maalikabok na ensiklopedya.\n\nPinuntahan ito nina Zera at Ayit. Sa loob ng sobre ay may nakatagong mapa na may nakasulat na numero: '20-15-23-05-18'. Napansin ni Lance na ito ay isang simpleng alpabetong kodigo kung saan ang A=1 at B=2. Isinalin ito ni Allain at lumabas ang salitang 'TOWER'. Sinabi ni Ana na ang tinutukoy nito ay ang lumang tore ng orasan sa gitna ng paaralan. Naging interesado ang anim na magkakaibigan na alamin ang kasaysayan ng tore upang idagdag sa kanilang ulat.",
+        title: "Ang Lihim ng Lumang Museo sa San Pedro",
+        story: "Nagtungo sina Zera, Ayit, Allain, Lance, Ana, at Shane sa San Pedro Museum upang maghanap ng paksa para sa kanilang eksibit sa paaralan. Habang naglilibot, napansin ni Shane ang isang lumangkahoy na kahon sa sulok ng eksibit ng mga lumang barya. May nakalagay ditong kandado na may limang gulong ng numero.\n\nNaging interesado si Zera at Ayit sa nakasulat sa gilid ng kahon: 'Kalkulahin: (25 + 15) ÷ 2'. Agad na tinulungan ni Lance si Allain na sagutin ang tumbasan, at nakuha nila ang sagot na '20'. Nang itapat ni Ana ang mga gulong ng kandado sa numerong 00020, nagbukas ang kahon at naglalaman ito ng lumang litrato ng unang paaaralan sa bayan noong taong 1912.",
         questions: [
-          { id: "q1", text: "1. Anong asignaturang proyekto ang ginagawa ng magkakaibigan?", correct: "B", options: { A: "Siyensya", B: "Araling Panlipunan", C: "Filipino", D: "Matematika" } },
-          { id: "q2", text: "2. Saang bahagi ng paaralan nila natagpuan ang lumang sobre?", correct: "A", options: { A: "Sa lumang bahagi ng silid-aklatan", B: "Sa kantina", C: "Sa gym", D: "Sa silid-aralan" } },
-          { id: "q3", text: "3. Sino ang nakahulog ng sobre habang nag-aayos ng libro?", correct: "C", options: { A: "Zera", B: "Ayit", C: "Shane", D: "Ana" } },
-          { id: "q4", text: "4. Saang lalagyan binuhat o nahulog ang sobre?", correct: "D", options: { A: "Mula sa ilalim ng mesa", B: "Mula sa bag ni Lance", C: "Mula sa basurahan", D: "Mula sa maalikabok na ensiklopedya" } },
-          { id: "q5", text: "5. Anong numero ang nakasulat sa natagpuang mapa?", correct: "A", options: { A: "20-15-23-05-18", B: "10-20-30-40-50", C: "01-02-03-04-05", D: "12-11-10-09-08" } },
-          { id: "q6", text: "6. Sino ang nakapansin sa alpabetong kodigo ng mga numero?", correct: "B", options: { A: "Allain", B: "Lance", C: "Ana", D: "Zera" } },
-          { id: "q7", text: "7. Anong salita ang lumabas matapos isalin ni Allain ang kodigo?", correct: "C", options: { A: "CLOCK", B: "HOUSE", C: "TOWER", D: "PAPER" } },
-          { id: "q8", text: "8. Sino ang nagpaliwanag na ang tore ng orasan ang tinutukoy ng mapa?", correct: "D", options: { A: "Shane", B: "Ayit", C: "Lance", D: "Ana" } },
-          { id: "q9", text: "9. Saan matatagpuan ang lumang tore ng orasan?", correct: "A", options: { A: "Sa gitna ng paaralan", B: "Sa labas ng nayon", C: "Sa tabi ng bundok", D: "Sa loob ng simbahan" } },
-          { id: "q10", text: "10. Bakit nagpasya ang magkakaibigan na alamin ang kasaysayan ng tore?", correct: "B", options: { A: "Upang maghanap ng ginto", B: "Upang idagdag ito sa kanilang ulat", C: "Upang maglaro doon", D: "Upang sirain ito" } }
+          { id: "q1", text: "1. Saang museo nagpunta ang magkakaibigan?", correct: "C", options: { A: "National Museum", B: "Manila Museum", C: "San Pedro Museum", D: "Rizal Museum" } },
+          { id: "q2", text: "2. Bakit sila nagpunta sa museo?", correct: "A", options: { A: "Upang maghanap ng paksa sa eksibit sa paaralan", B: "Upang maglaro ng taguan", C: "Upang bumili ng souvenir", D: "Upang makipagkita sa guro" } },
+          { id: "q3", text: "3. Sino ang nakakita sa lumang kahoy na kahon sa sulok?", correct: "D", options: { A: "Zera", B: "Lance", C: "Ana", D: "Shane" } },
+          { id: "q4", text: "4. Saang bahagi ng museo nakalagay ang kahon?", correct: "B", options: { A: "Sa eksibit ng mga sining", B: "Sa eksibit ng mga lumang barya", C: "Sa labas ng gusali", D: "Sa opisina ng curator" } },
+          { id: "q5", text: "5. Anong matematika na pahayag ang nakasulat sa kahon?", correct: "A", options: { A: "(25 + 15) ÷ 2", B: "(10 + 10) × 2", C: "(50 - 10) ÷ 4", D: "(30 + 30) / 3" } },
+          { id: "q6", text: "6. Sino ang tumulong kay Allain sa pagkwenta ng sagot?", correct: "C", options: { A: "Shane", B: "Ayit", C: "Lance", D: "Ana" } },
+          { id: "q7", text: "7. Ano ang tamang sagot sa pormula na ginamit sa kandado?", correct: "B", options: { A: "15", B: "20", C: "25", D: "40" } },
+          { id: "q8", text: "8. Sino ang nag-ikot ng gulong ng kandado sa tamang numero?", correct: "D", options: { A: "Zera", B: "Ayit", C: "Lance", D: "Ana" } },
+          { id: "q9", text: "9. Ano ang nilalaman ng lumang kahoy na kahon?", correct: "A", options: { A: "Lumang litrato ng unang paaralan", B: "Gintong barya", C: "Lumang mapa ng kayamanan", D: "Susing ginto" } },
+          { id: "q10", text: "10. Anong taon itinatag ang paaralan na nasa larawan?", correct: "C", options: { A: "1898", B: "1905", C: "1912", D: "1945" } }
         ]
       },
       Hard: {
-        title: "Ang Misteryo ng Lumang Kodigo sa Parola ng Punta Cruz",
-        story: "Isang malalim na ekspedisyon ang isinagawa nina Zera, Ayit, Allain, Lance, Ana, at Shane sa Makasaysayang Parola ng Punta Cruz. Bilang mga batang mananaliksik, layunin nilang maunawaan kung paano ginagamit ang liwanag at matematika noong ika-19 na siglo upang gabayan ang mga barko. Natagpuan ni Zera ang isang tanso na plaka na may mga nakaukit na pormula: 'L = (D × 2) + 15', kung saan ang D ay ang distansya ng barko sa kilometro at ang L ay ang kinakailangang lakas ng liwanag (lumens).\n\nNang sukatin ni Lance ang distansya ng isang barko na nasa 12 kilometro mula sa baybayin, tinulungan siya nina Ayit at Allain na kalkulahin ang kailangang lakas ng liwanag: L = (12 × 2) + 15 = 39 lumens. Samantala, natuklasan naman nina Ana at Shane ang panuntunan sa pagpapatakbo ng parola tuwing gabi. Kinakailangan nitong umikot ng 360 digri bawat 60 segundo. Dahil sa kanilang pagtutulungan, nabuo nila ang isang kumpletong teknikal na ulat tungkol sa kahalagahan ng matematika sa lumang nabigasyon.",
+        title: "Ang Pananaliksik sa Ekosistema ng Ilog Pasig",
+        story: "Isang malalim na siyentipikong pag-aaral ang isinagawa nina Zera, Ayit, Allain, Lance, Ana, at Shane upang suriin ang kalidad ng tubig sa Ilog Pasig. Ginamit nila ang pormulang 'WQI = (pH × 10) - (Turbidity ÷ 5)' upang makuha ang Water Quality Index. Kumuha si Zera ng tatlong sample ng tubig sa magkaibang lokasyon. Sa unang istasyon, nasukat ni Ayit ang pH level na 7.5 at ang turbidity na 10 NTU.\n\nTinulungan ni Lance si Allain sa pagpoproseso ng datos: WQI = (7.5 × 10) - (10 ÷ 5) = 75 - 2 = 73. Samantala, pinag-aralan nina Ana at Shane ang antas ng dissolved oxygen sa tulong ng isang digital meter. Ayon sa kanilang pamantayan, ang index na 73 ay nangangahulugang 'Ligtas para sa mga Organismong Tubig'. Ipinresenta ng anim ang kanilang natuklasan sa pamahalaang lokal upang makatulong sa rehabilitasyon ng ilog.",
         questions: [
-          { id: "q1", text: "1. Saang makasaysayang parola ginawa ang ekspedisyon ng magkakaibigan?", correct: "A", options: { A: "Parola ng Punta Cruz", B: "Parola ng San Martin", C: "Parola ng Corregidor", D: "Parola ng Capones" } },
-          { id: "q2", text: "2. Sino ang nakatagpo sa tanso na plaka na may pormula?", correct: "C", options: { A: "Ayit", B: "Ana", C: "Zera", D: "Shane" } },
-          { id: "q3", text: "3. Ano ang kinakatawan ng letrang 'D' sa pormula?", correct: "B", options: { A: "Lakas ng hangin", B: "Distansya ng barko sa kilometro", C: "Lalim ng dagat", D: "Oras ng gabi" } },
-          { id: "q4", text: "4. Ano ang pormula para makuha ang kinakailangang lakas ng liwanag (L)?", correct: "D", options: { A: "L = D + 15", B: "L = D × 12", C: "L = (D / 2) + 10", D: "L = (D × 2) + 15" } },
-          { id: "q5", text: "5. Ilang kilometro ang distansya ng barko na sinukat ni Lance?", correct: "A", options: { A: "12 kilometro", B: "10 kilometro", C: "15 kilometro", D: "20 kilometro" } },
-          { id: "q6", text: "6. Ano ang lumabas na kalkulasyon nina Ayit at Allain para sa lakas ng liwanag?", correct: "C", options: { A: "29 lumens", B: "30 lumens", C: "39 lumens", D: "45 lumens" } },
-          { id: "q7", text: "7. Ilang digri dapat umikot ang parola ayon sa natuklasan nina Ana at Shane?", correct: "B", options: { A: "180 digri", B: "360 digri", C: "90 digri", D: "270 digri" } },
-          { id: "q8", text: "8. Gaano kabilis dapat makakumpleto ng isang ikot ang parola?", correct: "D", options: { A: "Bawat 30 segundo", B: "Bawat 120 segundo", C: "Bawat 45 segundo", D: "Bawat 60 segundo" } },
-          { id: "q9", text: "9. Mula anong siglo ang pamamaraan ng nabigasyon na kanilang pinag-aralan?", correct: "A", options: { A: "Ika-19 na siglo", B: "Ika-18 siglo", C: "Ika-20 siglo", D: "Ika-17 siglo" } },
-          { id: "q10", text: "10. Ano ang pangunahing nabuo ng anim na magkakaibigan sa huli?", correct: "C", options: { A: "Isang bagong parola", B: "Isang makulay na larawan", C: "Isang kumpletong teknikal na ulat", D: "Isang kuwento ng kababalaghan" } }
+          { id: "q1", text: "1. Anong anyong tubig ang pinag-aralan ng magkakaibigan?", correct: "B", options: { A: "Lawa ng Laguna", B: "Ilog Pasig", C: "Dagat Maynila", D: "Ilog Cagayan" } },
+          { id: "q2", text: "2. Ano ang ibig sabihin ng acronym na WQI sa pormula?", correct: "A", options: { A: "Water Quality Index", B: "Water Quantity Inspection", C: "Wave Quality Information", D: "Weather Quality Indicator" } },
+          { id: "q3", text: "3. Sino ang kumuha ng tatlong sample ng tubig?", correct: "C", options: { A: "Shane", B: "Ana", C: "Zera", D: "Lance" } },
+          { id: "q4", text: "4. Ano ang pH level na nasukat ni Ayit sa unang istasyon?", correct: "D", options: { A: "6.0", B: "8.0", C: "7.0", D: "7.5" } },
+          { id: "q5", text: "5. Ano ang naging antas ng turbidity (NTU) ng tubig?", correct: "A", options: { A: "10 NTU", B: "5 NTU", C: "15 NTU", D: "20 NTU" } },
+          { id: "q6", text: "6. Ano ang pormulang ginamit sa kalkulasyon ng WQI?", correct: "B", options: { A: "WQI = pH + Turbidity", B: "WQI = (pH × 10) - (Turbidity ÷ 5)", C: "WQI = (pH ÷ 2) + Turbidity", D: "WQI = pH × Turbidity × 10" } },
+          { id: "q7", text: "7. Ano ang naging pinal na marka ng WQI batay sa kompyutasyon nina Allain at Lance?", correct: "C", options: { A: "68", B: "70", C: "73", D: "75" } },
+          { id: "q8", text: "8. Sino ang nagsuri sa dissolved oxygen gamit ang digital meter?", correct: "D", options: { A: "Zera at Ayit", B: "Allain at Lance", C: "Ayit at Shane", D: "Ana at Shane" } },
+          { id: "q9", text: "9. Ano ang ibig sabihin ng markang 73 batay sa kanilang pamantayan?", correct: "A", options: { A: "Ligtas para sa mga Organismong Tubig", B: "Maruming-marumi", C: "Hindi pwedeng inumin", D: "Kailangan ng kemikal" } },
+          { id: "q10", text: "10. Kanino ipinrisenta ng grupo ang resulta ng kanilang pag-aaral?", correct: "B", options: { A: "Sa Principal ng paaralan", B: "Sa pamahalaang lokal", C: "Sa mga turistang dayuhan", D: "Sa mga mangingisda" } }
         ]
       }
     },
     act2: {
       Easy: {
         title: "The Great Garden Project",
-        story: "On a bright Sunday morning, Zera, Ayit, Allain, Lance, Ana, and Shane gathered at Ana's backyard. They brought different tools to help Ana's family clean up the community garden. Zera brought a small yellow bucket, while Ayit arrived with a small shovel.\n\nThey started working together at 8:00 AM. Allain and Lance were assigned to sweep the dry leaves underneath the big mango tree. Shane watered the colorful flower beds using a watering can. After two hours of hard work, they collected four large bags of dry leaves and weeds. Ana happily served cold coconut juice and fresh bread to thank her hardworking friends.",
+        story: "On a sunny Tuesday morning, Zera, Ayit, Allain, Lance, Ana, and Shane decided to build a community garden behind their neighborhood library. They wanted to plant fresh vegetables and colorful flowers for everyone to enjoy. Zera brought a large green watering can, while Ayit brought four packets of sunflower seeds.\n\nThey started working at 8:00 AM. Allain and Lance dug the soil and prepared three tidy garden beds. Shane carefully placed wooden label stakes at the edge of each row to mark where each seed was planted. By 11:00 AM, they had planted tomato seedlings, sweet peppers, and sunflowers. Ana poured water over the newly planted seeds while everyone celebrated their hard work.",
         questions: [
-          { id: "q1", text: "1. Where did the friends gather on Sunday morning?", correct: "A", options: { A: "At Ana's backyard", B: "At the school playground", C: "At the public park", D: "At the beach" } },
-          { id: "q2", text: "2. What day of the week did the activity happen?", correct: "C", options: { A: "Saturday", B: "Friday", C: "Sunday", D: "Monday" } },
-          { id: "q3", text: "3. What color was the bucket Zera brought?", correct: "B", options: { A: "Red", B: "Yellow", C: "Green", D: "Blue" } },
-          { id: "q4", text: "4. Who brought a small shovel to the garden?", correct: "D", options: { A: "Shane", B: "Lance", C: "Allain", D: "Ayit" } },
-          { id: "q5", text: "5. What time did they start cleaning?", correct: "A", options: { A: "8:00 AM", B: "7:00 AM", C: "9:00 AM", D: "10:00 AM" } },
-          { id: "q6", text: "6. Who swept the dry leaves under the mango tree?", correct: "C", options: { A: "Zera and Ayit", B: "Ana and Shane", C: "Allain and Lance", D: "Ayit and Shane" } },
-          { id: "q7", text: "7. What task did Shane complete in the garden?", correct: "B", options: { A: "Planted new trees", B: "Watered the colorful flower beds", C: "Painted the fence", D: "Cleaned the tools" } },
-          { id: "q8", text: "8. How many bags of dry leaves and weeds did they collect?", correct: "D", options: { A: "2 bags", B: "3 bags", C: "5 bags", D: "4 bags" } },
-          { id: "q9", text: "9. What refreshment did Ana serve to her friends?", correct: "A", options: { A: "Cold coconut juice and bread", B: "Iced tea and cookies", C: "Orange juice and cake", D: "Lemonade and sandwiches" } },
-          { id: "q10", text: "10. What positive trait did the group display during the activity?", correct: "B", options: { A: "Bravery", B: "Teamwork and helpfulness", C: "Patience in waiting", D: "Creativity" } }
+          { id: "q1", text: "1. Where did the friends build their community garden?", correct: "B", options: { A: "Behind the school", B: "Behind the neighborhood library", C: "In the public park", D: "At Zera's backyard" } },
+          { id: "q2", text: "2. On what day of the week did they start the project?", correct: "A", options: { A: "Tuesday", B: "Saturday", C: "Thursday", D: "Sunday" } },
+          { id: "q3", text: "3. What item did Zera bring to the garden?", correct: "C", options: { A: "A wooden shovel", B: "A red wheelbarrow", C: "A large green watering can", D: "A set of garden gloves" } },
+          { id: "q4", text: "4. How many packets of sunflower seeds did Ayit bring?", correct: "D", options: { A: "Two packets", B: "Three packets", C: "Five packets", D: "Four packets" } },
+          { id: "q5", text: "5. What time did they start working on the garden?", correct: "A", options: { A: "8:00 AM", B: "9:00 AM", C: "7:30 AM", D: "10:00 AM" } },
+          { id: "q6", text: "6. Who dug the soil to prepare the garden beds?", correct: "C", options: { A: "Zera and Ayit", B: "Ana and Shane", C: "Allain and Lance", D: "Lance and Shane" } },
+          { id: "q7", text: "7. How many garden beds did Allain and Lance prepare?", correct: "B", options: { A: "Two beds", B: "Three beds", C: "Four beds", D: "Five beds" } },
+          { id: "q8", text: "8. What was Shane's task in the garden?", correct: "D", options: { A: "Carrying soil bags", B: "Watering the seeds", C: "Digging holes", D: "Placing wooden label stakes at the row edges" } },
+          { id: "q9", text: "9. Who watered the seeds after they were planted?", correct: "A", options: { A: "Ana", B: "Zera", C: "Ayit", D: "Shane" } },
+          { id: "q10", text: "10. What time did they finish planting the vegetables and flowers?", correct: "B", options: { A: "10:00 AM", B: "11:00 AM", C: "12:00 PM", D: "1:00 PM" } }
         ]
       },
       Medium: {
-        title: "The Secret Map in the Old Library",
-        story: "While searching for reference books for their history project, Zera, Ayit, Allain, Lance, Ana, and Shane entered the quiet old wing of their school library. As Shane carefully organized books on the third shelf, an old envelope slipped out from a dusty encyclopedia.\n\nZera and Ayit quickly inspected the envelope. Inside was a hidden map inscribed with the numbers: '20-15-23-05-18'. Lance noticed that this was a simple letter code where A=1, B=2, and C=3. Allain decoded the numbers to reveal the word 'TOWER'. Ana pointed out that this referred to the old clock tower in the center of the campus. Excited by the discovery, all six friends decided to research the clock tower's history to include in their final presentation.",
+        title: "The Mystery of the Robot Competition",
+        story: "Zera, Ayit, Allain, Lance, Ana, and Shane participated in the Metro Robotics Challenge at the city tech center. Their team, named the Cyber Squad, built a mini-rover designed to navigate a maze. Right before their trial, the control box displayed an encryption prompt requiring a numerical key to calibrate the wheels.\n\nThe screen read: 'Key = (30 × 3) - 35'. Lance quickly took out a notepad, and together with Allain, worked out the math: 30 multiplied by 3 equals 90, minus 35 equals 55. Zera and Ayit entered '055' into the rover's controller keypad. The rover hummed to life, smoothly navigating the maze in record time. Ana and Shane recorded the test run data to submit to the judges.",
         questions: [
-          { id: "q1", text: "1. What school project were the friends working on?", correct: "B", options: { A: "Science project", B: "History project", C: "Math assignment", D: "Art poster" } },
-          { id: "q2", text: "2. Where did they find the old envelope?", correct: "A", options: { A: "In the old wing of the school library", B: "In the cafeteria", C: "In the science lab", D: "In the principal's office" } },
-          { id: "q3", text: "3. Who knocked the envelope loose while organizing books?", correct: "C", options: { A: "Zera", B: "Ayit", C: "Shane", D: "Ana" } },
-          { id: "q4", text: "4. What book contained the hidden envelope?", correct: "D", options: { A: "A math textbook", B: "A storybook", C: "A dictionary", D: "A dusty encyclopedia" } },
-          { id: "q5", text: "5. What number sequence was written on the map?", correct: "A", options: { A: "20-15-23-05-18", B: "10-20-30-40-50", C: "01-02-03-04-05", D: "05-10-15-20-25" } },
-          { id: "q6", text: "6. Who identified the code pattern (A=1, B=2)?", correct: "B", options: { A: "Allain", B: "Lance", C: "Ana", D: "Zera" } },
-          { id: "q7", text: "7. What word did Allain reveal after decoding the sequence?", correct: "C", options: { A: "CLOCK", B: "HOUSE", C: "TOWER", D: "PAPER" } },
-          { id: "q8", text: "8. Who recognized the location referred to by the word 'TOWER'?", correct: "D", options: { A: "Shane", B: "Ayit", C: "Lance", D: "Ana" } },
-          { id: "q9", text: "9. Where was the old clock tower located?", correct: "A", options: { A: "In the center of the campus", B: "Near the river", C: "Outside the town", D: "On top of the hill" } },
-          { id: "q10", text: "10. What did the six friends decide to do with their discovery?", correct: "B", options: { A: "Keep it a secret", B: "Research its history for their presentation", C: "Throw the map away", D: "Search for buried gold" } }
+          { id: "q1", text: "1. What event were the friends participating in?", correct: "C", options: { A: "National Science Fair", B: "Tech Innovation Expo", C: "Metro Robotics Challenge", D: "School Coding Contest" } },
+          { id: "q2", text: "2. What was the name of their team?", correct: "A", options: { A: "Cyber Squad", B: "Robo Builders", C: "Tech Titans", D: "Navigators" } },
+          { id: "q3", text: "3. What was the mini-rover designed to do?", correct: "D", options: { A: "Fly over obstacles", B: "Pick up heavy boxes", C: "Sort colored balls", D: "Navigate a maze" } },
+          { id: "q4", text: "4. What equation was shown on the control box screen?", correct: "B", options: { A: "(20 × 4) - 20", B: "(30 × 3) - 35", C: "(40 × 2) - 15", D: "(25 × 3) - 10" } },
+          { id: "q5", text: "5. What was the result of 30 multiplied by 3 in the equation?", correct: "A", options: { A: "90", B: "60", C: "100", D: "80" } },
+          { id: "q6", text: "6. Who calculated the math formula on a notepad?", correct: "C", options: { A: "Zera and Ayit", B: "Ana and Shane", C: "Lance and Allain", D: "Shane and Lance" } },
+          { id: "q7", text: "7. What was the final calibration key number?", correct: "D", options: { A: "45", B: "50", C: "60", D: "55" } },
+          { id: "q8", text: "8. Who typed the key code into the controller keypad?", correct: "B", options: { A: "Lance and Allain", B: "Zera and Ayit", C: "Ana and Shane", D: "Shane and Lance" } },
+          { id: "q9", text: "9. What did Ana and Shane do during the trial?", correct: "A", options: { A: "Recorded the test run data for the judges", B: "Drove the mini-rover", C: "Repaired the controller", D: "Cheered from the bleachers" } },
+          { id: "q10", text: "10. How did the mini-rover perform after calibration?", correct: "C", options: { A: "It stopped midway", B: "It went in circles", C: "It smoothly navigated the maze in record time", D: "It crashed into the wall" } }
         ]
       },
       Hard: {
-        title: "The Cipher of the Punta Cruz Lighthouse",
-        story: "A detailed scientific expedition was undertaken by Zera, Ayit, Allain, Lance, Ana, and Shane at the historic Punta Cruz Lighthouse. As young student researchers, their goal was to analyze how 19th-century sailors utilized light and mathematics for maritime navigation. Zera discovered a brass plaque with an engraved formula: 'L = (D × 2) + 15', where D represents the ship's distance in kilometers and L represents the required light intensity in lumens.\n\nWhen Lance measured a vessel positioned 12 kilometers off the coast, Ayit and Allain assisted in calculating the required luminosity: L = (12 × 2) + 15 = 39 lumens. Meanwhile, Ana and Shane examined the operating manual, discovering that the lighthouse lamp must rotate 360 degrees every 60 seconds. Through effective collaboration, the team authored a complete technical report on the role of mathematics in historical navigation.",
+        title: "The Wind Turbine Optimization Study",
+        story: "Zera, Ayit, Allain, Lance, Ana, and Shane conducted an advanced engineering experiment at the Breeze Valley Wind Farm to measure output efficiency. They evaluated total power generation using the formula: 'Efficiency Score = (Wind Velocity × 8) - (Blade Drag ÷ 2)'. Zera positioned the anemometer sensors across three test towers. At Tower 2, Ayit measured a wind velocity of 12.5 m/s and a blade drag factor of 10 units.\n\nAllain and Lance processed the measurement metrics: Efficiency Score = (12.5 × 8) - (10 ÷ 2) = 100 - 5 = 95 points. Meanwhile, Ana and Shane monitored thermal output using infrared scanners. An efficiency score of 95 indicated 'Superior Grid Output'. The team presented their report to the regional energy board to optimize green power distribution.",
         questions: [
-          { id: "q1", text: "1. What historic structure did the team investigate during their expedition?", correct: "A", options: { A: "Punta Cruz Lighthouse", B: "San Martin Lighthouse", C: "Corregidor Lighthouse", D: "Capones Lighthouse" } },
-          { id: "q2", text: "2. Who discovered the brass plaque containing the mathematical formula?", correct: "C", options: { A: "Ayit", B: "Ana", C: "Zera", D: "Shane" } },
-          { id: "q3", text: "3. What variable does 'D' represent in the lighthouse formula?", correct: "B", options: { A: "Wind velocity", B: "Ship distance in kilometers", C: "Water depth", D: "Time of night" } },
-          { id: "q4", text: "4. What is the correct formula for calculating required light intensity (L)?", correct: "D", options: { A: "L = D + 15", B: "L = D × 12", C: "L = (D / 2) + 10", D: "L = (D × 2) + 15" } },
-          { id: "q5", text: "5. What distance was measured for the ship off the coast?", correct: "A", options: { A: "12 kilometers", B: "10 kilometers", C: "15 kilometers", D: "20 kilometers" } },
-          { id: "q6", text: "6. What calculated light intensity did Ayit and Allain derive?", correct: "C", options: { A: "29 lumens", B: "30 lumens", C: "39 lumens", D: "45 lumens" } },
-          { id: "q7", text: "7. How many degrees must the lighthouse lamp rotate during operation?", correct: "B", options: { A: "180 degrees", B: "360 degrees", C: "90 degrees", D: "270 degrees" } },
-          { id: "q8", text: "8. How quickly must the lighthouse complete a full rotation?", correct: "D", options: { A: "Every 30 seconds", B: "Every 120 seconds", C: "Every 45 seconds", D: "Every 60 seconds" } },
-          { id: "q9", text: "9. What century's navigation techniques were being evaluated?", correct: "A", options: { A: "19th century", B: "18th century", C: "20th century", D: "17th century" } },
-          { id: "q10", text: "10. What was the final output produced by the six friends?", correct: "C", options: { A: "A new lighthouse model", B: "A collection of photographs", C: "A complete technical report", D: "A fiction novel" } }
+          { id: "q1", text: "1. Where was the engineering study conducted?", correct: "B", options: { A: "Solar Power Station", B: "Breeze Valley Wind Farm", C: "Hydroelectric Dam", D: "City Power Plant" } },
+          { id: "q2", text: "2. What metric was being measured during the test?", correct: "D", options: { A: "Battery Charge Time", B: "Cable Resistance", C: "Motor Torque", D: "Efficiency Score" } },
+          { id: "q3", text: "3. Who set up the anemometer sensors on the towers?", correct: "A", options: { A: "Zera", B: "Ayit", C: "Lance", D: "Ana" } },
+          { id: "q4", text: "4. What wind velocity did Ayit measure at Tower 2?", correct: "C", options: { A: "10.0 m/s", B: "11.5 m/s", C: "12.5 m/s", D: "14.0 m/s" } },
+          { id: "q5", text: "5. What was the blade drag factor value?", correct: "B", options: { A: "5 units", B: "10 units", C: "12 units", D: "15 units" } },
+          { id: "q6", text: "6. What was the correct mathematical formula for the calculation?", correct: "A", options: { A: "Efficiency Score = (Wind Velocity × 8) - (Blade Drag ÷ 2)", B: "Efficiency Score = (Wind Velocity × 10) - Blade Drag", C: "Efficiency Score = (Wind Velocity ÷ 2) + Blade Drag", D: "Efficiency Score = Wind Velocity × Blade Drag × 8" } },
+          { id: "q7", text: "7. What was the final Efficiency Score result?", correct: "D", options: { A: "88 points", B: "90 points", C: "92 points", D: "95 points" } },
+          { id: "q8", text: "8. Who monitored thermal output with infrared scanners?", correct: "B", options: { A: "Zera and Ayit", B: "Ana and Shane", C: "Allain and Lance", D: "Lance and Shane" } },
+          { id: "q9", text: "9. How was the score of 95 categorized in the study?", correct: "C", options: { A: "Moderate Output", B: "Low Performance", C: "Superior Grid Output", D: "Critical Failure" } },
+          { id: "q10", text: "10. To whom did the team present their energy report?", correct: "A", options: { A: "Regional energy board", B: "School principal", C: "City mayor", D: "Windmill manufacturer" } }
         ]
       }
     }
