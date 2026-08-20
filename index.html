@@ -68,6 +68,23 @@
       display: flex; justify-content: space-between; align-items: center; font-weight: bold;
     }
 
+    .diff-selector-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-family: 'Georgia', serif;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s ease;
+    }
+    .diff-selector-btn:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+
     .dashboard-header { text-align: center; margin-bottom: 28px; }
     .dashboard-header h1 { font-size: 2.4rem; font-weight: normal; margin-bottom: 8px; color: var(--primary); letter-spacing: 1px; }
     .dashboard-header p { color: var(--text-muted); font-style: italic; }
@@ -166,6 +183,9 @@
   <div id="dashboardView" class="view">
     <div class="user-welcome">
       <span>Explorer: <strong id="displayName"></strong></span>
+      <button class="diff-selector-btn" onclick="openDifficultyModal(null)">
+        Difficulty: <span id="currentDiffTag">Easy</span> ⚙️
+      </button>
     </div>
 
     <header class="dashboard-header">
@@ -175,7 +195,7 @@
 
     <div class="story-grid">
       <!-- Act 1: Tagalog -->
-      <div class="story-card" onclick="openDifficultyModal('act1')">
+      <div class="story-card" onclick="startActivity('act1')">
         <div>
           <span class="card-badge">Act 1 • Tagalog</span>
           <h2 class="card-title" id="title-act1">Ang Lihim ng Lumang Talaarawan</h2>
@@ -185,7 +205,7 @@
       </div>
 
       <!-- Act 2: English -->
-      <div class="story-card" onclick="openDifficultyModal('act2')">
+      <div class="story-card" onclick="startActivity('act2')">
         <div>
           <span class="card-badge">Act 2 • English</span>
           <h2 class="card-title" id="title-act2">The Expedition to Whispering Cliff</h2>
@@ -200,7 +220,7 @@
   <div id="difficultyModal" class="modal-overlay">
     <div class="modal-card">
       <h2 id="modalActTitle">Select Difficulty</h2>
-      <p>Choose a challenge level for this story:</p>
+      <p>Choose a challenge level for your activities:</p>
       <button class="diff-btn" onclick="selectDifficulty('Easy')">🟢 Easy</button>
       <button class="diff-btn" onclick="selectDifficulty('Medium')">🟡 Medium</button>
       <button class="diff-btn" onclick="selectDifficulty('Hard')">🔴 Hard</button>
@@ -404,8 +424,8 @@
     if (userName) saveUserScores();
   }
 
-  function openDifficultyModal(actId) {
-    selectedActId = actId;
+  function openDifficultyModal(actId = null) {
+    if (actId) selectedActId = actId;
     document.getElementById('difficultyModal').classList.add('active');
   }
 
@@ -415,8 +435,12 @@
 
   function selectDifficulty(diff) {
     currentDifficulty = diff;
+    document.getElementById('currentDiffTag').innerText = diff;
     closeDifficultyModal();
-    startActivity(selectedActId);
+
+    if (selectedActId && document.getElementById('activityView').classList.contains('active')) {
+      startActivity(selectedActId);
+    }
   }
 
   function startActivity(actId) {
