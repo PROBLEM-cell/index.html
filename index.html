@@ -35,16 +35,6 @@
     .view { display: none; }
     .view.active { display: block; }
 
-    .top-left-btn {
-      position: fixed; top: 15px; left: 15px;
-      background: var(--card-bg); border: 2px solid var(--primary);
-      color: var(--primary); padding: 8px 14px; border-radius: 4px;
-      font-size: 0.85rem; font-weight: bold; cursor: pointer; z-index: 100;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: all 0.2s ease;
-      font-family: 'Georgia', serif;
-    }
-    .top-left-btn:hover { background: var(--primary); color: #ffffff; }
-
     /* Bottom-right fixed floating badge */
     .bottom-right-avg {
       position: fixed; bottom: 20px; right: 20px;
@@ -124,18 +114,9 @@
     .btn:hover { background-color: var(--primary-hover); }
     .btn:disabled { background-color: #c2b5a3; border-color: #c2b5a3; cursor: not-allowed; }
     .btn-block { width: 100%; padding: 12px; font-weight: bold; }
-
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 1000; }
-    .modal-card { background: var(--card-bg); padding: 28px; border-radius: 4px; width: 90%; max-width: 480px; border: 2px solid var(--border); }
-    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 2px double var(--border); padding-bottom: 8px; color: var(--primary); }
-    .students-list { max-height: 250px; overflow-y: auto; margin-bottom: 16px; border: 1px solid var(--border); border-radius: 3px; background: #fff; }
-    .student-item { display: flex; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid var(--border); }
-    .student-item:nth-child(even) { background: var(--card-bg); }
   </style>
 </head>
 <body>
-
-<button class="top-left-btn" onclick="openStudentsModal()">📊 All Student Scores</button>
 
 <div class="bottom-right-avg" id="topRightAvg">Overall Average: 0.0 / 25 (0.0%)</div>
 
@@ -232,18 +213,6 @@
     </div>
   </div>
 
-</div>
-
-<!-- ALL STUDENTS MODAL -->
-<div class="modal-overlay" id="studentsModal">
-  <div class="modal-card">
-    <div class="modal-header">
-      <h3>All Explorer Scores</h3>
-      <button style="border:none; background:none; cursor:pointer; font-size:1.2rem; color:var(--primary);" onclick="closeStudentsModal()">&times;</button>
-    </div>
-    <div class="students-list" id="studentsListContainer">Loading cloud data...</div>
-    <button class="btn btn-block" onclick="closeStudentsModal()">Close</button>
-  </div>
 </div>
 
 <script>
@@ -661,45 +630,6 @@
     document.getElementById('resultsScreen').style.display = 'block';
     document.getElementById('scoreDisplay').innerText = `${score} / 25`;
     updateOverallAverage();
-  }
-
-  async function openStudentsModal() {
-    const container = document.getElementById('studentsListContainer');
-    container.innerHTML = "Fetching latest records from server...";
-    document.getElementById('studentsModal').style.display = 'flex';
-
-    try {
-      const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
-        headers: { "X-Master-Key": API_KEY }
-      });
-      const data = await res.json();
-      let allRecords = data.record || {};
-      const names = Object.keys(allRecords);
-
-      container.innerHTML = "";
-
-      if (names.length === 0) {
-        container.innerHTML = "<div class='student-item'><span>No explorer records found in database.</span></div>";
-      } else {
-        names.forEach(nameKey => {
-          let stScores = allRecords[nameKey];
-          let total = (stScores.act1 || 0) + (stScores.act2 || 0) + (stScores.act3 || 0) + (stScores.act4 || 0);
-          let pct = ((total / 100) * 100).toFixed(0);
-
-          container.innerHTML += `
-            <div class="student-item">
-              <span style="font-weight:bold;">${nameKey}</span>
-              <span style="font-weight:bold; color:var(--primary);">${pct}% (${total}/100)</span>
-            </div>`;
-        });
-      }
-    } catch (err) {
-      container.innerHTML = "<div class='student-item'><span style='color:red;'>Failed to load student scores. Check API configuration.</span></div>";
-    }
-  }
-
-  function closeStudentsModal() {
-    document.getElementById('studentsModal').style.display = 'none';
   }
 </script>
 </body>
