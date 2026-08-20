@@ -3,484 +3,464 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reading Comprehension</title>
-
+  <title>Reading Assessment - 5 Chapters per Difficulty</title>
   <style>
     :root {
-      --primary: #5c1d24;
-      --primary-hover: #3d1318;
-      --bg: #f4efe6;
-      --card-bg: #fcf9f2;
-      --text: #2b231d;
-      --text-muted: #6e6259;
-      --border: #d4c5b3;
+      --primary: #1b4332;
+      --primary-hover: #081c15;
+      --bg: #f4f6f0;
+      --card-bg: #ffffff;
+      --text: #2d3142;
+      --text-muted: #5f6c7b;
+      --border: #d8e2dc;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Georgia', 'Times New Roman', serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: var(--bg);
       color: var(--text);
       line-height: 1.6;
-      padding: 40px 20px;
+      padding: 30px 20px;
       display: flex;
       justify-content: center;
       min-height: 100vh;
-      position: relative;
     }
 
-    .container { max-width: 850px; width: 100%; margin: 0 auto; }
+    .container { max-width: 900px; width: 100%; margin: 0 auto; }
     .view { display: none; }
     .view.active { display: block; }
 
-    .bottom-right-avg {
-      position: fixed; bottom: 20px; right: 20px;
-      background: #eae2d3; border: 1px solid var(--border);
-      color: var(--primary); padding: 10px 16px; border-radius: 4px;
-      font-size: 0.85rem; font-weight: bold; z-index: 100;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    }
-
-    .signin-card {
-      background: var(--card-bg); border: 2px solid var(--border);
-      border-radius: 6px; padding: 40px 30px; max-width: 480px;
-      margin: 60px auto 0 auto; text-align: center;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-      outline: 4px solid var(--card-bg);
-    }
-    .signin-card h1 { font-size: 2rem; color: var(--primary); margin-bottom: 8px; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
-    .signin-card p { color: var(--text-muted); margin-bottom: 24px; font-size: 0.95rem; font-style: italic; }
-
-    .input-group { margin-bottom: 20px; text-align: left; }
-    .input-group label { display: block; font-weight: bold; font-size: 0.9rem; margin-bottom: 6px; }
-    .input-group input {
-      width: 100%; padding: 12px 16px; border: 1px solid var(--border);
-      background: #fff; border-radius: 4px; font-size: 1rem; outline: none;
-      font-family: 'Georgia', serif;
-    }
-    .input-group input:focus { border-color: var(--primary); }
-    .error-msg { color: #8b0000; font-size: 0.85rem; margin-top: 6px; display: none; }
-
-    .user-welcome {
-      background: #eae2d3; border: 1px solid var(--border); color: var(--primary);
-      padding: 10px 18px; border-radius: 4px; margin-bottom: 16px;
-      display: flex; justify-content: space-between; align-items: center; font-weight: bold;
-    }
-
-    .dashboard-header { text-align: center; margin-bottom: 28px; }
-    .dashboard-header h1 { font-size: 2.4rem; font-weight: normal; margin-bottom: 8px; color: var(--primary); letter-spacing: 1px; }
-    .dashboard-header p { color: var(--text-muted); font-style: italic; }
-
-    .story-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
-    .story-card {
-      background: var(--card-bg); border: 2px solid var(--border);
-      border-radius: 6px; padding: 24px; cursor: pointer;
-      transition: all 0.2s ease; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-      display: flex; flex-direction: column; justify-content: space-between;
-    }
-    .story-card:hover { transform: translateY(-3px); border-color: var(--primary); box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
-
-    .card-badge {
-      display: inline-block; background-color: #eae2d3; color: var(--primary);
-      font-size: 0.85rem; font-weight: bold; padding: 4px 10px; border-radius: 3px; margin-bottom: 12px;
+    /* Cards & Layout */
+    .card {
+      background: var(--card-bg);
       border: 1px solid var(--border);
-    }
-    .card-title { font-size: 1.3rem; font-weight: bold; margin-bottom: 16px; color: var(--text); }
-    .score-badge {
-      background-color: #fff; border: 1px solid var(--border);
-      padding: 10px 14px; border-radius: 3px; font-size: 0.95rem;
-      font-weight: bold; color: var(--primary); margin-bottom: 20px;
-    }
-    .card-footer { font-weight: bold; color: var(--primary); font-size: 0.95rem; }
-
-    /* Difficulty Modal */
-    .modal-overlay {
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center;
-      z-index: 1000;
-    }
-    .modal-overlay.active { display: flex; }
-    .modal-card {
-      background: var(--card-bg); border: 2px solid var(--border);
-      border-radius: 6px; padding: 30px; width: 90%; max-width: 420px;
-      text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    }
-    .modal-card h2 { color: var(--primary); margin-bottom: 10px; font-size: 1.5rem; }
-    .modal-card p { color: var(--text-muted); margin-bottom: 20px; font-style: italic; }
-    .diff-btn {
-      display: block; width: 100%; padding: 12px; margin-bottom: 10px;
-      background: #fff; border: 1px solid var(--border); border-radius: 4px;
-      font-family: 'Georgia', serif; font-size: 1rem; font-weight: bold;
-      color: var(--text); cursor: pointer; transition: all 0.2s ease;
-    }
-    .diff-btn:hover { background: #eae2d3; border-color: var(--primary); color: var(--primary); }
-    .cancel-btn {
-      background: transparent; border: none; color: var(--text-muted);
-      cursor: pointer; text-decoration: underline; margin-top: 10px; font-size: 0.9rem;
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     }
 
-    .quiz-container {
-      background: var(--card-bg); padding: 32px; border-radius: 4px;
-      border: 1px solid var(--border); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
+    h1, h2, h3 { color: var(--primary); margin-bottom: 12px; }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
     }
-    .back-btn { background: none; border: none; color: var(--primary); font-weight: bold; cursor: pointer; margin-bottom: 16px; font-family: 'Georgia', serif; }
 
-    .header { border-bottom: 2px double var(--border); padding-bottom: 12px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
-    .story-text { background-color: #eae2d3; padding: 22px; border-left: 5px solid var(--primary); border-radius: 2px; margin-bottom: 24px; text-align: justify; }
-    .story-text h3 { margin-bottom: 10px; color: var(--primary); font-size: 1.2rem; }
-    .question-box { margin-bottom: 20px; padding: 18px; border: 1px solid var(--border); border-radius: 4px; background: #fff; }
-    .options label { display: block; padding: 10px 12px; margin: 6px 0; border: 1px solid #e0d5c5; border-radius: 3px; cursor: pointer; background: var(--card-bg); transition: background 0.1s ease; }
-    .options label:hover { background: #eae2d3; }
+    .select-btn {
+      background: #ffffff;
+      border: 2px solid var(--border);
+      padding: 16px;
+      border-radius: 6px;
+      text-align: center;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .select-btn:hover {
+      border-color: var(--primary);
+      background: #e8f5e9;
+      transform: translateY(-2px);
+    }
 
-    .controls { display: flex; justify-content: space-between; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border); }
-    .btn { background-color: var(--primary); color: #fff; border: 1px solid var(--primary-hover); padding: 10px 22px; border-radius: 3px; font-size: 1rem; cursor: pointer; font-family: 'Georgia', serif; }
-    .btn:hover { background-color: var(--primary-hover); }
-    .btn:disabled { background-color: #c2b5a3; border-color: #c2b5a3; cursor: not-allowed; }
-    .btn-block { width: 100%; padding: 12px; font-weight: bold; }
+    /* Form & Quiz UI */
+    .input-group { margin-bottom: 20px; }
+    .input-group label { display: block; font-weight: bold; margin-bottom: 6px; }
+    .input-group input {
+      width: 100%; padding: 12px; border: 1px solid var(--border);
+      border-radius: 4px; font-size: 1rem;
+    }
+
+    .story-box {
+      background: #eef5f1;
+      border-left: 4px solid var(--primary);
+      padding: 18px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+
+    .question-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: 16px;
+      border-radius: 6px;
+      margin-bottom: 16px;
+    }
+
+    .options label {
+      display: block;
+      padding: 10px;
+      margin: 6px 0;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      cursor: pointer;
+      background: #fafafa;
+    }
+    .options label:hover { background: #eef5f1; }
+
+    .btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .btn:hover { background: var(--primary-hover); }
+    .btn-block { width: 100%; }
+    .back-btn { background: none; border: none; color: var(--primary); cursor: pointer; font-weight: bold; margin-bottom: 15px; }
+
+    .nav-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .chapter-badge { background: #e8f5e9; color: var(--primary); padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; }
   </style>
 </head>
 <body>
-
-<div class="bottom-right-avg" id="topRightAvg">Overall Average: 0.0 / 5 (0.0%)</div>
 
 <div class="container">
 
   <!-- SIGN-IN SCREEN -->
   <div id="signinView" class="view active">
-    <div class="signin-card">
-      <h1>Reading Assessment</h1>
-      <p>Enter your full name to begin your reading activity.</p>
-      
-      <div class="input-group">
+    <div class="card" style="max-width: 450px; margin: 80px auto; text-align: center;">
+      <h1>Reading Academy</h1>
+      <p style="color: var(--text-muted); margin-bottom: 20px;">Enter your name to start reading chapters.</p>
+      <div class="input-group" style="text-align: left;">
         <label for="studentName">Student Name</label>
-        <input type="text" id="studentName" placeholder="Enter your full name..." onkeypress="handleKeyPress(event)">
-        <div id="nameError" class="error-msg">Please enter your name before continuing.</div>
+        <input type="text" id="studentName" placeholder="Enter full name...">
       </div>
-
-      <button class="btn btn-block" onclick="signIn()">Begin Journey</button>
+      <button class="btn btn-block" onclick="startApp()">Start Reading</button>
     </div>
   </div>
 
-  <!-- DASHBOARD VIEW -->
-  <div id="dashboardView" class="view">
-    <div class="user-welcome">
-      <span>Explorer: <strong id="displayName"></strong></span>
+  <!-- DIFFICULTY SELECTOR -->
+  <div id="difficultyView" class="view">
+    <div class="nav-header">
+      <h2>Welcome, <span id="displayName"></span></h2>
     </div>
-
-    <header class="dashboard-header">
-      <h1>Reading Comprehension</h1>
-      <p>Select your preferred language track!</p>
-    </header>
-
-    <div class="story-grid">
-      <!-- Act 1: Tagalog -->
-      <div class="story-card" onclick="openDifficultyModal('act1')">
-        <div>
-          <span class="card-badge">Act 1 • Tagalog</span>
-          <h2 class="card-title" id="title-act1">Ang Lihim ng Lumang Talaarawan</h2>
-          <div class="score-badge" id="score-act1">Latest Score: 0 / 5</div>
+    <div class="card">
+      <h3>Select Difficulty Level</h3>
+      <p>Each level contains 5 unique chapters with 5 questions each.</p>
+      <div class="grid">
+        <div class="select-btn" onclick="chooseDifficulty('Easy')">
+          <div style="font-size: 1.5rem;">🟢</div>
+          <div>Easy</div>
+          <small style="color: var(--text-muted);">Chapters 1–5</small>
         </div>
-        <div class="card-footer">Begin Act 1 &rarr;</div>
-      </div>
-
-      <!-- Act 2: English -->
-      <div class="story-card" onclick="openDifficultyModal('act2')">
-        <div>
-          <span class="card-badge">Act 2 • English</span>
-          <h2 class="card-title" id="title-act2">The Expedition to Whispering Cliff</h2>
-          <div class="score-badge" id="score-act2">Latest Score: 0 / 5</div>
+        <div class="select-btn" onclick="chooseDifficulty('Medium')">
+          <div style="font-size: 1.5rem;">🟡</div>
+          <div>Medium</div>
+          <small style="color: var(--text-muted);">Chapters 1–5</small>
         </div>
-        <div class="card-footer">Begin Act 2 &rarr;</div>
+        <div class="select-btn" onclick="chooseDifficulty('Hard')">
+          <div style="font-size: 1.5rem;">🔴</div>
+          <div>Hard</div>
+          <small style="color: var(--text-muted);">Chapters 1–5</small>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- DIFFICULTY SELECTION MODAL -->
-  <div id="difficultyModal" class="modal-overlay">
-    <div class="modal-card">
-      <h2 id="modalActTitle">Select Difficulty</h2>
-      <p>Choose a challenge level for this story:</p>
-      <button class="diff-btn" onclick="selectDifficulty('Easy')">🟢 Easy</button>
-      <button class="diff-btn" onclick="selectDifficulty('Medium')">🟡 Medium</button>
-      <button class="diff-btn" onclick="selectDifficulty('Hard')">🔴 Hard</button>
-      <button class="cancel-btn" onclick="closeDifficultyModal()">Cancel</button>
+  <!-- CHAPTER SELECTOR -->
+  <div id="chapterView" class="view">
+    <button class="back-btn" onclick="showView('difficultyView')">&larr; Change Difficulty</button>
+    <div class="card">
+      <h3 id="difficultyTitle">Level Chapters</h3>
+      <p>Select a chapter to read and answer questions.</p>
+      <div class="grid" id="chapterGrid"></div>
     </div>
   </div>
 
-  <!-- ACTIVITY VIEW -->
-  <div id="activityView" class="view">
-    <div class="quiz-container">
-      <button class="back-btn" onclick="showDashboard()">&larr; Back to Dashboard</button>
-
-      <div class="header">
-        <div>
-          <h2 id="actTitle">Activity</h2>
-          <small id="diffIndicator" style="color: var(--primary); font-weight: bold;"></small>
-        </div>
+  <!-- READING & QUIZ VIEW -->
+  <div id="quizView" class="view">
+    <button class="back-btn" onclick="showView('chapterView')">&larr; Back to Chapter Selection</button>
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2 id="chapterTitle">Chapter Title</h2>
+        <span class="chapter-badge" id="chapterBadge">Chapter 1</span>
+      </div>
+      
+      <div class="story-box">
+        <p id="storyContent"></p>
       </div>
 
-      <div id="pageContainer"></div>
+      <div id="questionsContainer"></div>
 
-      <div id="resultsScreen" style="display:none; text-align:center;">
-        <h2>Challenge Completed, <span id="resultStudentName"></span>!</h2>
-        <div id="scoreDisplay" style="font-size:2.5rem; font-weight:bold; color:var(--primary); margin:20px 0;">0 / 5</div>
-        <button class="btn" onclick="showDashboard()">Return to Dashboard</button>
-      </div>
+      <button class="btn btn-block" onclick="submitChapter()">Submit Answers</button>
+    </div>
+  </div>
 
-      <div class="controls" id="controlBox">
-        <button id="submitBtn" class="btn btn-block" onclick="calculateResult()">Submit Activity</button>
-      </div>
+  <!-- RESULTS SCREEN -->
+  <div id="resultView" class="view">
+    <div class="card" style="text-align: center; padding: 40px;">
+      <h2>Chapter Completed!</h2>
+      <p style="margin-top: 10px;">Your Score:</p>
+      <div id="finalScore" style="font-size: 3rem; font-weight: bold; color: var(--primary); margin: 10px 0;">0 / 5</div>
+      <button class="btn" onclick="showView('chapterView')">Continue to Next Chapter</button>
     </div>
   </div>
 
 </div>
 
 <script>
-  const BIN_ID = "6a85d393da38895dfef7ba53";
-  const API_KEY = "$2a$10$KCezIUwi73LGQEZiT9IzLOJLD36ZRvZkHLjVI8hwBkJTimyWOrzdq";
-
-  let userName = "";
-  let selectedActId = null;
-  let currentDifficulty = "Easy";
+  let activeStudent = "";
+  let selectedDifficulty = "Easy";
+  let selectedChapterIndex = 0;
   let userAnswers = {};
-  let scores = { act1: 0, act2: 0 };
 
-  const activitiesData = {
-    act1: {
-      Easy: {
-        title: "Ang Nawawalang Kuting ni Ana",
-        story: "Isang umaga, nawawala ang kuting ni Ana na si Muming. Kulay puti si Muming at may pulang laso sa leeg. Hinanap ito ni Ana sa bakuran. Nakita niya si Muming na natutulog sa ilalim ng malaking puno ng mangga.",
+  // Database of 3 Difficulties × 5 Chapters × 5 Questions = 75 Total Questions
+  const readingData = {
+    Easy: [
+      {
+        chapter: 1, title: "Chapter 1: The Lost Puppy",
+        story: "Leo found a little brown puppy near his garden gate. The puppy was hungry, so Leo gave it a warm bowl of milk. Leo named the puppy Coco.",
         questions: [
-          { id: "q1", text: "1. Ano ang pangalan ng kuting ni Ana?", correct: "A", options: { A: "Muming", B: "Bantay", C: "Tagpi", D: "Munying" } },
-          { id: "q2", text: "2. Ano ang kulay ng kuting?", correct: "B", options: { A: "Itim", B: "Puti", C: "Chesnut", D: "Abuhin" } },
-          { id: "q3", text: "3. Ano ang nasa leeg ni Muming?", correct: "C", options: { A: "Tali", B: "Singsing", C: "Pulang laso", D: "Bakal" } },
-          { id: "q4", text: "4. Saan nahanap ni Ana ang kanyang kuting?", correct: "A", options: { A: "Sa ilalim ng puno ng mangga", B: "Sa loob ng kwarto", C: "Sa kalye", D: "Sa kusina" } },
-          { id: "q5", text: "5. Ano ang ginagawa ni Muming nang mahanap siya?", correct: "D", options: { A: "Kumakain", B: "Naglalaro", C: "Tumatakbo", D: "Natutulog" } }
+          { id: "q1", text: "1. What color was the puppy?", options: { A: "Black", B: "Brown", C: "White", D: "Spotted" }, correct: "B" },
+          { id: "q2", text: "2. Where did Leo find the puppy?", options: { A: "Near the gate", B: "In the house", C: "At school", D: "In a park" }, correct: "A" },
+          { id: "q3", text: "3. What food did Leo give to the puppy?", options: { A: "Water", B: "Bread", C: "Warm milk", D: "Meat" }, correct: "C" },
+          { id: "q4", text: "4. What name did Leo give to the puppy?", options: { A: "Buster", B: "Milo", C: "Coco", D: "Rex" }, correct: "C" },
+          { id: "q5", text: "5. How did the puppy feel before eating?", options: { A: "Full", B: "Hungry", C: "Sleepy", D: "Scared" }, correct: "B" }
         ]
       },
-      Medium: {
-        title: "Ang Lihim ng Lumang Talaarawan",
-        story: "Habang naglilinis ng nakatagong silid sa Lumang Aklatan ng Bayan sina Zeik at Ayit, nakakita sila ng lumang talaarawan mula noong 1942. Nakasulat dito ang isang babala: 'Ang katotohanan ay nakakubli sa mga pahinang hindi nabuksan.' Napansin ni Ayit na bawat ikatlong pahina ng talaarawan ay may marka ng tinta.",
+      {
+        chapter: 2, title: "Chapter 2: The Red Bicycle",
+        story: "Maya got a shiny red bicycle for her eighth birthday. Her dad installed a white bell on the handlebars. Maya rode her bike every afternoon in the park.",
         questions: [
-          { id: "q1", text: "1. Anong taon naisulat ang lumang talaarawan?", correct: "C", options: { A: "1900", B: "1930", C: "1942", D: "1950" } },
-          { id: "q2", text: "2. Saan natagpuan nina Zeik at Ayit ang talaarawan?", correct: "B", options: { A: "Sa parke", B: "Sa nakatagong silid sa Lumang Aklatan", C: "Sa paaralan", D: "Sa bahay ni Ayit" } },
-          { id: "q3", text: "3. Gaano kadalas lumilitaw ang marka ng tinta sa mga pahina?", correct: "A", options: { A: "Bawat ika-3 pahina", B: "Bawat ika-2 pahina", C: "Bawat ika-5 pahina", D: "Sa huling pahina lamang" } },
-          { id: "q4", text: "4. Batay sa nakasulat, saan nakakubli ang katotohanan?", correct: "B", options: { A: "Sa mga salita", B: "Sa mga pahinang hindi nabuksan", C: "Sa ilalim ng mesa", D: "Sa sampayan" } },
-          { id: "q5", text: "5. Anong katangian ang ipinakita ni Ayit nang mapansin niya ang marka sa tinta?", correct: "C", options: { A: "Pagiging matakaw", B: "Pagiging tamad", C: "Pagiging observant o mausisa", D: "Pagiging matatakutin" } }
+          { id: "q1", text: "1. What gift did Maya receive?", options: { A: "A book", B: "A red bicycle", C: "A toy car", D: "A doll" }, correct: "B" },
+          { id: "q2", text: "2. How old was Maya turning?", options: { A: "Seven", B: "Eight", C: "Nine", D: "Ten" }, correct: "B" },
+          { id: "q3", text: "3. What was attached to the handlebars?", options: { A: "A light", B: "A flag", C: "A white bell", D: "A basket" }, correct: "C" },
+          { id: "q4", text: "4. Who installed the bell?", options: { A: "Her dad", B: "Her mom", C: "Her brother", D: "Her uncle" }, correct: "A" },
+          { id: "q5", text: "5. Where did Maya ride her bike?", options: { A: "In the yard", B: "At school", C: "In the park", D: "On the beach" }, correct: "C" }
         ]
       },
-      Hard: {
-        title: "Ang Kodigo ng Lumang Aklatan",
-        story: "Sa pahina 12 ng luma at maalikabok na libro, nakakita si Shane ng nakasulat na numerical cipher: '3-1-18-12-15-19'. Sinabi ni Allain na ang bawat numero ay tumutukoy sa alpabetong Ingles (A=1, B=2...). Nang isalin, lumabas ang salitang 'CARLOS'. Nakatala rin ang panuto: 'Si Carlos ay hindi tao, kundi ang estatwang may hawak na dalawang orasan na nakaturo sa 3:00 at 9:00. Pag-isahin ang oras (12:00) at hatiin sa dalawa (6:00) upang mabuksan ang lihim na kwarto.'",
+      {
+        chapter: 3, title: "Chapter 3: Baking Cookies",
+        story: "Grandma made fresh chocolate chip cookies on Sunday afternoon. Sam helped mix the flour and sugar. The kitchen smelled sweet as four trays cooked in the oven.",
         questions: [
-          { id: "q1", text: "1. Paano nakuha ang salitang 'CARLOS' mula sa numero?", correct: "A", options: { A: "Paggamit ng A=1, B=2, C=3...", B: "Pag-sulat nang pabaligtad", C: "Pagbawas ng limang numero", D: "Panghuhula lamang" } },
-          { id: "q2", text: "2. Sino o ano ang tinutukoy na 'Carlos' sa kwento?", correct: "C", options: { A: "Isang guwardiya sa aklatan", B: "Isang matandang guro", C: "Isang estatwang may hawak na mga orasan", D: "Isang alagang pusa" } },
-          { id: "q3", text: "3. Kapag pinagsama ang oras na 3:00 at 9:00, at hinati ito sa kalahati, anong oras ang kalalabasan?", correct: "B", options: { A: "3:00", B: "6:00", C: "12:00", D: "9:00" } },
-          { id: "q4", text: "4. Sa oras na 6:00, anong anggulo (angle) ang nabubuo ng kamay ng orasan?", correct: "D", options: { A: "45 degrees", B: "90 degrees", C: "360 degrees", D: "180 degrees (Straight line)" } },
-          { id: "q5", text: "5. Bakit gumamit ng cipher at matematika ang nagsulat ng talaarawan?", correct: "A", options: { A: "Upang matiyak na matatalinong tao lamang ang makababasa nito", B: "Dahil nakalimutan niya ang tunay na wika", C: "Upang magpatawa lamang", D: "Dahil nasira ang kanyang panulat" } }
+          { id: "q1", text: "1. Who baked the cookies?", options: { A: "Mom", B: "Grandma", C: "Sam", D: "Aunt" }, correct: "B" },
+          { id: "q2", text: "2. What flavor were the cookies?", options: { A: "Oatmeal", B: "Vanilla", C: "Chocolate chip", D: "Peanut butter" }, correct: "C" },
+          { id: "q3", text: "3. What day of the week was it?", options: { A: "Saturday", B: "Friday", C: "Sunday", D: "Monday" }, correct: "C" },
+          { id: "q4", text: "4. What ingredients did Sam mix?", options: { A: "Flour and sugar", B: "Eggs and milk", C: "Butter and salt", D: "Nuts and chocolate" }, correct: "A" },
+          { id: "q5", text: "5. How many trays were placed in the oven?", options: { A: "Two", B: "Three", C: "Four", D: "Five" }, correct: "C" }
+        ]
+      },
+      {
+        chapter: 4, title: "Chapter 4: The Rainy Day",
+        story: "Heavy rain started falling after lunch. Nina wore her yellow raincoat and red boots to jump in puddles. She saw three ducks swimming in the backyard pond.",
+        questions: [
+          { id: "q1", text: "1. What was the weather like?", options: { A: "Sunny", B: "Rainy", C: "Windy", D: "Snowy" }, correct: "B" },
+          { id: "q2", text: "2. What color was Nina's raincoat?", options: { A: "Red", B: "Blue", C: "Yellow", D: "Green" }, correct: "C" },
+          { id: "q3", text: "3. What color were her boots?", options: { A: "Yellow", B: "Red", C: "Black", D: "Brown" }, correct: "B" },
+          { id: "q4", text: "4. What did Nina jump in?", options: { A: "Puddles", B: "Leaves", C: "Mud", D: "Sand" }, correct: "A" },
+          { id: "q5", text: "5. How many ducks were in the pond?", options: { A: "Two", B: "Three", C: "Four", D: "Five" }, correct: "B" }
+        ]
+      },
+      {
+        chapter: 5, title: "Chapter 5: The Garden Secret",
+        story: "Ben planted sunflower seeds near the wooden fence. He watered them every morning before school. After four weeks, giant yellow flowers bloomed.",
+        questions: [
+          { id: "q1", text: "1. What type of seeds did Ben plant?", options: { A: "Rose", B: "Tulip", C: "Sunflower", D: "Daisy" }, correct: "C" },
+          { id: "q2", text: "2. Where did he plant the seeds?", options: { A: "Near the fence", B: "In a pot", C: "By the door", D: "In the park" }, correct: "A" },
+          { id: "q3", text: "3. When did Ben water his plants?", options: { A: "At night", B: "Every morning", C: "At noon", D: "Every evening" }, correct: "B" },
+          { id: "q4", text: "4. How long did it take for flowers to bloom?", options: { A: "2 weeks", B: "3 weeks", C: "4 weeks", D: "5 weeks" }, correct: "C" },
+          { id: "q5", text: "5. What color were the bloomed flowers?", options: { A: "Red", B: "Yellow", C: "White", D: "Orange" }, correct: "B" }
         ]
       }
-    },
-    act2: {
-      Easy: {
-        title: "The Little Puppy in the Park",
-        story: "Tom went to the park on a sunny Saturday. He brought a red ball to play with. While running, he saw a small brown puppy sitting near the bench. Tom shared his sandwich with the hungry puppy and they played together.",
+    ],
+    Medium: [
+      {
+        chapter: 1, title: "Chapter 1: The Old Lighthouse",
+        story: "Captain Silas maintained the North Point Lighthouse for over twenty years. One stormy midnight, the main electric lamp went dark. Silas quickly lit the emergency oil lamp, saving two fishing boats stranded near the jagged rocks.",
         questions: [
-          { id: "q1", text: "1. Where did Tom go on Saturday?", correct: "A", options: { A: "To the park", B: "To school", C: "To the beach", D: "To the store" } },
-          { id: "q2", text: "2. What toy did Tom bring with him?", correct: "C", options: { A: "A blue kite", B: "A toy car", C: "A red ball", D: "A bicycle" } },
-          { id: "q3", text: "3. What color was the puppy?", correct: "B", options: { A: "White", B: "Brown", C: "Black", D: "Spotted" } },
-          { id: "q4", text: "4. What food did Tom share with the puppy?", correct: "D", options: { A: "An apple", B: "A biscuit", C: "A pizza", D: "A sandwich" } },
-          { id: "q5", text: "5. Where was the puppy sitting when Tom saw it?", correct: "A", options: { A: "Near the bench", B: "Under a car", C: "On a tree", D: "In the pond" } }
+          { id: "q1", text: "1. How long had Captain Silas worked at the lighthouse?", options: { A: "10 years", B: "15 years", C: "Over 20 years", D: "30 years" }, correct: "C" },
+          { id: "q2", text: "2. What failed during the midnight storm?", options: { A: "The radio", B: "The main electric lamp", C: "The alarm", D: "The fog horn" }, correct: "B" },
+          { id: "q3", text: "3. What did Silas light to solve the emergency?", options: { A: "A flashlight", B: "A bonfire", C: "An emergency oil lamp", D: "A candle" }, correct: "C" },
+          { id: "q4", text: "4. How many boats were rescued?", options: { A: "One", B: "Two", C: "Three", D: "Four" }, correct: "B" },
+          { id: "q5", text: "5. What threat did the boats face in the water?", options: { A: "Shallows", B: "Jagged rocks", C: "High waves", D: "Icebergs" }, correct: "B" }
         ]
       },
-      Medium: {
-        title: "The Expedition to Whispering Cliff",
-        story: "Zeik and Allain hiked towards Whispering Cliff following an old map. Inside a hollow tree along the path, they found a silver compass and a note: 'I speak without a mouth and hear without ears. I have no body, but I come alive with wind.' Allain realized the answer was an Echo, pointing toward the canyon ahead.",
+      {
+        chapter: 2, title: "Chapter 2: The Map in the Attic",
+        story: "While searching through antique trunks in her grandmother's attic, Clara discovered a folded parchment map from 1885. The map detailed a secret trail behind the old watermill, marked with three red crosses.",
         questions: [
-          { id: "q1", text: "1. Where were Zeik and Allain hiking to?", correct: "B", options: { A: "Crystal Cave", B: "Whispering Cliff", C: "Green Valley", D: "Sunny Beach" } },
-          { id: "q2", text: "2. What item did they find inside the hollow tree?", correct: "A", options: { A: "A silver compass and a note", B: "A box of gold", C: "A flash drive", D: "An old wristwatch" } },
-          { id: "q3", text: "3. What is the answer to the riddle on the note?", correct: "C", options: { A: "A ghost", B: "The ocean", C: "An Echo", D: "A bird" } },
-          { id: "q4", text: "4. Where did the answer 'Echo' lead them?", correct: "B", options: { A: "To the river", B: "Toward the canyon ahead", C: "Back to their home", D: "To the top of a tree" } },
-          { id: "q5", text: "5. What item helped them find the location inside the forest?", correct: "D", options: { A: "A telescope", B: "A flashlight", C: "A phone", D: "An old map" } }
+          { id: "q1", text: "1. Where did Clara find the map?", options: { A: "In a library", B: "In the attic", C: "In a basement", D: "In a desk" }, correct: "B" },
+          { id: "q2", text: "2. What year was written on the map?", options: { A: "1885", B: "1895", C: "1905", D: "1925" }, correct: "A" },
+          { id: "q3", text: "3. What feature was located along the secret trail?", options: { A: "A castle", B: "An old watermill", C: "A bridge", D: "A cave" }, correct: "B" },
+          { id: "q4", text: "4. How many red crosses were marked on the map?", options: { A: "Two", B: "Three", C: "Four", D: "Five" }, correct: "B" },
+          { id: "q5", text: "5. What material was the map made of?", options: { A: "Cloth", B: "Parchment", C: "Cardboard", D: "Leather" }, correct: "B" }
         ]
       },
-      Hard: {
-        title: "Deciphering Cavern Coordinates",
-        story: "At Whispering Cliff, the explorers examined a compass marked with precise grid coordinates: Latitude 14.5° N, Longitude 121.0° E. To unlock the cave's pressure plate mechanism, they had to step on two balance weights. Inscribed on the wall was: 'Step on two plates whose combined weight equals 60kg and whose difference is 20kg.' They selected the 40kg and 20kg stone plates to open the heavy door.",
+      {
+        chapter: 3, title: "Chapter 3: The Whispering Forest",
+        story: "Evelyn noticed that wind whistling through the hollow cedar trees produced musical tones. By recording the pitches—C, E, G, and B—she realized the sequence matched the combination to open a historic iron gate.",
         questions: [
-          { id: "q1", text: "1. What were the latitude coordinates marked on the compass?", correct: "A", options: { A: "14.5° N", B: "121.0° E", C: "20.0° N", D: "60.0° S" } },
-          { id: "q2", text: "2. What two mathematical conditions were required for the pressure plates?", correct: "C", options: { A: "Sum = 100kg, Difference = 10kg", B: "Sum = 50kg, Difference = 5kg", C: "Sum = 60kg, Difference = 20kg", D: "Sum = 40kg, Difference = 20kg" } },
-          { id: "q3", text: "3. Which two stone plates correctly solved the balance puzzle?", correct: "B", options: { A: "30kg and 30kg", B: "40kg and 20kg", C: "50kg and 10kg", D: "45kg and 15kg" } },
-          { id: "q4", text: "4. Why did 30kg and 30kg fail to unlock the door despite having a sum of 60kg?", correct: "D", options: { A: "Their sum was incorrect.", B: "They were too heavy.", C: "The plates were broken.", D: "Their difference was 0kg instead of the required 20kg." } },
-          { id: "q5", text: "5. What field of critical thinking is used to solve coordinate systems and simultaneous equations?", correct: "A", options: { A: "Mathematical Logic & Spatial Reasoning", B: "Creative Storytelling", C: "Random Guessing", D: "Physical Speed" } }
+          { id: "q1", text: "1. What type of trees created the sound?", options: { A: "Pine", B: "Hollow cedar", C: "Oak", D: "Birch" }, correct: "B" },
+          { id: "q2", text: "2. How many musical notes were recorded?", options: { A: "Three", B: "Four", C: "Five", D: "Six" }, correct: "B" },
+          { id: "q3", text: "3. What did the sequence of musical tones unlock?", options: { A: "A wooden door", B: "An iron gate", C: "A stone vault", D: "A chest" }, correct: "B" },
+          { id: "q4", text: "4. What caused the sound in the forest?", options: { A: "Birds", B: "Wind", C: "Instruments", D: "Water" }, correct: "B" },
+          { id: "q5", text: "5. What was Evelyn's key realization?", options: { A: "The pitches were a lock code", B: "The trees were dying", C: "The forest was loud", D: "The wind was rising" }, correct: "A" }
+        ]
+      },
+      {
+        chapter: 4, title: "Chapter 4: The Clockmaker's Gift",
+        story: "Master Mateo spent six months crafting a pocket watch with 120 tiny copper gears. The watch did not measure hours; instead, it counted down the precise days until the spring equinox.",
+        questions: [
+          { id: "q1", text: "1. How long did it take Mateo to craft the watch?", options: { A: "3 months", B: "6 months", C: "1 year", D: "2 years" }, correct: "B" },
+          { id: "q2", text: "2. How many copper gears were inside?", options: { A: "60", B: "80", C: "120", D: "150" }, correct: "C" },
+          { id: "q3", text: "3. What metal were the gears made of?", options: { A: "Silver", B: "Gold", C: "Copper", D: "Iron" }, correct: "C" },
+          { id: "q4", text: "4. What did the pocket watch measure?", options: { A: "Hours", B: "Days until spring equinox", C: "Minutes", D: "Lunar cycles" }, correct: "B" },
+          { id: "q5", text: "5. What was Mateo's profession?", options: { A: "Jeweler", B: "Clockmaker", C: "Blacksmith", D: "Carpenter" }, correct: "B" }
+        ]
+      },
+      {
+        chapter: 5, title: "Chapter 5: The Starlight Observatory",
+        story: "Professor Vance aligned the telescope lens to 45 degrees north. Through the lens, he observed a previously unknown comet passing near Jupiter's moons, emitting a distinct blue glow every twelve minutes.",
+        questions: [
+          { id: "q1", text: "1. At what angle was the telescope aligned?", options: { A: "30 degrees", B: "45 degrees", C: "90 degrees", D: "180 degrees" }, correct: "B" },
+          { id: "q2", text: "2. What celestial object did Professor Vance discover?", options: { A: "A planet", B: "An asteroid", C: "A comet", D: "A star" }, correct: "C" },
+          { id: "q3", text: "3. Near which planet was the comet passing?", options: { A: "Mars", B: "Saturn", C: "Jupiter", D: "Venus" }, correct: "C" },
+          { id: "q4", text: "4. What color glow did the comet emit?", options: { A: "Red", B: "Green", C: "Blue", D: "Yellow" }, correct: "C" },
+          { id: "q5", text: "5. How often did the blue glow pulse?", options: { A: "Every 5 min", B: "Every 12 min", C: "Every 20 min", D: "Every hour" }, correct: "B" }
         ]
       }
-    }
+    ],
+    Hard: [
+      {
+        chapter: 1, title: "Chapter 1: The Cipher of Alistair",
+        story: "Inside an encrypted vault, Archeologist Julian discovered a numeric cipher: '8-1-18-22-5-19-20'. By mapping numbers to alphabet positions (A=1, B=2...), the letters spelled 'HARVEST'. A secondary note instructed him to multiply the letter count (7) by 3 to find keyhole #21.",
+        questions: [
+          { id: "q1", text: "1. Which word is decoded from '8-1-18-22-5-19-20'?", options: { A: "HARVEST", B: "JOURNEY", C: "ANCIENT", D: "SILENT" }, correct: "A" },
+          { id: "q2", text: "2. What cipher system was used?", options: { A: "Reverse Order", B: "A=1, B=2 Alphabet Position", C: "Binary Code", D: "Caesar Shift +3" }, correct: "B" },
+          { id: "q3", text: "3. How many letters make up the decoded word?", options: { A: "5", B: "6", C: "7", D: "8" }, correct: "C" },
+          { id: "q4", text: "4. What mathematical step was required to find the keyhole?", options: { A: "Multiply 7 by 3", B: "Add 10 to 7", C: "Divide 21 by 7", D: "Subtract 3 from 7" }, correct: "A" },
+          { id: "q5", text: "5. Which keyhole number unlocked the secondary mechanism?", options: { A: "14", B: "21", C: "28", D: "35" }, correct: "B" }
+        ]
+      },
+      {
+        chapter: 2, title: "Chapter 2: The Pressure Plate Mechanism",
+        story: "To cross the subterranean chamber, Dr. Aris needed to balance two weight plates. The ancient wall read: 'Place two stones whose total mass equals 100 kg and whose mass difference is 40 kg.' Dr. Aris calculated that placing 70 kg on the left plate and 30 kg on the right plate would balance the bridge.",
+        questions: [
+          { id: "q1", text: "1. What total combined weight was required?", options: { A: "80 kg", B: "100 kg", C: "120 kg", D: "150 kg" }, correct: "B" },
+          { id: "q2", text: "2. What weight difference was required between the two plates?", options: { A: "20 kg", B: "30 kg", C: "40 kg", D: "50 kg" }, correct: "C" },
+          { id: "q3", text: "3. What weight was placed on the left plate?", options: { A: "60 kg", B: "70 kg", C: "80 kg", D: "50 kg" }, correct: "B" },
+          { id: "q4", text: "4. What weight was placed on the right plate?", options: { A: "30 kg", B: "40 kg", C: "20 kg", D: "10 kg" }, correct: "A" },
+          { id: "q5", text: "5. Why would 50 kg and 50 kg fail the mechanism?", options: { A: "Sum is wrong", B: "Difference is 0 kg instead of 40 kg", C: "Too heavy", D: "Plates break" }, correct: "B" }
+        ]
+      },
+      {
+        chapter: 3, title: "Chapter 3: Chronos Pendulum Logic",
+        story: "A clock tower features a pendulum oscillating at 0.5 Hz (one full cycle every 2 seconds). To disarm the tower lock, an engineer must stop the clock precisely after 15 complete oscillations, meaning exactly 30 seconds must elapse from activation.",
+        questions: [
+          { id: "q1", text: "1. What is the frequency of the pendulum?", options: { A: "0.2 Hz", B: "0.5 Hz", C: "1.0 Hz", D: "2.0 Hz" }, correct: "B" },
+          { id: "q2", text: "2. How long does one full oscillation take?", options: { A: "1 second", B: "2 seconds", C: "3 seconds", D: "4 seconds" }, correct: "B" },
+          { id: "q3", text: "3. How many oscillations are needed to disarm the lock?", options: { A: "10", B: "12", C: "15", D: "20" }, correct: "C" },
+          { id: "q4", text: "4. How many total seconds must elapse before stopping the clock?", options: { A: "15 seconds", B: "25 seconds", C: "30 seconds", D: "60 seconds" }, correct: "C" },
+          { id: "q5", text: "5. What mathematical formula relates time (T), cycles (n), and period (p)?", options: { A: "T = n × p", B: "T = n / p", C: "T = p / n", D: "T = n + p" }, correct: "A" }
+        ]
+      },
+      {
+        chapter: 4, title: "Chapter 4: The Binary Vault",
+        story: "Computer Analyst Elena examined a digital lock displaying the binary sequence '10110'. Converting this binary value to base-10 yields 22 ($16 + 0 + 4 + 2 + 0$). Entering 22 into the keypad bypassed the firewall.",
+        questions: [
+          { id: "q1", text: "1. What binary code was displayed on the lock?", options: { A: "10010", B: "10110", C: "11010", D: "11100" }, correct: "B" },
+          { id: "q2", text: "2. What base-10 number does '10110' represent?", options: { A: "18", B: "20", C: "22", D: "26" }, correct: "C" },
+          { id: "q3", text: "3. What is the positional value of the leftmost digit ('1') in a 5-bit binary number?", options: { A: "8", B: "16", C: "32", D: "64" }, correct: "B" },
+          { id: "q4", text: "4. What keypad input successfully bypassed the firewall?", options: { A: "16", B: "22", C: "24", D: "30" }, correct: "B" },
+          { id: "q5", text: "5. In base-10, what would binary '11111' equal?", options: { A: "31", B: "32", C: "15", D: "63" }, correct: "A" }
+        ]
+      },
+      {
+        chapter: 5, title: "Chapter 5: The Subterranean Prism",
+        story: "Inside an ancient chamber, sunlight reflects off three mirrors angled at 30°, 60°, and 90°. To focus the light beam directly into the crystal core, a scientist must adjust the final mirror so that the total angular deviation sums to 180°.",
+        questions: [
+          { id: "q1", text: "1. How many mirrors are in the ancient chamber?", options: { A: "Two", B: "Three", C: "Four", D: "Five" }, correct: "B" },
+          { id: "q2", text: "2. What were the initial angles of the three mirrors?", options: { A: "15°, 30°, 45°", B: "30°, 60°, 90°", C: "45°, 45°, 90°", D: "20°, 40°, 80°" }, correct: "B" },
+          { id: "q3", text: "3. What total angular deviation is needed to focus the beam?", options: { A: "90°", B: "180°", C: "270°", D: "360°" }, correct: "B" },
+          { id: "q4", text: "4. What geometric shape is formed by light rays summing to 180°?", options: { A: "Square", B: "Straight Line / Triangle Angle Sum", C: "Circle", D: "Pentagon" }, correct: "B" },
+          { id: "q5", text: "5. Target destination for the focused beam is what object?", options: { A: "Iron gate", B: "Crystal core", C: "Solar panel", D: "Altar" }, correct: "B" }
+        ]
+      }
+    ]
   };
 
-  window.addEventListener('DOMContentLoaded', async () => {
-    const savedUser = localStorage.getItem('activeStudentUser');
-    if (savedUser) {
-      userName = savedUser;
-      document.getElementById('displayName').innerText = userName;
-      await loadUserScores();
-      document.getElementById('signinView').classList.remove('active');
-      document.getElementById('dashboardView').classList.add('active');
-    }
-  });
-
-  async function signIn() {
-    const nameInput = document.getElementById('studentName').value.trim();
-    if (!nameInput) {
-      document.getElementById('nameError').style.display = 'block';
-      return;
-    }
-
-    document.getElementById('nameError').style.display = 'none';
-    userName = nameInput;
-    localStorage.setItem('activeStudentUser', userName);
-    document.getElementById('displayName').innerText = userName;
-
-    await loadUserScores();
-
-    document.getElementById('signinView').classList.remove('active');
-    document.getElementById('dashboardView').classList.add('active');
+  function startApp() {
+    const name = document.getElementById('studentName').value.trim();
+    if (!name) return alert("Please enter your name.");
+    activeStudent = name;
+    document.getElementById('displayName').innerText = activeStudent;
+    showView('difficultyView');
   }
 
-  async function loadUserScores() {
-    try {
-      const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
-        headers: { "X-Master-Key": API_KEY }
-      });
-      const data = await res.json();
-      let allRecords = data.record || {};
-      
-      scores = allRecords[userName] || { act1: 0, act2: 0 };
-      updateOverallAverage();
-      updateDashboardScoresUI();
-    } catch (err) {
-      console.error("Cloud connection failed:", err);
-    }
+  function showView(viewId) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById(viewId).classList.add('active');
   }
 
-  async function saveUserScores() {
-    try {
-      const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
-        headers: { "X-Master-Key": API_KEY }
-      });
-      const data = await res.json();
-      let allRecords = data.record || {};
-
-      allRecords[userName] = scores;
-
-      await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Master-Key": API_KEY
-        },
-        body: JSON.stringify(allRecords)
-      });
-    } catch (err) {
-      console.error("Cloud update failed:", err);
-    }
-  }
-
-  function handleKeyPress(e) { if (e.key === 'Enter') signIn(); }
-
-  function updateDashboardScoresUI() {
-    document.getElementById('score-act1').innerText = `Latest Score: ${scores.act1 || 0} / 5`;
-    document.getElementById('score-act2').innerText = `Latest Score: ${scores.act2 || 0} / 5`;
-  }
-
-  function updateOverallAverage() {
-    let totalPoints = (scores.act1 || 0) + (scores.act2 || 0);
-    let avgScore = (totalPoints / 2).toFixed(1);
-    let percentage = ((totalPoints / 10) * 100).toFixed(1);
-
-    document.getElementById('topRightAvg').innerText = `Overall Average: ${avgScore} / 5 (${percentage}%)`;
-
-    if (userName) saveUserScores();
-  }
-
-  function openDifficultyModal(actId) {
-    selectedActId = actId;
-    document.getElementById('difficultyModal').classList.add('active');
-  }
-
-  function closeDifficultyModal() {
-    document.getElementById('difficultyModal').classList.remove('active');
-  }
-
-  function selectDifficulty(diff) {
-    currentDifficulty = diff;
-    closeDifficultyModal();
-    startActivity(selectedActId);
-  }
-
-  function startActivity(actId) {
-    selectedActId = actId;
-    userAnswers = {};
-    document.getElementById('dashboardView').classList.remove('active');
-    document.getElementById('activityView').classList.add('active');
-    document.getElementById('resultsScreen').style.display = 'none';
-    document.getElementById('controlBox').style.display = 'flex';
+  function chooseDifficulty(diff) {
+    selectedDifficulty = diff;
+    document.getElementById('difficultyTitle').innerText = `${diff} Level - Select Chapter`;
     
-    const activity = activitiesData[actId][currentDifficulty];
-    document.getElementById('actTitle').innerText = activity.title;
-    document.getElementById('diffIndicator').innerText = `Difficulty Level: ${currentDifficulty}`;
-    renderActivity();
+    const grid = document.getElementById('chapterGrid');
+    grid.innerHTML = '';
+
+    readingData[diff].forEach((ch, idx) => {
+      grid.innerHTML += `
+        <div class="select-btn" onclick="openChapter(${idx})">
+          <div class="chapter-badge">Chapter ${ch.chapter}</div>
+          <div style="margin-top: 8px; font-size: 1.1rem;">${ch.title}</div>
+          <small style="color: var(--text-muted);">5 Questions</small>
+        </div>
+      `;
+    });
+
+    showView('chapterView');
   }
 
-  function showDashboard() {
-    document.getElementById('activityView').classList.remove('active');
-    document.getElementById('dashboardView').classList.add('active');
-  }
+  function openChapter(index) {
+    selectedChapterIndex = index;
+    userAnswers = {};
+    const chData = readingData[selectedDifficulty][index];
 
-  function renderActivity() {
-    const activity = activitiesData[selectedActId][currentDifficulty];
+    document.getElementById('chapterTitle').innerText = chData.title;
+    document.getElementById('chapterBadge').innerText = `${selectedDifficulty} • Chapter ${chData.chapter}`;
+    document.getElementById('storyContent').innerText = chData.story;
 
-    let html = `
-      <div class="story-text">
-        <h3>Story (${currentDifficulty} Mode)</h3>
-        <p>${activity.story}</p>
-      </div>`;
+    const container = document.getElementById('questionsContainer');
+    container.innerHTML = '';
 
-    activity.questions.forEach(q => {
-      html += `
-        <div class="question-box">
+    chData.questions.forEach(q => {
+      container.innerHTML += `
+        <div class="question-card">
           <p><strong>${q.text}</strong></p>
           <div class="options">
-            ${Object.keys(q.options).map(optKey => `
+            ${Object.keys(q.options).map(key => `
               <label>
-                <input type="radio" name="${q.id}" value="${optKey}" ${userAnswers[q.id] === optKey ? 'checked' : ''} onchange="userAnswers['${q.id}']='${optKey}'">
-                ${optKey}. ${q.options[optKey]}
+                <input type="radio" name="${q.id}" value="${key}" onchange="userAnswers['${q.id}'] = '${key}'">
+                ${key}. ${q.options[key]}
               </label>
             `).join('')}
           </div>
-        </div>`;
+        </div>
+      `;
     });
 
-    document.getElementById('pageContainer').innerHTML = html;
+    showView('quizView');
   }
 
-  function calculateResult() {
-    const activity = activitiesData[selectedActId][currentDifficulty];
+  function submitChapter() {
+    const chData = readingData[selectedDifficulty][selectedChapterIndex];
     let score = 0;
 
-    activity.questions.forEach(q => {
+    chData.questions.forEach(q => {
       if (userAnswers[q.id] === q.correct) score++;
     });
 
-    scores[selectedActId] = score;
-    updateDashboardScoresUI();
-    document.getElementById('pageContainer').innerHTML = '';
-    document.getElementById('controlBox').style.display = 'none';
-    document.getElementById('resultStudentName').innerText = userName;
-    document.getElementById('resultsScreen').style.display = 'block';
-    document.getElementById('scoreDisplay').innerText = `${score} / 5`;
-    updateOverallAverage();
+    document.getElementById('finalScore').innerText = `${score} / 5`;
+    showView('resultView');
   }
 </script>
 </body>
