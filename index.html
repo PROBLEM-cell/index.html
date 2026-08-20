@@ -30,7 +30,7 @@
       position: relative;
     }
 
-    .container { max-width: 850px; width: 100%; margin: 0 auto; }
+    .container { max-width: 1000px; width: 100%; margin: 0 auto; }
     .view { display: none; }
     .view.active { display: block; }
 
@@ -89,10 +89,10 @@
     .dashboard-header h1 { font-size: 2.4rem; font-weight: normal; margin-bottom: 8px; color: var(--primary); letter-spacing: 1px; }
     .dashboard-header p { color: var(--text-muted); font-style: italic; }
 
-    .story-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+    .story-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
     .story-card {
       background: var(--card-bg); border: 2px solid var(--border);
-      border-radius: 6px; padding: 24px; cursor: pointer;
+      border-radius: 6px; padding: 20px; cursor: pointer;
       transition: all 0.2s ease; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
       display: flex; flex-direction: column; justify-content: space-between;
     }
@@ -103,13 +103,13 @@
       font-size: 0.85rem; font-weight: bold; padding: 4px 10px; border-radius: 3px; margin-bottom: 12px;
       border: 1px solid var(--border);
     }
-    .card-title { font-size: 1.3rem; font-weight: bold; margin-bottom: 16px; color: var(--text); }
+    .card-title { font-size: 1.15rem; font-weight: bold; margin-bottom: 16px; color: var(--text); }
     .score-badge {
       background-color: #fff; border: 1px solid var(--border);
-      padding: 10px 14px; border-radius: 3px; font-size: 0.95rem;
-      font-weight: bold; color: var(--primary); margin-bottom: 20px;
+      padding: 8px 12px; border-radius: 3px; font-size: 0.9rem;
+      font-weight: bold; color: var(--primary); margin-bottom: 16px;
     }
-    .card-footer { font-weight: bold; color: var(--primary); font-size: 0.95rem; }
+    .card-footer { font-weight: bold; color: var(--primary); font-size: 0.9rem; }
 
     .modal-overlay {
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
@@ -188,28 +188,48 @@
 
     <header class="dashboard-header">
       <h1>Reading Comprehension</h1>
-      <p>Select your preferred language track!</p>
+      <p>Select your activity track below!</p>
     </header>
 
     <div class="story-grid">
-      <!-- Act 1: Tagalog -->
+      <!-- Act 1: English -->
       <div class="story-card" onclick="startActivity('act1')">
         <div>
-          <span class="card-badge">Act 1 • Tagalog</span>
-          <h2 class="card-title" id="title-act1">Ang Masayang Pagluluto sa Bahay-Kubo</h2>
+          <span class="card-badge">Act 1 • English</span>
+          <h2 class="card-title" id="title-act1">The Great Garden Project</h2>
           <div class="score-badge" id="score-act1">Latest Score: 0 / 10</div>
         </div>
         <div class="card-footer">Begin Act 1 &rarr;</div>
       </div>
 
-      <!-- Act 2: English -->
+      <!-- Act 2: Tagalog -->
       <div class="story-card" onclick="startActivity('act2')">
         <div>
-          <span class="card-badge">Act 2 • English</span>
-          <h2 class="card-title" id="title-act2">The Great Garden Project</h2>
+          <span class="card-badge">Act 2 • Tagalog</span>
+          <h2 class="card-title" id="title-act2">Ang Masayang Pagluluto sa Bahay-Kubo</h2>
           <div class="score-badge" id="score-act2">Latest Score: 0 / 10</div>
         </div>
-        <div class="card-footer">Begin Act 2 &rarr;</div>
+        <div class="card-footer">Begin Act 2 (Tagalog) &rarr;</div>
+      </div>
+
+      <!-- Act 3: English -->
+      <div class="story-card" onclick="startActivity('act3')">
+        <div>
+          <span class="card-badge">Act 3 • English</span>
+          <h2 class="card-title" id="title-act3">The Neighborhood Pet Care Day</h2>
+          <div class="score-badge" id="score-act3">Latest Score: 0 / 10</div>
+        </div>
+        <div class="card-footer">Begin Act 3 (English) &rarr;</div>
+      </div>
+
+      <!-- Act 4: Tagalog -->
+      <div class="story-card" onclick="startActivity('act4')">
+        <div>
+          <span class="card-badge">Act 4 • Tagalog</span>
+          <h2 class="card-title" id="title-act4">Ang Paglilinis sa Baybayin ng Anilao</h2>
+          <div class="score-badge" id="score-act4">Latest Score: 0 / 10</div>
+        </div>
+        <div class="card-footer">Begin Act 4 (Tagalog) &rarr;</div>
       </div>
     </div>
   </div>
@@ -262,10 +282,60 @@
   let selectedActId = null;
   let currentDifficulty = "Easy";
   let userAnswers = {};
-  let scores = { act1: 0, act2: 0 };
+  let scores = { act1: 0, act2: 0, act3: 0, act4: 0 };
 
   const activitiesData = {
     act1: {
+      Easy: {
+        title: "The Great Garden Project",
+        story: "On a sunny Tuesday morning, Allain, Lance, and Ana decided to build a community garden behind their neighborhood library. They wanted to plant fresh vegetables and colorful flowers for everyone to enjoy. Allain brought a large green watering can, while Lance brought four packets of sunflower seeds.\n\nThey started working at 8:00 AM. Allain and Lance dug the soil and prepared three tidy garden beds. By 11:00 AM, they had planted tomato seedlings, sweet peppers, and sunflowers. Ana carefully poured water over the newly planted seeds while everyone celebrated their hard work.",
+        questions: [
+          { id: "q1", text: "1. Where did the three friends build their community garden?", correct: "B", options: { A: "Behind the school", B: "Behind the neighborhood library", C: "In the public park", D: "At Zera's backyard" } },
+          { id: "q2", text: "2. Who are the characters in this story?", correct: "C", options: { A: "Zera, Ayit, and Shane", B: "Ayit, Lance, and Shane", C: "Allain, Lance, and Ana", D: "Zera, Allain, and Ana" } },
+          { id: "q3", text: "3. On what day of the week did they start the project?", correct: "A", options: { A: "Tuesday", B: "Saturday", C: "Thursday", D: "Sunday" } },
+          { id: "q4", text: "4. What item did Allain bring to the garden?", correct: "C", options: { A: "A wooden shovel", B: "A red wheelbarrow", C: "A large green watering can", D: "A set of garden gloves" } },
+          { id: "q5", text: "5. How many packets of sunflower seeds did Lance bring?", correct: "D", options: { A: "Two packets", B: "Three packets", C: "Five packets", D: "Four packets" } },
+          { id: "q6", text: "6. What time did they start working on the garden?", correct: "A", options: { A: "8:00 AM", B: "9:00 AM", C: "7:30 AM", D: "10:00 AM" } },
+          { id: "q7", text: "7. Who dug the soil to prepare the garden beds?", correct: "C", options: { A: "Zera and Ayit", B: "Ana and Shane", C: "Allain and Lance", D: "Lance and Shane" } },
+          { id: "q8", text: "8. How many garden beds did they prepare?", correct: "B", options: { A: "Two beds", B: "Three beds", C: "Four beds", D: "Five beds" } },
+          { id: "q9", text: "9. Who watered the seeds after they were planted?", correct: "A", options: { A: "Ana", B: "Allain", C: "Lance", D: "Shane" } },
+          { id: "q10", text: "10. What time did they finish planting the vegetables and flowers?", correct: "B", options: { A: "10:00 AM", B: "11:00 AM", C: "12:00 PM", D: "1:00 PM" } }
+        ]
+      },
+      Medium: {
+        title: "The Mystery of the Robot Competition",
+        story: "Zera, Ayit, and Shane participated in the Metro Robotics Challenge at the city tech center. Their team, named the Cyber Squad, built a mini-rover designed to navigate a maze. Right before their trial, the control box displayed an encryption prompt requiring a numerical key to calibrate the wheels.\n\nThe screen read: 'Key = (30 × 3) - 35'. Shane quickly took out a notepad and worked out the math: 30 multiplied by 3 equals 90, minus 35 equals 55. Zera and Ayit entered '055' into the rover's controller keypad. The rover hummed to life, smoothly navigating the maze in record time to win the round.",
+        questions: [
+          { id: "q1", text: "1. What event were the friends participating in?", correct: "C", options: { A: "National Science Fair", B: "Tech Innovation Expo", C: "Metro Robotics Challenge", D: "School Coding Contest" } },
+          { id: "q2", text: "2. Who are the characters in this story?", correct: "A", options: { A: "Zera, Ayit, and Shane", B: "Allain, Lance, and Ana", C: "Ayit, Lance, and Shane", D: "Zera, Allain, and Ana" } },
+          { id: "q3", text: "3. What was the name of their team?", correct: "A", options: { A: "Cyber Squad", B: "Robo Builders", C: "Tech Titans", D: "Navigators" } },
+          { id: "q4", text: "4. What was the mini-rover designed to do?", correct: "D", options: { A: "Fly over obstacles", B: "Pick up heavy boxes", C: "Sort colored balls", D: "Navigate a maze" } },
+          { id: "q5", text: "5. What equation was shown on the control box screen?", correct: "B", options: { A: "(20 × 4) - 20", B: "(30 × 3) - 35", C: "(40 × 2) - 15", D: "(25 × 3) - 10" } },
+          { id: "q6", text: "6. Who calculated the math formula on a notepad?", correct: "C", options: { A: "Zera", B: "Ayit", C: "Shane", D: "Lance" } },
+          { id: "q7", text: "7. What was the final calibration key number?", correct: "D", options: { A: "45", B: "50", C: "60", D: "55" } },
+          { id: "q8", text: "8. Who typed the key code into the controller keypad?", correct: "B", options: { A: "Lance and Allain", B: "Zera and Ayit", C: "Ana and Shane", D: "Shane and Lance" } },
+          { id: "q9", text: "9. How did the mini-rover perform after calibration?", correct: "C", options: { A: "It stopped midway", B: "It went in circles", C: "It smoothly navigated the maze in record time", D: "It crashed into the wall" } },
+          { id: "q10", text: "10. What result did the team achieve after their test run?", correct: "A", options: { A: "They won the round", B: "They got disqualified", C: "They tied with another team", D: "They had to rebuild the rover" } }
+        ]
+      },
+      Hard: {
+        title: "The Wind Turbine Optimization Study",
+        story: "Ayit, Lance, and Shane conducted an advanced engineering experiment at the Breeze Valley Wind Farm to measure output efficiency. They evaluated total power generation using the formula: 'Efficiency Score = (Wind Velocity × 8) - (Blade Drag ÷ 2)'. Ayit positioned the anemometer sensors across three test towers and measured a wind velocity of 12.5 m/s and a blade drag factor of 10 units.\n\nLance processed the measurement metrics: Efficiency Score = (12.5 × 8) - (10 ÷ 2) = 100 - 5 = 95 points. Meanwhile, Shane monitored thermal output using infrared scanners. An efficiency score of 95 indicated 'Superior Grid Output'. The three researchers presented their report to the regional energy board.",
+        questions: [
+          { id: "q1", text: "1. Where was the engineering study conducted?", correct: "B", options: { A: "Solar Power Station", B: "Breeze Valley Wind Farm", C: "Hydroelectric Dam", D: "City Power Plant" } },
+          { id: "q2", text: "2. Who are the characters in this story?", correct: "C", options: { A: "Zera, Ayit, and Shane", B: "Allain, Lance, and Ana", C: "Ayit, Lance, and Shane", D: "Zera, Allain, and Ana" } },
+          { id: "q3", text: "3. What metric was being measured during the test?", correct: "D", options: { A: "Battery Charge Time", B: "Cable Resistance", C: "Motor Torque", D: "Efficiency Score" } },
+          { id: "q4", text: "4. Who set up the anemometer sensors and measured wind velocity?", correct: "A", options: { A: "Ayit", B: "Lance", C: "Shane", D: "Zera" } },
+          { id: "q5", text: "5. What was the wind velocity value measured at the tower?", correct: "C", options: { A: "10.0 m/s", B: "11.5 m/s", C: "12.5 m/s", D: "14.0 m/s" } },
+          { id: "q6", text: "6. What was the correct mathematical formula for the calculation?", correct: "A", options: { A: "Efficiency Score = (Wind Velocity × 8) - (Blade Drag ÷ 2)", B: "Efficiency Score = (Wind Velocity × 10) - Blade Drag", C: "Efficiency Score = (Wind Velocity ÷ 2) + Blade Drag", D: "Efficiency Score = Wind Velocity × Blade Drag × 8" } },
+          { id: "q7", text: "7. Who computed the efficiency score metrics?", correct: "B", options: { A: "Ayit", B: "Lance", C: "Shane", D: "Ana" } },
+          { id: "q8", text: "8. What was the final Efficiency Score result?", correct: "D", options: { A: "88 points", B: "90 points", C: "92 points", D: "95 points" } },
+          { id: "q9", text: "9. Who monitored thermal output with infrared scanners?", correct: "C", options: { A: "Ayit", B: "Lance", C: "Shane", D: "Allain" } },
+          { id: "q10", text: "10. How was the score of 95 categorized in the study?", correct: "C", options: { A: "Moderate Output", B: "Low Performance", C: "Superior Grid Output", D: "Critical Failure" } }
+        ]
+      }
+    },
+    act2: {
       Easy: {
         title: "Ang Masayang Pagluluto sa Bahay-Kubo",
         story: "Isang Sabado ng umaga, nagtipon sina Zera, Ayit, at Shane sa bahay-kubo ni Lola Maria. Gusto nilang magluto ng masarap na meryenda para sa kanilang pamilya. Si Zera ay nagdala ng pulang kaserola, samantalang si Ayit naman ang naghanda ng limang pirasong saging na saba.\n\nNagsimula silang magluto pagpatak ng 9:00 ng umaga. Si Shane ang nag-ayos ng kalan at nagbantay sa apoy upang hindi ito mamatay habang inihahanda nina Zera at Ayit ang mga saging. Pagkalipas ng isang oras, nakagawa sila ng tatlong malaking pinggan ng masarap na turon at minatamis na saging. Masayang ipinamahagi ni Shane ang kanilang inihandang pagkain sa kanilang mga kapitbahay habang masayang nagkukuwentuhan ang tatlo.",
@@ -315,53 +385,103 @@
         ]
       }
     },
-    act2: {
+    act3: {
       Easy: {
-        title: "The Great Garden Project",
-        story: "On a sunny Tuesday morning, Allain, Lance, and Ana decided to build a community garden behind their neighborhood library. They wanted to plant fresh vegetables and colorful flowers for everyone to enjoy. Allain brought a large green watering can, while Lance brought four packets of sunflower seeds.\n\nThey started working at 8:00 AM. Allain and Lance dug the soil and prepared three tidy garden beds. By 11:00 AM, they had planted tomato seedlings, sweet peppers, and sunflowers. Ana carefully poured water over the newly planted seeds while everyone celebrated their hard work.",
+        title: "The Neighborhood Pet Care Day",
+        story: "On a bright Sunday afternoon, Zera, Lance, and Shane organized a pet grooming station at the local animal shelter. They set up three wash tubs and gathered soft towels for the dogs and cats. Zera brought six bottles of gentle pet shampoo, while Lance prepared four bags of organic treats.\n\nThey welcomed their first pet at 1:00 PM. Lance brushed the fur of three fluffy golden retrievers while Zera carefully washed them with shampoo. Shane kept track of all the pet health tags and gave treats to each calm pet. By 4:00 PM, they had groomed ten happy pets and earned praise from the shelter staff.",
         questions: [
-          { id: "q1", text: "1. Where did the three friends build their community garden?", correct: "B", options: { A: "Behind the school", B: "Behind the neighborhood library", C: "In the public park", D: "At Zera's backyard" } },
-          { id: "q2", text: "2. Who are the characters in this story?", correct: "C", options: { A: "Zera, Ayit, and Shane", B: "Ayit, Lance, and Shane", C: "Allain, Lance, and Ana", D: "Zera, Allain, and Ana" } },
-          { id: "q3", text: "3. On what day of the week did they start the project?", correct: "A", options: { A: "Tuesday", B: "Saturday", C: "Thursday", D: "Sunday" } },
-          { id: "q4", text: "4. What item did Allain bring to the garden?", correct: "C", options: { A: "A wooden shovel", B: "A red wheelbarrow", C: "A large green watering can", D: "A set of garden gloves" } },
-          { id: "q5", text: "5. How many packets of sunflower seeds did Lance bring?", correct: "D", options: { A: "Two packets", B: "Three packets", C: "Five packets", D: "Four packets" } },
-          { id: "q6", text: "6. What time did they start working on the garden?", correct: "A", options: { A: "8:00 AM", B: "9:00 AM", C: "7:30 AM", D: "10:00 AM" } },
-          { id: "q7", text: "7. Who dug the soil to prepare the garden beds?", correct: "C", options: { A: "Zera and Ayit", B: "Ana and Shane", C: "Allain and Lance", D: "Lance and Shane" } },
-          { id: "q8", text: "8. How many garden beds did they prepare?", correct: "B", options: { A: "Two beds", B: "Three beds", C: "Four beds", D: "Five beds" } },
-          { id: "q9", text: "9. Who watered the seeds after they were planted?", correct: "A", options: { A: "Ana", B: "Allain", C: "Lance", D: "Shane" } },
-          { id: "q10", text: "10. What time did they finish planting the vegetables and flowers?", correct: "B", options: { A: "10:00 AM", B: "11:00 AM", C: "12:00 PM", D: "1:00 PM" } }
+          { id: "q1", text: "1. Where did Zera, Lance, and Shane set up the pet grooming station?", correct: "B", options: { A: "At the public park", B: "At the local animal shelter", C: "In Zera's garage", D: "At the veterinary clinic" } },
+          { id: "q2", text: "2. Who are the three characters in this story?", correct: "A", options: { A: "Zera, Lance, and Shane", B: "Allain, Lance, and Ana", C: "Ayit, Allain, and Ana", D: "Zera, Ayit, and Shane" } },
+          { id: "q3", text: "3. How many bottles of gentle pet shampoo did Zera bring?", correct: "C", options: { A: "Four bottles", B: "Five bottles", C: "Six bottles", D: "Eight bottles" } },
+          { id: "q4", text: "4. What did Lance bring to the event?", correct: "D", options: { A: "Three pet tubs", B: "Two crates", C: "Five towels", D: "Four bags of organic treats" } },
+          { id: "q5", text: "5. What time did they start welcoming pets?", correct: "A", options: { A: "1:00 PM", B: "2:00 PM", C: "11:00 AM", D: "3:00 PM" } },
+          { id: "q6", text: "6. Who brushed the fur of three golden retrievers?", correct: "B", options: { A: "Zera", B: "Lance", C: "Shane", D: "Allain" } },
+          { id: "q7", text: "7. Who washed the pets using shampoo?", correct: "C", options: { A: "Shane", B: "Lance", C: "Zera", D: "Ana" } },
+          { id: "q8", text: "8. What was Shane's main duty during pet care day?", correct: "D", options: { A: "Washing pets", B: "Baking treats", C: "Setting up tubs", D: "Tracking health tags and handing out treats" } },
+          { id: "q9", text: "9. How many pets in total were groomed by 4:00 PM?", correct: "A", options: { A: "Ten happy pets", B: "Eight pets", C: "Twelve pets", D: "Five pets" } },
+          { id: "q10", text: "10. What day of the week was the pet care event?", correct: "B", options: { A: "Saturday", B: "Sunday", C: "Friday", D: "Wednesday" } }
         ]
       },
       Medium: {
-        title: "The Mystery of the Robot Competition",
-        story: "Zera, Ayit, and Shane participated in the Metro Robotics Challenge at the city tech center. Their team, named the Cyber Squad, built a mini-rover designed to navigate a maze. Right before their trial, the control box displayed an encryption prompt requiring a numerical key to calibrate the wheels.\n\nThe screen read: 'Key = (30 × 3) - 35'. Shane quickly took out a notepad and worked out the math: 30 multiplied by 3 equals 90, minus 35 equals 55. Zera and Ayit entered '055' into the rover's controller keypad. The rover hummed to life, smoothly navigating the maze in record time to win the round.",
+        title: "The Stargazing Camping Trip",
+        story: "Ayit, Allain, and Ana spent a clear weekend evening camping at Mount Pine Ridge to observe the night sky. They brought a high-powered telescope to track stellar constellations. While calibrating the lens, Ana found a coordinate table with a calculation challenge.\n\nThe challenge stated: 'Angle = (45 × 2) - 15'. Allain took out a notebook and multiplied 45 by 2 to get 90, then subtracted 15 to calculate 75 degrees. Ayit positioned the telescope to 075 degrees. Instantly, the telescope locked onto a brilliant view of Saturn's rings. Ana logged the exact coordinates for their astronomy journal.",
         questions: [
-          { id: "q1", text: "1. What event were the friends participating in?", correct: "C", options: { A: "National Science Fair", B: "Tech Innovation Expo", C: "Metro Robotics Challenge", D: "School Coding Contest" } },
-          { id: "q2", text: "2. Who are the characters in this story?", correct: "A", options: { A: "Zera, Ayit, and Shane", B: "Allain, Lance, and Ana", C: "Ayit, Lance, and Shane", D: "Zera, Allain, and Ana" } },
-          { id: "q3", text: "3. What was the name of their team?", correct: "A", options: { A: "Cyber Squad", B: "Robo Builders", C: "Tech Titans", D: "Navigators" } },
-          { id: "q4", text: "4. What was the mini-rover designed to do?", correct: "D", options: { A: "Fly over obstacles", B: "Pick up heavy boxes", C: "Sort colored balls", D: "Navigate a maze" } },
-          { id: "q5", text: "5. What equation was shown on the control box screen?", correct: "B", options: { A: "(20 × 4) - 20", B: "(30 × 3) - 35", C: "(40 × 2) - 15", D: "(25 × 3) - 10" } },
-          { id: "q6", text: "6. Who calculated the math formula on a notepad?", correct: "C", options: { A: "Zera", B: "Ayit", C: "Shane", D: "Lance" } },
-          { id: "q7", text: "7. What was the final calibration key number?", correct: "D", options: { A: "45", B: "50", C: "60", D: "55" } },
-          { id: "q8", text: "8. Who typed the key code into the controller keypad?", correct: "B", options: { A: "Lance and Allain", B: "Zera and Ayit", C: "Ana and Shane", D: "Shane and Lance" } },
-          { id: "q9", text: "9. How did the mini-rover perform after calibration?", correct: "C", options: { A: "It stopped midway", B: "It went in circles", C: "It smoothly navigated the maze in record time", D: "It crashed into the wall" } },
-          { id: "q10", text: "10. What result did the team achieve after their test run?", correct: "A", options: { A: "They won the round", B: "They got disqualified", C: "They tied with another team", D: "They had to rebuild the rover" } }
+          { id: "q1", text: "1. Where did Ayit, Allain, and Ana go camping?", correct: "C", options: { A: "Mount Apo", B: "Green Valley", C: "Mount Pine Ridge", D: "Blue Hill Lookout" } },
+          { id: "q2", text: "2. Who are the characters in this story?", correct: "B", options: { A: "Zera, Lance, and Shane", B: "Ayit, Allain, and Ana", C: "Allain, Lance, and Shane", D: "Zera, Ayit, and Shane" } },
+          { id: "q3", text: "3. What equipment did they bring to observe the night sky?", correct: "A", options: { A: "A high-powered telescope", B: "Night-vision goggles", C: "A digital camera", D: "A satellite receiver" } },
+          { id: "q4", text: "4. What formula was given on the coordinate table?", correct: "D", options: { A: "(30 × 3) - 10", B: "(50 × 2) - 20", C: "(40 × 2) - 5", D: "(45 × 2) - 15" } },
+          { id: "q5", text: "5. Who solved the math equation in a notebook?", correct: "C", options: { A: "Ana", B: "Ayit", C: "Allain", D: "Lance" } },
+          { id: "q6", text: "6. What was the resulting target angle calculated by Allain?", correct: "B", options: { A: "65 degrees", B: "75 degrees", C: "85 degrees", D: "90 degrees" } },
+          { id: "q7", text: "7. Who pointed the telescope to 075 degrees?", correct: "A", options: { A: "Ayit", B: "Ana", C: "Allain", D: "Shane" } },
+          { id: "q8", text: "8. What celestial object did they see through the telescope?", correct: "D", options: { A: "Jupiter's moons", B: "Halley's Comet", C: "The Andromeda Galaxy", D: "Saturn's rings" } },
+          { id: "q9", text: "9. Who recorded the coordinates in the astronomy journal?", correct: "B", options: { A: "Ayit", B: "Ana", C: "Allain", D: "Zera" } },
+          { id: "q10", text: "10. What time of day did the activity take place?", correct: "A", options: { A: "Clear weekend evening", B: "Early morning", C: "Mid-afternoon", D: "Midnight" } }
         ]
       },
       Hard: {
-        title: "The Wind Turbine Optimization Study",
-        story: "Ayit, Lance, and Shane conducted an advanced engineering experiment at the Breeze Valley Wind Farm to measure output efficiency. They evaluated total power generation using the formula: 'Efficiency Score = (Wind Velocity × 8) - (Blade Drag ÷ 2)'. Ayit positioned the anemometer sensors across three test towers and measured a wind velocity of 12.5 m/s and a blade drag factor of 10 units.\n\nLance processed the measurement metrics: Efficiency Score = (12.5 × 8) - (10 ÷ 2) = 100 - 5 = 95 points. Meanwhile, Shane monitored thermal output using infrared scanners. An efficiency score of 95 indicated 'Superior Grid Output'. The three researchers presented their report to the regional energy board.",
+        title: "The Solar Panel Efficiency Experiment",
+        story: "Zera, Allain, and Shane conducted an advanced renewable energy trial at the Sunfield Lab. They wanted to optimize photo-voltaic absorption using the formula: 'Output Score = (Sunlight Hours × 12) - (Panel Temperature ÷ 4)'. Zera measured eight hours of peak solar exposure with a solar irradiance sensor.\n\nAllain logged the panel surface temperature at 20 degrees Celsius. He then performed the evaluation: Output Score = (8 × 12) - (20 ÷ 4) = 96 - 5 = 91 points. Meanwhile, Shane monitored energy storage in lithium batteries using digital ammeters. The score of 91 confirmed an 'Optimal Grid Energy Yield'. The trio submitted their research paper to the state clean energy council.",
         questions: [
-          { id: "q1", text: "1. Where was the engineering study conducted?", correct: "B", options: { A: "Solar Power Station", B: "Breeze Valley Wind Farm", C: "Hydroelectric Dam", D: "City Power Plant" } },
-          { id: "q2", text: "2. Who are the characters in this story?", correct: "C", options: { A: "Zera, Ayit, and Shane", B: "Allain, Lance, and Ana", C: "Ayit, Lance, and Shane", D: "Zera, Allain, and Ana" } },
-          { id: "q3", text: "3. What metric was being measured during the test?", correct: "D", options: { A: "Battery Charge Time", B: "Cable Resistance", C: "Motor Torque", D: "Efficiency Score" } },
-          { id: "q4", text: "4. Who set up the anemometer sensors and measured wind velocity?", correct: "A", options: { A: "Ayit", B: "Lance", C: "Shane", D: "Zera" } },
-          { id: "q5", text: "5. What was the wind velocity value measured at the tower?", correct: "C", options: { A: "10.0 m/s", B: "11.5 m/s", C: "12.5 m/s", D: "14.0 m/s" } },
-          { id: "q6", text: "6. What was the correct mathematical formula for the calculation?", correct: "A", options: { A: "Efficiency Score = (Wind Velocity × 8) - (Blade Drag ÷ 2)", B: "Efficiency Score = (Wind Velocity × 10) - Blade Drag", C: "Efficiency Score = (Wind Velocity ÷ 2) + Blade Drag", D: "Efficiency Score = Wind Velocity × Blade Drag × 8" } },
-          { id: "q7", text: "7. Who computed the efficiency score metrics?", correct: "B", options: { A: "Ayit", B: "Lance", C: "Shane", D: "Ana" } },
-          { id: "q8", text: "8. What was the final Efficiency Score result?", correct: "D", options: { A: "88 points", B: "90 points", C: "92 points", D: "95 points" } },
-          { id: "q9", text: "9. Who monitored thermal output with infrared scanners?", correct: "C", options: { A: "Ayit", B: "Lance", C: "Shane", D: "Allain" } },
-          { id: "q10", text: "10. How was the score of 95 categorized in the study?", correct: "C", options: { A: "Moderate Output", B: "Low Performance", C: "Superior Grid Output", D: "Critical Failure" } }
+          { id: "q1", text: "1. Where was the solar panel experiment conducted?", correct: "B", options: { A: "City University", B: "Sunfield Lab", C: "Green Energy Hub", D: "Metro Power Facility" } },
+          { id: "q2", text: "2. Who are the characters in this story?", correct: "D", options: { A: "Ayit, Allain, and Ana", B: "Zera, Lance, and Shane", C: "Allain, Lance, and Ana", D: "Zera, Allain, and Shane" } },
+          { id: "q3", text: "3. How many peak sunlight hours were measured by Zera?", correct: "C", options: { A: "6 hours", B: "7 hours", C: "8 hours", D: "10 hours" } },
+          { id: "q4", text: "4. What surface temperature was measured on the solar panels?", correct: "A", options: { A: "20 degrees Celsius", B: "25 degrees Celsius", C: "16 degrees Celsius", D: "30 degrees Celsius" } },
+          { id: "q5", text: "5. What is the correct formula used for Output Score?", correct: "B", options: { A: "Output Score = Sunlight Hours × 10 - Panel Temperature", B: "Output Score = (Sunlight Hours × 12) - (Panel Temperature ÷ 4)", C: "Output Score = (Sunlight Hours ÷ 2) + Panel Temperature", D: "Output Score = Sunlight Hours × Panel Temperature × 4" } },
+          { id: "q6", text: "6. Who performed the mathematical calculation for Output Score?", correct: "C", options: { A: "Shane", B: "Zera", C: "Allain", D: "Ayit" } },
+          { id: "q7", text: "7. What was the final calculated Output Score?", correct: "D", options: { A: "85 points", B: "89 points", C: "90 points", D: "91 points" } },
+          { id: "q8", text: "8. What was Shane's role in the solar panel experiment?", correct: "A", options: { A: "Monitoring energy storage in lithium batteries", B: "Cleaning solar panels", C: "Adjusting panel tilt angles", D: "Recording sunlight hours" } },
+          { id: "q9", text: "9. How was an Output Score of 91 classified?", correct: "C", options: { A: "Low Efficiency", B: "Average Output", C: "Optimal Grid Energy Yield", D: "Critical Overheat" } },
+          { id: "q10", text: "10. To whom did the team submit their research paper?", correct: "B", options: { A: "The school principal", B: "State clean energy council", C: "National Geographic", D: "City power company" } }
+        ]
+      }
+    },
+    act4: {
+      Easy: {
+        title: "Ang Paglilinis sa Baybayin ng Anilao",
+        story: "Isang maaliwalas na Biyernes ng umaga, nagpasiya sina Allain, Ayit, at Ana na makiisa sa paglilinis ng dalampasigan sa Anilao. Nais nilang protektahan ang mga pawikan at iba pang yamang-dagat mula sa mga basurang plastik. Nagdala si Allain ng apat na malalaking dilaw na sako para sa mga nakolektang basura, habang si Ayit naman ay nagdala ng tatlong pang-ipit ng basura.\n\nNagsimula ang kanilang pangkat sa paglilinis noong 7:30 ng umaga. Habang masayang nag-iikot, nakakolekta sina Allain at Ayit ng mga basyong bote at lumang plastic wrapper. Si Ana naman ang maingat na nagbukod ng mga basurang pwedeng i-recycle sa hindi na pwedeng gamitin. Pagdating ng 10:30 ng umaga, nakapuno sila ng anim na sako ng basura at muling naging malinis ang dalampasigan.",
+        questions: [
+          { id: "q1", text: "1. Saang baybayin o dalampasigan nagpunta ang tatlong kaibigan?", correct: "C", options: { A: "Sa Boracay", B: "Sa Puerto Galera", C: "Sa Anilao", D: "Sa Siargao" } },
+          { id: "q2", text: "2. Sino-sino ang mga tauhan sa kuwentong ito?", correct: "B", options: { A: "Zera, Lance, at Shane", B: "Allain, Ayit, at Ana", C: "Zera, Ayit, at Shane", D: "Lance, Ana, at Shane" } },
+          { id: "q3", text: "3. Anong araw isinagawa ang paglilinis sa dalampasigan?", correct: "A", options: { A: "Biyernes", B: "Sabado", C: "Lunes", D: "Linggo" } },
+          { id: "q4", text: "4. Ano ang kulay ng mga sakong dala ni Allain?", correct: "D", options: { A: "Pulang sako", B: "Asul na sako", C: "Luntian na sako", D: "Dilaw na sako" } },
+          { id: "q5", text: "5. Ilang pang-ipit ng basura ang dinala ni Ayit?", correct: "B", options: { A: "Dalawa", B: "Tatlo", C: "Apat", D: "Lima" } },
+          { id: "q6", text: "6. Anong oras nagsimula ang kanilang paglilinis?", correct: "A", options: { A: "7:30 ng umaga", B: "8:00 ng umaga", C: "6:30 ng umaga", D: "9:00 ng umaga" } },
+          { id: "q7", text: "7. Bakit nila ginawa ang aktibidad na ito sa dalampasigan?", correct: "C", options: { A: "Upang maghanap ng mga ilap na hayop", B: "Upang magtayo ng bahay", C: "Upang protektahan ang mga pawikan at yamang-dagat", D: "Upang maglaro ng volleyball" } },
+          { id: "q8", text: "8. Ano ang naging tungkulin ni Ana sa proyekto?", correct: "D", options: { A: "Magdala ng pagkain", B: "Mag-ipit ng basura", C: "Magwalis sa buhangin", D: "Magbukod ng mga basurang maaaring i-recycle" } },
+          { id: "q9", text: "9. Ilang sako ng basura ang kanilang nakolekta sa kabuuan?", correct: "B", options: { A: "Apat na sako", B: "Anim na sako", C: "Walong sako", D: "Sampung sako" } },
+          { id: "q10", text: "10. Anong oras natapos ang kanilang paglilinis?", correct: "C", options: { A: "9:30 ng umaga", B: "10:00 ng umaga", C: "10:30 ng umaga", D: "12:00 ng tanghali" } }
+        ]
+      },
+      Medium: {
+        title: "Ang Mahiwagang Pagtatayo ng Bahay-Kawayan",
+        story: "Nagkaisa sina Zera, Lance, at Shane na magtayo ng isang resthouse na gawa sa kawayan sa bukid nina Lolo Juan. Nais nilang siguraduhin na matibay at maayos ang sukat ng bawat haligi ng bahay. Bago simulan ang pagtatayo, nakakita sila ng isang lumang plano ng arkitektura na may nakasulat na pormula para sa tamang sukat ng kisame.\n\nNakasulat sa plano: 'Sukat = (18 + 12) × 3'. Agad na kinuha ni Shane ang kanyang notebook at kinwenta ang sukat: 18 plus 12 ay 30, at kapag iminultipikahan sa 3 ay nagiging 90 sentimetro. Sinunod nina Zera at Lance ang kalkulasyong ito sa pagputol ng mga kawayan. Dahil sa tamang sukat, naging napakatibay at napakaganda ng nabuo nilang kubo.",
+        questions: [
+          { id: "q1", text: "1. Anong uri ng resthouse ang itinayo ng magkakaibigan?", correct: "A", options: { A: "Bahay na gawa sa kawayan", B: "Bahay na bato", C: "Kubo na gawa sa pawid", D: "Bahay-puno" } },
+          { id: "q2", text: "2. Sino-sino ang mga tauhan sa kuwentong ito?", correct: "B", options: { A: "Allain, Ayit, at Ana", B: "Zera, Lance, at Shane", C: "Zera, Allain, at Ana", D: "Ayit, Lance, at Shane" } },
+          { id: "q3", text: "3. Saan itinayo ang resthouse?", correct: "D", options: { A: "Sa tabing-ilog", B: "Sa parke ng bayan", C: "Sa tuktok ng bundok", D: "Sa bukid nina Lolo Juan" } },
+          { id: "q4", text: "4. Ano ang nakalagay sa lumang plano ng arkitektura?", correct: "C", options: { A: "Listahan ng mga presyo", B: "Resipe ng pagkain", C: "Pormula para sa tamang sukat ng kisame", D: "Mapa ng bukid" } },
+          { id: "q5", text: "5. Anong mathematical expression ang nakasulat sa plano?", correct: "A", options: { A: "(18 + 12) × 3", B: "(20 + 10) ÷ 2", C: "(15 × 2) + 10", D: "(40 - 10) × 2" } },
+          { id: "q6", text: "6. Sino ang nagkwenta ng pormula sa kanyang notebook?", correct: "D", options: { A: "Zera", B: "Lance", C: "Ayit", D: "Shane" } },
+          { id: "q7", text: "7. Ano ang naging pinal na sukat matapos kalkulahin ni Shane?", correct: "B", options: { A: "60 sentimetro", B: "90 sentimetro", C: "100 sentimetro", D: "120 sentimetro" } },
+          { id: "q8", text: "8. Sino-sino ang nagputol ng mga kawayan batay sa nakuhang sukat?", correct: "C", options: { A: "Allain at Ana", B: "Ayit at Shane", C: "Zera at Lance", D: "Lance at Shane" } },
+          { id: "q9", text: "9. Ano ang naging resulta ng pagsunod sa tamang pormula?", correct: "A", options: { A: "Naging napakatibay at napakaganda ng kubo", B: "Nasira ang mga kawayan", C: "Kulang ang kawayan", D: "Hindi natapos ang bahay" } },
+          { id: "q10", text: "10. Kanino nagmula ang lupa kung saan itinayo ang kubo?", correct: "C", options: { A: "Kay Lola Maria", B: "Kay Mang Pedro", C: "Kay Lolo Juan", D: "Sa Kapitan ng Baranggay" } }
+        ]
+      },
+      Hard: {
+        title: "Ang Pagsusuri sa Enerhiya ng Bio-Gas sa Laguna",
+        story: "Isang komprehensibong eksperimento sa pampublikong agham ang isinagawa nina Allain, Ayit, at Shane sa isang pasilidad ng bio-gas sa Laguna. Ang layunin ng pagsusuri ay makuha ang pangkalahatang Efficiency Rating ng sistema gamit ang pormulang: 'Rating = (Gas Volume × 6) - (System Leak Factor ÷ 3)'. Nasukat ni Allain ang Gas Volume na 15.0 cubic meters gamit ang mga sensor ng pressure.\n\nSi Ayit naman ang nagtala ng System Leak Factor na 9 na yunit mula sa pipeline. Ginamit ni Shane ang datos upang kalkulahin ang resulta: Rating = (15.0 × 6) - (9 ÷ 3) = 90 - 3 = 87 puntos. Ang markang 87 ay nagpapatunay na ang pasilidad ay may 'Mataas na Antas ng Kaligtasan at Enerhiya'. Ang tatlo ay pinarangalan ng Departamento ng Siyensya dahil sa kanilang pananaliksik.",
+        questions: [
+          { id: "q1", text: "1. Saang pasilidad isinagawa ng mga kabataan ang kanilang eksperimento?", correct: "C", options: { A: "Sa Wind Farm sa Rizal", B: "Sa Solar Plant sa Pampanga", C: "Sa Bio-gas facility sa Laguna", D: "Sa Hydro Plant sa Isabela" } },
+          { id: "q2", text: "2. Sino-sino ang mga tauhan sa kuwentong ito?", correct: "A", options: { A: "Allain, Ayit, at Shane", B: "Zera, Lance, at Ana", C: "Zera, Allain, at Ana", D: "Lance, Ayit, at Ana" } },
+          { id: "q3", text: "3. Ano ang pangunahing layunin ng kanilang eksperimento?", correct: "B", options: { A: "Magsukat ng lakas ng hangin", B: "Makuha ang Efficiency Rating ng bio-gas system", C: "Magtayo ng bagong tangke", D: "Magbenta ng kuryente" } },
+          { id: "q4", text: "4. Sino ang nagsukat sa Gas Volume gamit ang pressure sensors?", correct: "D", options: { A: "Shane", B: "Ayit", C: "Zera", D: "Allain" } },
+          { id: "q5", text: "5. Ano ang nakuhang sukat para sa Gas Volume?", correct: "B", options: { A: "12.0 cubic meters", B: "15.0 cubic meters", C: "18.5 cubic meters", D: "20.0 cubic meters" } },
+          { id: "q6", text: "6. Ano ang pormula para sa pagkuha ng Efficiency Rating?", correct: "A", options: { A: "Rating = (Gas Volume × 6) - (System Leak Factor ÷ 3)", B: "Rating = Gas Volume × System Leak Factor", C: "Rating = (Gas Volume ÷ 2) + System Leak Factor", D: "Rating = (Gas Volume × 10) - System Leak Factor" } },
+          { id: "q7", text: "7. Sino ang nagtala ng System Leak Factor mula sa pipeline?", correct: "C", options: { A: "Allain", B: "Ana", C: "Ayit", D: "Shane" } },
+          { id: "q8", text: "8. Ano ang pinal na Efficiency Rating na kinwenta ni Shane?", correct: "C", options: { A: "82 puntos", B: "85 puntos", C: "87 puntos", D: "90 puntos" } },
+          { id: "q9", text: "9. Ano ang ibig sabihin ng nakuhang markang 87 sa kanilang pamantayan?", correct: "D", options: { A: "Kailangan ng kumpuni", B: "Mababang kalidad ng gas", C: "Mapanganib na leak", D: "Mataas na Antas ng Kaligtasan at Enerhiya" } },
+          { id: "q10", text: "10. Anong ahensya o departamento ang nagparangal sa tatlong mananaliksik?", correct: "A", options: { A: "Departamento ng Siyensya", B: "Kagawaran ng Edukasyon", C: "Lokal na Barangay", D: "Kagawaran ng Kalusugan" } }
         ]
       }
     }
@@ -406,7 +526,7 @@
       const data = await res.json();
       let allRecords = data.record || {};
       
-      scores = allRecords[userName] || { act1: 0, act2: 0 };
+      scores = allRecords[userName] || { act1: 0, act2: 0, act3: 0, act4: 0 };
       updateOverallAverage();
       updateDashboardScoresUI();
     } catch (err) {
@@ -442,17 +562,21 @@
   function updateDashboardScoresUI() {
     document.getElementById('score-act1').innerText = `Latest Score: ${scores.act1 || 0} / 10`;
     document.getElementById('score-act2').innerText = `Latest Score: ${scores.act2 || 0} / 10`;
+    document.getElementById('score-act3').innerText = `Latest Score: ${scores.act3 || 0} / 10`;
+    document.getElementById('score-act4').innerText = `Latest Score: ${scores.act4 || 0} / 10`;
   }
 
   function updateDashboardTitles() {
     document.getElementById('title-act1').innerText = activitiesData.act1[currentDifficulty].title;
     document.getElementById('title-act2').innerText = activitiesData.act2[currentDifficulty].title;
+    document.getElementById('title-act3').innerText = activitiesData.act3[currentDifficulty].title;
+    document.getElementById('title-act4').innerText = activitiesData.act4[currentDifficulty].title;
   }
 
   function updateOverallAverage() {
-    let totalPoints = (scores.act1 || 0) + (scores.act2 || 0);
-    let avgScore = (totalPoints / 2).toFixed(1);
-    let percentage = ((totalPoints / 20) * 100).toFixed(1);
+    let totalPoints = (scores.act1 || 0) + (scores.act2 || 0) + (scores.act3 || 0) + (scores.act4 || 0);
+    let avgScore = (totalPoints / 4).toFixed(1);
+    let percentage = ((totalPoints / 40) * 100).toFixed(1);
 
     document.getElementById('topRightAvg').innerText = `Overall Average: ${avgScore} / 10 (${percentage}%)`;
 
