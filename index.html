@@ -35,7 +35,6 @@
     .view { display: none; }
     .view.active { display: block; }
 
-    /* Bottom-right fixed floating badge */
     .bottom-right-avg {
       position: fixed; bottom: 20px; right: 20px;
       background: #eae2d3; border: 1px solid var(--border);
@@ -74,27 +73,53 @@
     .dashboard-header h1 { font-size: 2.4rem; font-weight: normal; margin-bottom: 8px; color: var(--primary); letter-spacing: 1px; }
     .dashboard-header p { color: var(--text-muted); font-style: italic; }
 
-    .story-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+    .story-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
     .story-card {
-      background: var(--card-bg); border: 1px solid var(--border);
-      border-radius: 4px; padding: 20px; cursor: pointer;
-      transition: all 0.2s ease; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+      background: var(--card-bg); border: 2px solid var(--border);
+      border-radius: 6px; padding: 24px; cursor: pointer;
+      transition: all 0.2s ease; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
       display: flex; flex-direction: column; justify-content: space-between;
     }
-    .story-card:hover { transform: translateY(-3px); border-color: var(--primary); box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
+    .story-card:hover { transform: translateY(-3px); border-color: var(--primary); box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
 
     .card-badge {
-      align-self: flex-start; background-color: #eae2d3; color: var(--primary);
-      font-size: 0.75rem; font-weight: bold; padding: 4px 10px; border-radius: 2px; margin-bottom: 12px;
+      display: inline-block; background-color: #eae2d3; color: var(--primary);
+      font-size: 0.85rem; font-weight: bold; padding: 4px 10px; border-radius: 3px; margin-bottom: 12px;
       border: 1px solid var(--border);
     }
-    .card-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 6px; color: var(--text); }
+    .card-title { font-size: 1.3rem; font-weight: bold; margin-bottom: 16px; color: var(--text); }
     .score-badge {
       background-color: #fff; border: 1px solid var(--border);
-      padding: 8px 12px; border-radius: 2px; font-size: 0.85rem;
-      font-weight: bold; color: var(--primary); margin-bottom: 16px;
+      padding: 10px 14px; border-radius: 3px; font-size: 0.95rem;
+      font-weight: bold; color: var(--primary); margin-bottom: 20px;
     }
-    .card-footer { font-weight: bold; color: var(--primary); font-size: 0.88rem; }
+    .card-footer { font-weight: bold; color: var(--primary); font-size: 0.95rem; }
+
+    /* Difficulty Modal */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center;
+      z-index: 1000;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-card {
+      background: var(--card-bg); border: 2px solid var(--border);
+      border-radius: 6px; padding: 30px; width: 90%; max-width: 420px;
+      text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    .modal-card h2 { color: var(--primary); margin-bottom: 10px; font-size: 1.5rem; }
+    .modal-card p { color: var(--text-muted); margin-bottom: 20px; font-style: italic; }
+    .diff-btn {
+      display: block; width: 100%; padding: 12px; margin-bottom: 10px;
+      background: #fff; border: 1px solid var(--border); border-radius: 4px;
+      font-family: 'Georgia', serif; font-size: 1rem; font-weight: bold;
+      color: var(--text); cursor: pointer; transition: all 0.2s ease;
+    }
+    .diff-btn:hover { background: #eae2d3; border-color: var(--primary); color: var(--primary); }
+    .cancel-btn {
+      background: transparent; border: none; color: var(--text-muted);
+      cursor: pointer; text-decoration: underline; margin-top: 10px; font-size: 0.9rem;
+    }
 
     .quiz-container {
       background: var(--card-bg); padding: 32px; border-radius: 4px;
@@ -146,11 +171,12 @@
 
     <header class="dashboard-header">
       <h1>Reading Comprehension</h1>
-      <p>Analyze scenarios, solve math puzzles, and deduce complex answers!</p>
+      <p>Select your language track and difficulty level!</p>
     </header>
 
     <div class="story-grid">
-      <div class="story-card" onclick="startActivity('act1')">
+      <!-- Act 1: Tagalog -->
+      <div class="story-card" onclick="openDifficultyModal('act1')">
         <div>
           <span class="card-badge">Act 1 • Tagalog</span>
           <h2 class="card-title">Ang Lihim ng Lumang Talaarawan</h2>
@@ -159,7 +185,8 @@
         <div class="card-footer">Begin Act 1 &rarr;</div>
       </div>
 
-      <div class="story-card" onclick="startActivity('act2')">
+      <!-- Act 2: English -->
+      <div class="story-card" onclick="openDifficultyModal('act2')">
         <div>
           <span class="card-badge">Act 2 • English</span>
           <h2 class="card-title">The Expedition to Whispering Cliff</h2>
@@ -167,34 +194,31 @@
         </div>
         <div class="card-footer">Begin Act 2 &rarr;</div>
       </div>
+    </div>
+  </div>
 
-      <div class="story-card" onclick="startActivity('act3')">
-        <div>
-          <span class="card-badge">Act 3 • Science</span>
-          <h2 class="card-title">Anomalies at the Hidden River & Cavern</h2>
-          <div class="score-badge" id="score-act3">Latest Score: 0 / 25</div>
-        </div>
-        <div class="card-footer">Begin Act 3 &rarr;</div>
-      </div>
-
-      <div class="story-card" onclick="startActivity('act4')">
-        <div>
-          <span class="card-badge">Act 4 • Mathematics</span>
-          <h2 class="card-title">The Vault of Quantitative Logic</h2>
-          <div class="score-badge" id="score-act4">Latest Score: 0 / 25</div>
-        </div>
-        <div class="card-footer">Begin Act 4 &rarr;</div>
-      </div>
+  <!-- DIFFICULTY SELECTION MODAL -->
+  <div id="difficultyModal" class="modal-overlay">
+    <div class="modal-card">
+      <h2 id="modalActTitle">Select Difficulty</h2>
+      <p>Choose a challenge level to begin:</p>
+      <button class="diff-btn" onclick="selectDifficulty('Easy')">🟢 Easy</button>
+      <button class="diff-btn" onclick="selectDifficulty('Medium')">🟡 Medium</button>
+      <button class="diff-btn" onclick="selectDifficulty('Hard')">🔴 Hard</button>
+      <button class="cancel-btn" onclick="closeDifficultyModal()">Cancel</button>
     </div>
   </div>
 
   <!-- ACTIVITY VIEW -->
   <div id="activityView" class="view">
     <div class="quiz-container">
-      <button class="back-btn" onclick="showDashboard()">&larr; Back to Map</button>
+      <button class="back-btn" onclick="showDashboard()">&larr; Back to Dashboard</button>
 
       <div class="header">
-        <h2 id="actTitle">Activity</h2>
+        <div>
+          <h2 id="actTitle">Activity</h2>
+          <small id="diffIndicator" style="color: var(--primary); font-weight: bold;"></small>
+        </div>
         <span id="pageIndicator" style="font-weight:bold; color:var(--primary);">Chapter 1 of 5</span>
       </div>
 
@@ -203,7 +227,7 @@
       <div id="resultsScreen" style="display:none; text-align:center;">
         <h2>Challenge Completed, <span id="resultStudentName"></span>!</h2>
         <div id="scoreDisplay" style="font-size:2.5rem; font-weight:bold; color:var(--primary); margin:20px 0;">0 / 25</div>
-        <button class="btn" onclick="showDashboard()">Return to Map</button>
+        <button class="btn" onclick="showDashboard()">Return to Dashboard</button>
       </div>
 
       <div class="controls" id="controlBox">
@@ -220,10 +244,11 @@
   const API_KEY = "$2a$10$KCezIUwi73LGQEZiT9IzLOJLD36ZRvZkHLjVI8hwBkJTimyWOrzdq";
 
   let userName = "";
-  let currentActId = null;
+  let selectedActId = null;
+  let currentDifficulty = "Medium";
   let currentChapterIdx = 0;
   let userAnswers = {};
-  let scores = { act1: 0, act2: 0, act3: 0, act4: 0 };
+  let scores = { act1: 0, act2: 0 };
 
   const activitiesData = {
     act1: {
@@ -345,126 +370,6 @@
           ]
         }
       ]
-    },
-    act3: {
-      title: "Act 3: Anomalies at the Hidden River & Cavern (Science)",
-      chapters: [
-        {
-          title: "Chapter 1: River Water Quality Analysis",
-          story: "Leaving the cavern, the four explorers noticed that the nearby river flowing from an industrial site had fish gasping at the surface. They gathered three water samples: Sample A near the factory (32°C, Dissolved Oxygen: 3 mg/L), Sample B mid-river (24°C, Dissolved Oxygen: 7 mg/L), and Sample C near a forest stream (20°C, Dissolved Oxygen: 9 mg/L).",
-          questions: [
-            { id: "a3_c1_q1", text: "1. What is the relationship between water temperature and Dissolved Oxygen (DO)?", correct: "A", options: { A: "As water temperature increases, dissolved oxygen concentration decreases.", B: "As temperature increases, dissolved oxygen increases.", C: "Temperature has no impact on oxygen.", D: "Oxygen is highest at 32°C." } },
-            { id: "a3_c1_q2", text: "2. Why were fish gasping near Sample A's location?", correct: "B", options: { A: "They were searching for food.", B: "Low dissolved oxygen (3 mg/L) caused severe hypoxia.", C: "The water was too cold.", D: "They prefer high temperatures." } },
-            { id: "a3_c1_q3", text: "3. Which location represents the healthiest aquatic ecosystem?", correct: "C", options: { A: "Sample A (Factory area)", B: "Sample B (Mid-river)", C: "Sample C (Forest stream)", D: "All locations are equal." } },
-            { id: "a3_c1_q4", text: "4. What form of pollution occurs when warm industrial discharge reduces oxygen levels?", correct: "D", options: { A: "Noise pollution", B: "Radioactive pollution", C: "Plastic pollution", D: "Thermal pollution" } },
-            { id: "a3_c1_q5", text: "5. What is the independent variable in this water quality test?", correct: "A", options: { A: "Sample location / Water temperature", B: "Number of fish", C: "Bottle color", D: "Time of day" } }
-          ]
-        },
-        {
-          title: "Chapter 2: Ecosystem Food Web Disruptions",
-          story: "Shane analyzed the surrounding forest ecosystem: Grass -> Grasshopper -> Frog -> Snake -> Hawk. A pesticide was recently used that wiped out 90% of the grasshopper population. Soon after, the frog population declined sharply while grass biomass increased rapidly.",
-          questions: [
-            { id: "a3_c2_q1", text: "6. What role does the Grasshopper hold in this food chain?", correct: "B", options: { A: "Producer", B: "Primary Consumer (Herbivore)", C: "Secondary Consumer", D: "Decomposer" } },
-            { id: "a3_c2_q2", text: "7. Why did grass biomass increase after pesticide application?", correct: "A", options: { A: "Fewer grasshoppers were consuming the grass.", B: "The pesticide acted as fertilizer.", C: "Frogs began eating grass.", D: "Hawks stopped hunting." } },
-            { id: "a3_c2_q3", text: "8. What indirect effect would be expected on the Snake population?", correct: "C", options: { A: "Snakes will increase immediately.", B: "Snakes will turn into herbivores.", C: "Snakes will decline due to fewer frogs.", D: "No effect." } },
-            { id: "a3_c2_q4", text: "9. What biological term describes a chain reaction across multiple trophic levels?", correct: "D", options: { A: "Photosynthesis", B: "Eutrophication", C: "Osmosis", D: "Trophic Cascade" } },
-            { id: "a3_c2_q5", text: "10. What sustainable alternative could protect crops without crashing the food web?", correct: "B", options: { A: "Burning the field.", B: "Integrated Pest Management (IPM) using natural biocontrols.", C: "Pouring salt on soil.", D: "Doubling chemical sprays." } }
-          ]
-        },
-        {
-          title: "Chapter 3: Energy Efficiency in Expedition Gear",
-          story: "To power their diagnostic equipment, Allain tested a portable solar collector receiving 100 Watts of solar input. The panel generated 18 Watts of usable electricity, while 82 Watts dissipated as thermal heat.",
-          questions: [
-            { id: "a3_c3_q1", text: "11. What is the energy efficiency percentage of the solar collector?", correct: "A", options: { A: "18%", B: "82%", C: "100%", D: "50%" } },
-            { id: "a3_c3_q2", text: "12. What fundamental physics law states that energy cannot be created or destroyed?", correct: "C", options: { A: "Newton's First Law", B: "Law of Universal Gravitation", C: "First Law of Thermodynamics (Conservation of Energy)", D: "Archimedes' Principle" } },
-            { id: "a3_c3_q3", text: "13. Where did the remaining 82 Watts go?", correct: "B", options: { A: "It was destroyed.", B: "It converted into unrecoverable thermal heat.", C: "It vanished.", D: "It was stored indefinitely." } },
-            { id: "a3_c3_q4", text: "14. If an upgraded panel operates at 24% efficiency, how many Watts will it produce from 200 Watts input?", correct: "D", options: { A: "24 Watts", B: "36 Watts", C: "40 Watts", D: "48 Watts" } },
-            { id: "a3_c3_q5", text: "15. Why is higher energy efficiency vital for technology and conservation?", correct: "A", options: { A: "It maximizes output while minimizing resource waste and thermal pollution.", B: "It makes gear heavier.", C: "It increases carbon emissions.", D: "It blocks sunlight." } }
-          ]
-        },
-        {
-          title: "Chapter 4: Mechanical Advantage of Levers",
-          story: "To clear a fallen 300 Newton boulder blocking the river sample site, Ayit and Shane set up a class-1 lever. The fulcrum was placed 1 meter from the boulder, while they applied force on the long lever arm 3 meters away from the fulcrum.",
-          questions: [
-            { id: "a3_c4_q1", text: "16. What is the Mechanical Advantage (MA = Effort Arm / Load Arm) of this lever?", correct: "B", options: { A: "MA = 1", B: "MA = 3", C: "MA = 4", D: "MA = 0.33" } },
-            { id: "a3_c4_q2", text: "17. How much force must they exert to lift the 300 N boulder? (Effort = Load / MA)", correct: "A", options: { A: "100 Newtons", B: "300 Newtons", C: "900 Newtons", D: "150 Newtons" } },
-            { id: "a3_c4_q3", text: "18. If the fulcrum is moved closer to the boulder (Load Arm = 0.5m), what happens to required effort?", correct: "C", options: { A: "Effort increases.", B: "Effort remains identical.", C: "Effort decreases (easier to lift).", D: "Force becomes zero." } },
-            { id: "a3_c4_q4", text: "19. Which class of lever positions the fulcrum between the load and effort?", correct: "A", options: { A: "First-Class Lever", B: "Second-Class Lever", C: "Third-Class Lever", D: "Fourth-Class Lever" } },
-            { id: "a3_c4_q5", text: "20. What is the tradeoff when utilizing high mechanical advantage?", correct: "D", options: { A: "You exert more force over less distance.", B: "No tradeoff exists.", C: "Work equals zero.", D: "You exert less force, but must move the effort arm over a greater distance." } }
-          ]
-        },
-        {
-          title: "Chapter 5: Synthesis of Empirical Findings",
-          story: "The team compiled their environmental data to present to the local town council. They demonstrated how empirical testing, variable control, and physics principles allow communities to resolve ecological crises effectively.",
-          questions: [
-            { id: "a3_c5_q1", text: "21. What defines a 'Hypothesis' in scientific methodology?", correct: "B", options: { A: "A proven scientific law.", B: "A testable, evidence-based prediction.", C: "A final summary of results.", D: "A random guess after testing." } },
-            { id: "a3_c5_q2", text: "22. Why are controlled variables kept constant during experiments?", correct: "A", options: { A: "To ensure observed effects are caused strictly by the independent variable.", B: "To speed up the test.", C: "To save materials.", D: "To force desired results." } },
-            { id: "a3_c5_q3", text: "23. What step should be taken if experimental data contradicts the hypothesis?", correct: "C", options: { A: "Alter the data.", B: "Ignore the findings.", C: "Accept the data, evaluate sources of error, and revise the hypothesis.", D: "Abandon scientific inquiry." } },
-            { id: "a3_c5_q4", text: "24. How does quantitative data differ from qualitative data?", correct: "D", options: { A: "Quantitative is descriptive; qualitative is numerical.", B: "They are identical.", C: "Qualitative uses meters; quantitative uses opinions.", D: "Quantitative data involves numerical measurement; qualitative data involves descriptive observations." } },
-            { id: "a3_c5_q5", text: "25. What is the core learning objective of Act 3?", correct: "A", options: { A: "Applying scientific methodology, ecological analysis, and physics logic to environmental problems.", B: "Memorizing science terms.", C: "Building solar panels.", D: "Measuring fish swim speeds." } }
-          ]
-        }
-      ]
-    },
-    act4: {
-      title: "Act 4: The Vault of Quantitative Logic (Mathematics)",
-      chapters: [
-        {
-          title: "Chapter 1: Proportions in Restoration",
-          story: "To secure the historic artifacts and build protective display cases at the restored town hall, Zeik and Allain prepared a mortar mixture. The formula requires Cement : Sand : Gravel in a ratio of 1 : 2 : 4. They need a total batch weight of 140 kilograms.",
-          questions: [
-            { id: "a4_c1_q1", text: "1. What is the sum of the ratio parts (1 + 2 + 4)?", correct: "B", options: { A: "6", B: "7", C: "8", D: "14" } },
-            { id: "a4_c1_q2", text: "2. How many kilograms does 1 ratio part represent (140 kg / total parts)?", correct: "A", options: { A: "20 kg", B: "10 kg", C: "14 kg", D: "25 kg" } },
-            { id: "a4_c1_q3", text: "3. How many kilograms of Gravel (4 parts) are required?", correct: "C", options: { A: "20 kg", B: "40 kg", C: "80 kg", D: "100 kg" } },
-            { id: "a4_c1_q4", text: "4. If they only have 15 kg of Cement, what maximum total balanced mixture weight can they produce?", correct: "A", options: { A: "105 kg (15 kg x 7 total parts)", B: "70 kg", C: "140 kg", D: "90 kg" } },
-            { id: "a4_c1_q5", text: "5. What fraction of the total 140 kg mixture is Sand (2 parts)?", correct: "A", options: { A: "2/7", B: "1/2", C: "4/7", D: "1/4" } }
-          ]
-        },
-        {
-          title: "Chapter 2: Kinematics and Travel Logic",
-          story: "Shane and Ayit traveled to the central archive 30 kilometers away to deliver the expedition log. Shane rode her bicycle at a constant 15 km/h. Ayit departed 20 minutes later on an electric scooter traveling at 20 km/h.",
-          questions: [
-            { id: "a4_c2_q1", text: "6. How many hours does Shane take to travel 30 km at 15 km/h?", correct: "B", options: { A: "1.5 hours", B: "2.0 hours (120 minutes)", C: "2.5 hours", D: "3.0 hours" } },
-            { id: "a4_c2_q2", text: "7. How many hours does Ayit take to travel 30 km at 20 km/h?", correct: "A", options: { A: "1.5 hours (90 minutes)", B: "2.0 hours", C: "1.0 hour", D: "2.5 hours" } },
-            { id: "a4_c2_q3", text: "8. Including her 20-minute delayed departure, what is Ayit's total elapsed time from Shane's start?", correct: "C", options: { A: "90 minutes", B: "120 minutes", C: "110 minutes (20 min delay + 90 min ride)", D: "130 minutes" } },
-            { id: "a4_c2_q4", text: "9. Who reaches the archive first, and by how many minutes?", correct: "D", options: { A: "Shane by 10 minutes.", B: "They tie.", C: "Shane by 20 minutes.", D: "Ayit by 10 minutes (110 min total vs 120 min)." } },
-            { id: "a4_c2_q5", text: "10. At what distance mark from the start does Ayit overtake Shane?", correct: "B", options: { A: "15 km mark", B: "20 km mark (At 80 mins from Shane's start)", C: "10 km mark", D: "25 km mark" } }
-          ]
-        },
-        {
-          title: "Chapter 3: Geometric Optimization",
-          story: "The team designed a rectangular outdoor exhibit garden against a straight stone wall (requiring fencing on only 3 sides). They possess exactly 40 meters of decorative perimeter fencing and want to enclose the maximum possible surface area.",
-          questions: [
-            { id: "a4_c3_q1", text: "11. If the two sides perpendicular to the wall have length 'x', what is the expression for length 'L' parallel to the wall?", correct: "B", options: { A: "L = 40 - x", B: "L = 40 - 2x", C: "L = 20 - x", D: "L = 40 + 2x" } },
-            { id: "a4_c3_q2", text: "12. What is the algebraic formula for Area 'A' in terms of 'x'?", correct: "A", options: { A: "Area = x(40 - 2x) = 40x - 2x²", B: "Area = 40x - x²", C: "Area = 20x - x²", D: "Area = 400x" } },
-            { id: "a4_c3_q3", text: "13. What value of x (width) maximizes the area function A = 40x - 2x²?", correct: "C", options: { A: "x = 5 meters", B: "x = 8 meters", C: "x = 10 meters", D: "x = 20 meters" } },
-            { id: "a4_c3_q4", text: "14. What are the optimal dimensions (Width x Length) for maximum enclosed area?", correct: "D", options: { A: "10m x 10m", B: "5m x 30m", C: "15m x 10m", D: "10m x 20m" } },
-            { id: "a4_c3_q5", text: "15. What is the maximum enclosed area achievable?", correct: "A", options: { A: "200 square meters", B: "100 square meters", C: "400 square meters", D: "150 square meters" } }
-          ]
-        },
-        {
-          title: "Chapter 4: Financial Math & Profitability",
-          story: "To fund future historical research, the four friends organized a community fundraising drive selling commemorative booklets. Fixed production setup costs were $50, and printing costs were $0.50 per booklet. They printed 100 booklets. They sold 80 booklets at $2.00 each, and cleared the remaining 20 at a discounted price of $1.00 each.",
-          questions: [
-            { id: "a4_c4_q1", text: "16. What was the total cost to produce all 100 booklets? ($50 + [100 x $0.50])", correct: "B", options: { A: "$50", B: "$100", C: "$80", D: "$120" } },
-            { id: "a4_c4_q2", text: "17. What revenue was made from selling 80 booklets at $2.00 each?", correct: "A", options: { A: "$160", B: "$80", C: "$200", D: "$140" } },
-            { id: "a4_c4_q3", text: "18. What revenue was made from selling 20 discounted booklets at $1.00 each?", correct: "C", options: { A: "$10", B: "$40", C: "$20", D: "$30" } },
-            { id: "a4_c4_q4", text: "19. What was the combined TOTAL REVENUE from all booklet sales?", correct: "D", options: { A: "$160", B: "$150", C: "$200", D: "$180 ($160 + $20)" } },
-            { id: "a4_c4_q5", text: "20. What was the net profit generated for the archive fund?", correct: "A", options: { A: "$80 profit ($180 revenue - $100 cost)", B: "$100 profit", C: "$50 profit", D: "$30 profit" } }
-          ]
-        },
-        {
-          title: "Chapter 5: Combinatorics & Vault Logic",
-          story: "The archive vault uses a 3-digit security lock using digits from {1, 2, 3, 4, 5} without repetition. Ayit found a clue card: 'Digit 1 is odd, Digit 2 is even, and the sum of all three digits equals exactly 9.'",
-          questions: [
-            { id: "a4_c5_q1", text: "21. What are the eligible odd digits from {1, 2, 3, 4, 5}?", correct: "A", options: { A: "{1, 3, 5}", B: "{2, 4}", C: "{1, 2, 3}", D: "{3, 4, 5}" } },
-            { id: "a4_c5_q2", text: "22. What are the eligible even digits from {1, 2, 3, 4, 5}?", correct: "B", options: { A: "{1, 3, 5}", B: "{2, 4}", C: "{2, 3, 4}", D: "{4, 5}" } },
-            { id: "a4_c5_q3", text: "23. If Digit 1 is 3 and Digit 2 is 2, what must Digit 3 be so the sum equals 9?", correct: "C", options: { A: "2", B: "3", C: "4 (3 + 2 + 4 = 9)", D: "5" } },
-            { id: "a4_c5_q4", text: "24. Does the combination '3-2-4' satisfy all conditions (D1 odd, D2 even, non-repeating, sum = 9)?", correct: "A", options: { A: "Yes, 3 is odd, 2 is even, no digits repeat, and 3+2+4=9.", B: "No, digits repeat.", C: "No, sum is incorrect.", D: "No, 2 is odd." } },
-            { id: "a4_c5_q5", text: "25. Which statement best summarizes the conclusion of the entire quest?", correct: "D", options: { A: "Math is only useful in classrooms.", B: "Word problems have no practical function.", C: "Calculators eliminate the need for reasoning.", D: "Systematic mathematical, scientific, and linguistic analysis empowers individuals to solve complex real-world challenges." } }
-          ]
-        }
-      ]
     }
   };
 
@@ -505,7 +410,7 @@
       const data = await res.json();
       let allRecords = data.record || {};
       
-      scores = allRecords[userName] || { act1: 0, act2: 0, act3: 0, act4: 0 };
+      scores = allRecords[userName] || { act1: 0, act2: 0 };
       updateOverallAverage();
       updateDashboardScoresUI();
     } catch (err) {
@@ -541,22 +446,36 @@
   function updateDashboardScoresUI() {
     document.getElementById('score-act1').innerText = `Latest Score: ${scores.act1 || 0} / 25`;
     document.getElementById('score-act2').innerText = `Latest Score: ${scores.act2 || 0} / 25`;
-    document.getElementById('score-act3').innerText = `Latest Score: ${scores.act3 || 0} / 25`;
-    document.getElementById('score-act4').innerText = `Latest Score: ${scores.act4 || 0} / 25`;
   }
 
   function updateOverallAverage() {
-    let totalPoints = (scores.act1 || 0) + (scores.act2 || 0) + (scores.act3 || 0) + (scores.act4 || 0);
-    let avgScore = (totalPoints / 4).toFixed(1);
-    let percentage = ((totalPoints / 100) * 100).toFixed(1);
+    let totalPoints = (scores.act1 || 0) + (scores.act2 || 0);
+    let avgScore = (totalPoints / 2).toFixed(1);
+    let percentage = ((totalPoints / 50) * 100).toFixed(1);
 
     document.getElementById('topRightAvg').innerText = `Overall Average: ${avgScore} / 25 (${percentage}%)`;
 
     if (userName) saveUserScores();
   }
 
+  function openDifficultyModal(actId) {
+    selectedActId = actId;
+    document.getElementById('modalActTitle').innerText = activitiesData[actId].title;
+    document.getElementById('difficultyModal').classList.add('active');
+  }
+
+  function closeDifficultyModal() {
+    document.getElementById('difficultyModal').classList.remove('active');
+  }
+
+  function selectDifficulty(diff) {
+    currentDifficulty = diff;
+    closeDifficultyModal();
+    startActivity(selectedActId);
+  }
+
   function startActivity(actId) {
-    currentActId = actId;
+    selectedActId = actId;
     currentChapterIdx = 0;
     userAnswers = {};
     document.getElementById('dashboardView').classList.remove('active');
@@ -564,6 +483,7 @@
     document.getElementById('resultsScreen').style.display = 'none';
     document.getElementById('controlBox').style.display = 'flex';
     document.getElementById('actTitle').innerText = activitiesData[actId].title;
+    document.getElementById('diffIndicator').innerText = `Difficulty Level: ${currentDifficulty}`;
     renderChapter();
   }
 
@@ -573,7 +493,7 @@
   }
 
   function renderChapter() {
-    const act = activitiesData[currentActId];
+    const act = activitiesData[selectedActId];
     const ch = act.chapters[currentChapterIdx];
 
     document.getElementById('pageIndicator').innerText = `Chapter ${currentChapterIdx + 1} of ${act.chapters.length}`;
@@ -605,7 +525,7 @@
   }
 
   function changeChapter(dir) {
-    const act = activitiesData[currentActId];
+    const act = activitiesData[selectedActId];
     if (dir === 1 && currentChapterIdx === act.chapters.length - 1) {
       calculateResult();
     } else {
@@ -616,13 +536,13 @@
   }
 
   function calculateResult() {
-    const act = activitiesData[currentActId];
+    const act = activitiesData[selectedActId];
     let score = 0;
     act.chapters.forEach(ch => {
       ch.questions.forEach(q => { if (userAnswers[q.id] === q.correct) score++; });
     });
 
-    scores[currentActId] = score;
+    scores[selectedActId] = score;
     updateDashboardScoresUI();
     document.getElementById('pageContainer').innerHTML = '';
     document.getElementById('controlBox').style.display = 'none';
