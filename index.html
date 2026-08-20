@@ -275,20 +275,15 @@
 </div>
 
 <script>
-  const BIN_ID = "6a85d393da38895dfef7ba53";
+  // NA-UPDATE NA BIN ID AT API KEY
+  const BIN_ID = "6a86ec7bf5f4af5e292cd53f";
   const API_KEY = "$2a$10$KCezIUwi73LGQEZiT9IzLOJLD36ZRvZkHLjVI8hwBkJTimyWOrzdq";
 
   let userName = "";
   let selectedActId = null;
   let currentDifficulty = "Easy";
   let userAnswers = {};
-  
-  // Structured score layout categorized per difficulty level
-  let scores = {
-    Easy: { act1: 0, act2: 0, act3: 0, act4: 0 },
-    Medium: { act1: 0, act2: 0, act3: 0, act4: 0 },
-    Hard: { act1: 0, act2: 0, act3: 0, act4: 0 }
-  };
+  let scores = { act1: 0, act2: 0, act3: 0, act4: 0 };
 
   const activitiesData = {
     act1: {
@@ -532,14 +527,7 @@
       const data = await res.json();
       let allRecords = data.record || {};
       
-      const userRecord = allRecords[userName];
-      if (userRecord && userRecord.detailedScores) {
-        scores = userRecord.detailedScores;
-      } else if (userRecord && !userRecord.averages) {
-        // Migration support for old data format
-        scores.Easy = { ...scores.Easy, ...userRecord };
-      }
-      
+      scores = allRecords[userName] || { act1: 0, act2: 0, act3: 0, act4: 0 };
       updateOverallAverage();
       updateDashboardScoresUI();
     } catch (err) {
@@ -555,21 +543,7 @@
       const data = await res.json();
       let allRecords = data.record || {};
 
-      const computeAvg = (diffKey) => {
-        const diffObj = scores[diffKey] || {};
-        const sum = (diffObj.act1 || 0) + (diffObj.act2 || 0) + (diffObj.act3 || 0) + (diffObj.act4 || 0);
-        return Math.round((sum / 40) * 100);
-      };
-
-      allRecords[userName] = {
-        name: userName,
-        averages: {
-          easy: computeAvg('Easy'),
-          medium: computeAvg('Medium'),
-          hard: computeAvg('Hard')
-        },
-        detailedScores: scores
-      };
+      allRecords[userName] = scores;
 
       await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
         method: "PUT",
@@ -587,11 +561,10 @@
   function handleKeyPress(e) { if (e.key === 'Enter') signIn(); }
 
   function updateDashboardScoresUI() {
-    const currentScores = scores[currentDifficulty] || { act1: 0, act2: 0, act3: 0, act4: 0 };
-    document.getElementById('score-act1').innerText = `Latest Score: ${currentScores.act1 || 0} / 10`;
-    document.getElementById('score-act2').innerText = `Latest Score: ${currentScores.act2 || 0} / 10`;
-    document.getElementById('score-act3').innerText = `Latest Score: ${currentScores.act3 || 0} / 10`;
-    document.getElementById('score-act4').innerText = `Latest Score: ${currentScores.act4 || 0} / 10`;
+    document.getElementById('score-act1').innerText = `Latest Score: ${scores.act1 || 0} / 10`;
+    document.getElementById('score-act2').innerText = `Latest Score: ${scores.act2 || 0} / 10`;
+    document.getElementById('score-act3').innerText = `Latest Score: ${scores.act3 || 0} / 10`;
+    document.getElementById('score-act4').innerText = `Latest Score: ${scores.act4 || 0} / 10`;
   }
 
   function updateDashboardTitles() {
@@ -602,12 +575,11 @@
   }
 
   function updateOverallAverage() {
-    const currentScores = scores[currentDifficulty] || { act1: 0, act2: 0, act3: 0, act4: 0 };
-    let totalPoints = (currentScores.act1 || 0) + (currentScores.act2 || 0) + (currentScores.act3 || 0) + (currentScores.act4 || 0);
+    let totalPoints = (scores.act1 || 0) + (scores.act2 || 0) + (scores.act3 || 0) + (scores.act4 || 0);
     let avgScore = (totalPoints / 4).toFixed(1);
     let percentage = ((totalPoints / 40) * 100).toFixed(1);
 
-    document.getElementById('topRightAvg').innerText = `${currentDifficulty} Average: ${avgScore} / 10 (${percentage}%)`;
+    document.getElementById('topRightAvg').innerText = `Overall Average: ${avgScore} / 10 (${percentage}%)`;
 
     if (userName) saveUserScores();
   }
@@ -625,8 +597,6 @@
     currentDifficulty = diff;
     document.getElementById('currentDiffTag').innerText = diff;
     updateDashboardTitles();
-    updateDashboardScoresUI();
-    updateOverallAverage();
     closeDifficultyModal();
 
     if (selectedActId && document.getElementById('activityView').classList.contains('active')) {
@@ -688,11 +658,7 @@
       if (userAnswers[q.id] === q.correct) score++;
     });
 
-    if (!scores[currentDifficulty]) {
-      scores[currentDifficulty] = { act1: 0, act2: 0, act3: 0, act4: 0 };
-    }
-
-    scores[currentDifficulty][selectedActId] = score;
+    scores[selectedActId] = score;
     updateDashboardScoresUI();
     document.getElementById('pageContainer').innerHTML = '';
     document.getElementById('controlBox').style.display = 'none';
