@@ -144,7 +144,7 @@
     .back-btn { background: none; border: none; color: var(--primary); font-weight: bold; cursor: pointer; margin-bottom: 16px; font-family: 'Georgia', serif; }
 
     .header { border-bottom: 2px double var(--border); padding-bottom: 12px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
-    .story-text { background-color: #eae2d3; padding: 22px; border-left: 5px solid var(--primary); border-radius: 2px; margin-bottom: 24px; text-align: justify; }
+    .story-text { background-color: #eae2d3; padding: 22px; border-left: 5px solid var(--primary); border-radius: 2px; margin-bottom: 24px; text-align: justify; line-height: 1.8; }
     .story-text h3 { margin-bottom: 10px; color: var(--primary); font-size: 1.2rem; }
     .question-box { margin-bottom: 20px; padding: 18px; border: 1px solid var(--border); border-radius: 4px; background: #fff; }
     .options label { display: block; padding: 10px 12px; margin: 6px 0; border: 1px solid #e0d5c5; border-radius: 3px; cursor: pointer; background: var(--card-bg); transition: background 0.1s ease; }
@@ -159,7 +159,7 @@
 </head>
 <body>
 
-<div class="bottom-right-avg" id="topRightAvg">Overall Average: 0.0 / 5 (0.0%)</div>
+<div class="bottom-right-avg" id="topRightAvg">Overall Average: 0.0 / 10 (0.0%)</div>
 
 <div class="container">
 
@@ -198,8 +198,8 @@
       <div class="story-card" onclick="startActivity('act1')">
         <div>
           <span class="card-badge">Act 1 • Tagalog</span>
-          <h2 class="card-title" id="title-act1">Ang Nawawalang Kuting ni Ana</h2>
-          <div class="score-badge" id="score-act1">Latest Score: 0 / 5</div>
+          <h2 class="card-title" id="title-act1">Ang Masayang Araw ni Mateo sa Bukid</h2>
+          <div class="score-badge" id="score-act1">Latest Score: 0 / 10</div>
         </div>
         <div class="card-footer">Begin Act 1 &rarr;</div>
       </div>
@@ -208,8 +208,8 @@
       <div class="story-card" onclick="startActivity('act2')">
         <div>
           <span class="card-badge">Act 2 • English</span>
-          <h2 class="card-title" id="title-act2">The Little Puppy in the Park</h2>
-          <div class="score-badge" id="score-act2">Latest Score: 0 / 5</div>
+          <h2 class="card-title" id="title-act2">Leo's Adventure at Green Valley Farm</h2>
+          <div class="score-badge" id="score-act2">Latest Score: 0 / 10</div>
         </div>
         <div class="card-footer">Begin Act 2 &rarr;</div>
       </div>
@@ -244,7 +244,7 @@
 
       <div id="resultsScreen" style="display:none; text-align:center;">
         <h2>Challenge Completed, <span id="resultStudentName"></span>!</h2>
-        <div id="scoreDisplay" style="font-size:2.5rem; font-weight:bold; color:var(--primary); margin:20px 0;">0 / 5</div>
+        <div id="scoreDisplay" style="font-size:2.5rem; font-weight:bold; color:var(--primary); margin:20px 0;">0 / 10</div>
         <button class="btn" onclick="showDashboard()">Return to Dashboard</button>
       </div>
 
@@ -269,71 +269,101 @@
   const activitiesData = {
     act1: {
       Easy: {
-        title: "Ang Nawawalang Kuting ni Ana",
-        story: "Isang umaga, nawawala ang kuting ni Ana na si Muming. Kulay puti si Muming at may pulang laso sa leeg. Hinanap ito ni Ana sa bakuran. Nakita niya si Muming na natutulog sa ilalim ng malaking puno ng mangga.",
+        title: "Ang Masayang Araw ni Mateo sa Bukid",
+        story: "Isang maagang Sabado ng umaga, nagising si Mateo sa tilaok ng manok sa bakuran ng kanyang Lolo Ramon. Bisita si Mateo sa lalawigan ng Laguna upang magpalipas ng bakasyon sa bukid. Pagkatapos kumain ng masarap na almusal na sinangag at itlog, sumama si Mateo sa kanyang lolo upang pakainin ang mga alagang manok at pato. May hawak na maliit na timba si Mateo na naglalaman ng mga binatog na mais.\n\nHabang naglalakad patungo sa sagingan, nakakita si Mateo ng isang maliit na basang kuting na nagtatago sa ilalim ng malaking dahon ng gabi. Umiiyak ang kuting at tila nawawala. Agad itong kinuha ni Mateo at pinaliguan gamit ang maligamgam na tubig. Pinangalanan niya itong 'Puti' dahil sa malinis nitong balahibo. Masayang-masaya si Lolo Ramon dahil ipinakita ni Mateo ang pagiging maawain at matulungin sa mga hayop.",
         questions: [
-          { id: "q1", text: "1. Ano ang pangalan ng kuting ni Ana?", correct: "A", options: { A: "Muming", B: "Bantay", C: "Tagpi", D: "Munying" } },
-          { id: "q2", text: "2. Ano ang kulay ng kuting?", correct: "B", options: { A: "Itim", B: "Puti", C: "Chesnut", D: "Abuhin" } },
-          { id: "q3", text: "3. Ano ang nasa leeg ni Muming?", correct: "C", options: { A: "Tali", B: "Singsing", C: "Pulang laso", D: "Bakal" } },
-          { id: "q4", text: "4. Saan nahanap ni Ana ang kanyang kuting?", correct: "A", options: { A: "Sa ilalim ng puno ng mangga", B: "Sa loob ng kwarto", C: "Sa kalye", D: "Sa kusina" } },
-          { id: "q5", text: "5. Ano ang ginagawa ni Muming nang mahanap siya?", correct: "D", options: { A: "Kumakain", B: "Naglalaro", C: "Tumatakbo", D: "Natutulog" } }
+          { id: "q1", text: "1. Sino ang pangunahing tauhan sa kwento?", correct: "A", options: { A: "Mateo", B: "Lolo Ramon", C: "Zeik", D: "Juan" } },
+          { id: "q2", text: "2. Saang lalawigan matatagpuan ang bukid ni Lolo Ramon?", correct: "C", options: { A: "Batangas", B: "Cavite", C: "Laguna", D: "Quezon" } },
+          { id: "q3", text: "3. Anong araw nagising nang maaga si Mateo?", correct: "B", options: { A: "Biyernes", B: "Sabado", C: "Linggo", D: "Lunes" } },
+          { id: "q4", text: "4. Ano ang ginamit na pagkain para sa mga manok?", correct: "D", options: { A: "Kanin", B: "Rasyon", C: "Tinapay", D: "Binatog na mais" } },
+          { id: "q5", text: "5. Saan nahanap ni Mateo ang nawawalang kuting?", correct: "A", options: { A: "Sa ilalim ng dahon ng gabi", B: "Sa loob ng kwarto", C: "Sa tabi ng ilog", D: "Sa ilalim ng puno ng mangga" } },
+          { id: "q6", text: "6. Anong pangalan ang ibinigay ni Mateo sa kuting?", correct: "B", options: { A: "Tagpi", B: "Puti", C: "Muming", D: "Blacky" } },
+          { id: "q7", text: "7. Bakit iyon ang ipinangalan niya sa kuting?", correct: "C", options: { A: "Dahil sa kulay ng mata nito", B: "Dahil mabilis itong tumakbo", C: "Dahil sa malinis nitong puting balahibo", D: "Dahil sa kulay ng laso nito" } },
+          { id: "q8", text: "8. Ano ang kinain ni Mateo para sa almusal?", correct: "A", options: { A: "Sinangag at itlog", B: "Tinapay at gatas", C: "Sopas", D: "Champorado" } },
+          { id: "q9", text: "9. Ano ang ginamit ni Mateo sa pagpaligo sa kuting?", correct: "D", options: { A: "Malamig na tubig", B: "Sabon sa pinggan", C: "Tubig-ulan", D: "Maligamgam na tubig" } },
+          { id: "q10", text: "10. Anong magandang asal ang ipinakita ni Mateo sa kwento?", correct: "B", options: { A: "Pagiging matapat", B: "Pagiging maawain sa hayop", C: "Pagiging matapang", D: "Pagiging masipag mag-aral" } }
         ]
       },
       Medium: {
-        title: "Ang Lihim ng Lumang Talaarawan",
-        story: "Habang naglilinis ng nakatagong silid sa Lumang Aklatan ng Bayan sina Zeik at Ayit, nakakita sila ng lumang talaarawan mula noong 1942. Nakasulat dito ang isang babala: 'Ang katotohanan ay nakakubli sa mga pahinang hindi nabuksan.' Napansin ni Ayit na bawat ikatlong pahina ng talaarawan ay may marka ng tinta.",
+        title: "Ang Misteryo sa Lumang Parola ng Isla San Martin",
+        story: "Ang Isla ng San Martin ay kilala sa isang lumang parola na itinayo noong panahon ng Espanyol. Sinasabing hindi na ito ginagamit mula pa noong taong 1952. Sina Zeik at Ayit, dalawang batang mag-aaral na interesado sa kasaysayan, ay nagpasyang bisitahin ang parola bilang bahagi ng kanilang proyekto sa paaralan.\n\nSa loob ng parola, nakakita sila ng isang lumang wooden chest na may tatlong numero na lock code. Sa itaas ng chest ay may nakaukit na bugtong: 'Ang bilang ng mga hagdan patungo sa tuktok ng parola ay hinati sa dalawa, idinagdag ang bilang ng mga bintana sa tore (8 bintana).' Matapos nilang bilangin ang 60 na hakbang ng hagdanan, kinakalkula ni Zeik ang tamang sagot: (60 / 2) + 8 = 38. Nang iikot nila ang lock sa numerong 038, nabuksan ang kahoy na baul at natuklasan nila ang lumang mapa ng isla at isang tansong kompas.",
         questions: [
-          { id: "q1", text: "1. Anong taon naisulat ang lumang talaarawan?", correct: "C", options: { A: "1900", B: "1930", C: "1942", D: "1950" } },
-          { id: "q2", text: "2. Saan natagpuan nina Zeik at Ayit ang talaarawan?", correct: "B", options: { A: "Sa parke", B: "Sa nakatagong silid sa Lumang Aklatan", C: "Sa paaralan", D: "Sa bahay ni Ayit" } },
-          { id: "q3", text: "3. Gaano kadalas lumilitaw ang marka ng tinta sa mga pahina?", correct: "A", options: { A: "Bawat ika-3 pahina", B: "Bawat ika-2 pahina", C: "Bawat ika-5 pahina", D: "Sa huling pahina lamang" } },
-          { id: "q4", text: "4. Batay sa nakasulat, saan nakakubli ang katotohanan?", correct: "B", options: { A: "Sa mga salita", B: "Sa mga pahinang hindi nabuksan", C: "Sa ilalim ng mesa", D: "Sa sampayan" } },
-          { id: "q5", text: "5. Anong katangian ang ipinakita ni Ayit nang mapansin niya ang marka sa tinta?", correct: "C", options: { A: "Pagiging matakaw", B: "Pagiging tamad", C: "Pagiging observant o mausisa", D: "Pagiging matatakutin" } }
+          { id: "q1", text: "1. Saang isla matatagpuan ang lumang parola?", correct: "B", options: { A: "Isla San Jose", B: "Isla San Martin", C: "Isla Verde", D: "Isla Coron" } },
+          { id: "q2", text: "2. Mula anong taon na hindi na ginagamit ang parola?", correct: "A", options: { A: "1952", B: "1942", C: "1960", D: "1980" } },
+          { id: "q3", text: "3. Sino-sino ang dalawang mag-aaral na bumisita sa parola?", correct: "D", options: { A: "Mateo at Ana", B: "Shane at Allain", C: "Juan at Pedro", D: "Zeik at Ayit" } },
+          { id: "q4", text: "4. Ilang bintana mayroon ang tore ng parola?", correct: "C", options: { A: "6 na bintana", B: "10 bintana", C: "8 bintana", D: "12 bintana" } },
+          { id: "q5", text: "5. Ilan ang kabuuang bilang ng mga hakbang ng hagdanan patungo sa tuktok?", correct: "A", options: { A: "60 na hakbang", B: "50 na hakbang", C: "40 na hakbang", D: "80 na hakbang" } },
+          { id: "q6", text: "6. Anong locking code ang nakapagpabukas sa lumang baul?", correct: "B", options: { A: "028", B: "038", C: "048", D: "068" } },
+          { id: "q7", text: "7. Ano-ano ang nilalaman ng lumang wooden chest?", correct: "C", options: { A: "Mga gintong barya at alahas", B: "Aklat at panulat", C: "Lumang mapa ng isla at tansong kompas", D: "Susing bakal at lumang damit" } },
+          { id: "q8", text: "8. Bakit binisita ng mga mag-aaral ang parola?", correct: "D", options: { A: "Upang magbakasyon", B: "Upang magtago", C: "Upang maghanap ng pagkain", D: "Para sa proyekto sa paaralan" } },
+          { id: "q9", text: "9. Anong uri ng lalagyan ang natagpuan sa loob ng parola?", correct: "A", options: { A: "Wooden chest (baul na kahoy)", B: "Librong bakal", C: "Kahong karton", D: "Sapot ng gagamba" } },
+          { id: "q10", text: "10. Anong asignaturang pang-akademiko ang nauugnay sa kanilang saliksik?", correct: "C", options: { A: "Siyensya", B: "Musika", C: "Kasaysayan", D: "Sining" } }
         ]
       },
       Hard: {
-        title: "Ang Kodigo ng Lumang Aklatan",
-        story: "Sa pahina 12 ng luma at maalikabok na libro, nakakita si Shane ng nakasulat na numerical cipher: '3-1-18-12-15-19'. Sinabi ni Allain na ang bawat numero ay tumutukoy sa alpabetong Ingles (A=1, B=2...). Nang isalin, lumabas ang salitang 'CARLOS'. Nakatala rin ang panuto: 'Si Carlos ay hindi tao, kundi ang estatwang may hawak na dalawang orasan na nakaturo sa 3:00 at 9:00. Pag-isahin ang oras (12:00) at hatiin sa dalawa (6:00) upang mabuksan ang lihim na kwarto.'",
+        title: "Ang Lihim ng Subterranean Cavern sa Bundok Banahaw",
+        story: "Isang pangkat ng mga siyentipiko at mananaliksik, sa pangunguna nina Dra. Santos at Prof. Ramos, ang naggalugad sa isang bagong natuklasang kuweba sa lalim na 200 metro sa ilalim ng Bundok Banahaw. Ang layunin ng ekspedisyon ay ang makakolekta ng mga halimbawa ng mga bihirang uri ng stalactites at stalagmites na may halong kalkipikadong mineral.\n\nSa gitna ng kuweba, nakatagpo sila ng isang likas na underground lake na may kakaibang katangian: ang pH level nito ay 6.5 (bahagyang asidiko) at may temperatura na 18°C. Upang makatawid sa kabilang dako ng lawa nang ligtas, kinailangan nilang kalkulahin ang lakas ng daloy ng tubig batay sa bawat galaw ng kanilang inflatable boat. Ginamit nila ang pormulang Speed = Distance / Time upang maiwasan ang mga matatalim na batong nakatago sa ilalim ng tubig. Dahil sa disiplina at sistematikong kalkulasyon ng pangkat, matagumpay silang nakakuha ng datos at nakabalik sa ibabaw nang walang nasaktan.",
         questions: [
-          { id: "q1", text: "1. Paano nakuha ang salitang 'CARLOS' mula sa numero?", correct: "A", options: { A: "Paggamit ng A=1, B=2, C=3...", B: "Pag-sulat nang pabaligtad", C: "Pagbawas ng limang numero", D: "Panghuhula lamang" } },
-          { id: "q2", text: "2. Sino o ano ang tinutukoy na 'Carlos' sa kwento?", correct: "C", options: { A: "Isang guwardiya sa aklatan", B: "Isang matandang guro", C: "Isang estatwang may hawak na mga orasan", D: "Isang alagang pusa" } },
-          { id: "q3", text: "3. Kapag pinagsama ang oras na 3:00 at 9:00, at hinati ito sa kalahati, anong oras ang kalalabasan?", correct: "B", options: { A: "3:00", B: "6:00", C: "12:00", D: "9:00" } },
-          { id: "q4", text: "4. Sa oras na 6:00, anong anggulo (angle) ang nabubuo ng kamay ng orasan?", correct: "D", options: { A: "45 degrees", B: "90 degrees", C: "360 degrees", D: "180 degrees (Straight line)" } },
-          { id: "q5", text: "5. Bakit gumamit ng cipher at matematika ang nagsulat ng talaarawan?", correct: "A", options: { A: "Upang matiyak na matatalinong tao lamang ang makababasa nito", B: "Dahil nakalimutan niya ang tunay na wika", C: "Upang magpatawa lamang", D: "Dahil nasira ang kanyang panulat" } }
+          { id: "q1", text: "1. Sa anong bundok matatagpuan ang natuklasang kuweba?", correct: "A", options: { A: "Bundok Banahaw", B: "Bundok Makiling", C: "Bundok Apo", D: "Bundok Pulag" } },
+          { id: "q2", text: "2. Sa anong lalim matatagpuan ang subterranean cavern?", correct: "C", options: { A: "100 metro", B: "150 metro", C: "200 metro", D: "300 metro" } },
+          { id: "q3", text: "3. Sino-sino ang namuno sa ekspedisyon ng mga siyentipiko?", correct: "B", options: { A: "Zeik at Ayit", B: "Dra. Santos at Prof. Ramos", C: "Mateo at Ramon", D: "Shane at Allain" } },
+          { id: "q4", text: "4. Ano ang pangunahing layunin ng kanilang ekspedisyon?", correct: "D", options: { A: "Maghanap ng underground river", B: "Kumuha ng litrato", C: "Magtayo ng kampo", D: "Makakolekta ng halimbawa ng stalactites at stalagmites" } },
+          { id: "q5", text: "5. Ano ang pH level ng underground lake?", correct: "A", options: { A: "6.5 (bahagyang asidiko)", B: "7.0 (neutral)", C: "8.5 (alkaline)", D: "4.0 (sobrang asidiko)" } },
+          { id: "q6", text: "6. Ano ang naitalang temperatura ng tubig sa lawa?", correct: "B", options: { A: "25°C", B: "18°C", C: "10°C", D: "30°C" } },
+          { id: "q7", text: "7. Anong pormula sa pisika ang ginamit upang makatawid nang ligtas sa lawa?", correct: "C", options: { A: "Force = Mass x Acceleration", B: "Area = Length x Width", C: "Speed = Distance / Time", D: "Density = Mass / Volume" } },
+          { id: "q8", text: "8. Anong uri ng sasakyang pampalutang ang ginamit ng pangkat?", correct: "D", options: { A: "Balsa na kawayan", B: "Kano", C: "Mabilis na barko", D: "Inflatable boat" } },
+          { id: "q9", text: "9. Anong panganib ang nakatago sa ilalim ng tubig ng lawa?", correct: "B", options: { A: "Mga buwaya", B: "Matatalim na bato", C: "Malalaking alon", D: "Kuryente" } },
+          { id: "q10", text: "10. Anong mahalagang salik ang nagligtas sa buong pangkat sa ekspedisyon?", correct: "A", options: { A: "Disiplina at sistematikong kalkulasyon", B: "Mabilis na pagtakbo", C: "Swerte lamang", D: "Paggamit ng malalakas na ilaw" } }
         ]
       }
     },
     act2: {
       Easy: {
-        title: "The Little Puppy in the Park",
-        story: "Tom went to the park on a sunny Saturday. He brought a red ball to play with. While running, he saw a small brown puppy sitting near the bench. Tom shared his sandwich with the hungry puppy and they played together.",
+        title: "Leo's Adventure at Green Valley Farm",
+        story: "On a bright summer morning, Leo packed his yellow backpack and traveled to Green Valley Farm to visit his grandparents, Grandpa Joe and Grandma Clara. The farm was filled with tall green trees, fresh vegetables, and friendly farm animals.\n\nEvery morning at 7:00 AM, Leo helped Grandpa Joe collect fresh eggs from the hen house. They collected 12 brown eggs on Tuesday. Afterwards, Leo ran to the orchard to pick sweet red strawberries into a wicker basket. In the afternoon, Leo sat under a large oak tree and drank fresh lemonade prepared by Grandma Clara. It was Leo's favorite vacation place because he learned how to take care of nature and animals.",
         questions: [
-          { id: "q1", text: "1. Where did Tom go on Saturday?", correct: "A", options: { A: "To the park", B: "To school", C: "To the beach", D: "To the store" } },
-          { id: "q2", text: "2. What toy did Tom bring with him?", correct: "C", options: { A: "A blue kite", B: "A toy car", C: "A red ball", D: "A bicycle" } },
-          { id: "q3", text: "3. What color was the puppy?", correct: "B", options: { A: "White", B: "Brown", C: "Black", D: "Spotted" } },
-          { id: "q4", text: "4. What food did Tom share with the puppy?", correct: "D", options: { A: "An apple", B: "A biscuit", C: "A pizza", D: "A sandwich" } },
-          { id: "q5", text: "5. Where was the puppy sitting when Tom saw it?", correct: "A", options: { A: "Near the bench", B: "Under a car", C: "On a tree", D: "In the pond" } }
+          { id: "q1", text: "1. What is the name of the farm Leo visited?", correct: "A", options: { A: "Green Valley Farm", B: "Sunny Hill Farm", C: "Riverdale Farm", D: "Blue Lake Farm" } },
+          { id: "q2", text: "2. What color was Leo's backpack?", correct: "C", options: { A: "Red", B: "Blue", C: "Yellow", D: "Green" } },
+          { id: "q3", text: "3. What time did Leo help collect eggs each morning?", correct: "B", options: { A: "6:00 AM", B: "7:00 AM", C: "8:00 AM", D: "9:00 AM" } },
+          { id: "q4", text: "4. How many brown eggs did they collect on Tuesday?", correct: "D", options: { A: "6 eggs", B: "10 eggs", C: "8 eggs", D: "12 eggs" } },
+          { id: "q5", text: "5. Who made fresh lemonade for Leo in the afternoon?", correct: "A", options: { A: "Grandma Clara", B: "Grandpa Joe", C: "His mother", D: "His sister" } },
+          { id: "q6", text: "6. What fruit did Leo pick in the orchard?", correct: "B", options: { A: "Apples", B: "Red strawberries", C: "Oranges", D: "Peaches" } },
+          { id: "q7", text: "7. Where did Leo sit while drinking his beverage?", correct: "C", options: { A: "On a porch swing", B: "Inside the barn", C: "Under a large oak tree", D: "By the riverbank" } },
+          { id: "q8", text: "8. What container did Leo use to gather strawberries?", correct: "D", options: { A: "A plastic bag", B: "A metal bucket", C: "A cardboard box", D: "A wicker basket" } },
+          { id: "q9", text: "9. Who accompanied Leo when collecting eggs?", correct: "A", options: { A: "Grandpa Joe", B: "Grandma Clara", C: "His pet dog", D: "No one" } },
+          { id: "q10", text: "10. What lesson did Leo learn during his stay at the farm?", correct: "B", options: { A: "How to drive a tractor", B: "How to take care of nature and animals", C: "How to bake bread", D: "How to ride a horse" } }
         ]
       },
       Medium: {
-        title: "The Expedition to Whispering Cliff",
-        story: "Zeik and Allain hiked towards Whispering Cliff following an old map. Inside a hollow tree along the path, they found a silver compass and a note: 'I speak without a mouth and hear without ears. I have no body, but I come alive with wind.' Allain realized the answer was an Echo, pointing toward the canyon ahead.",
+        title: "The Secret of the Echoing Cave",
+        story: "High in the Whispering Mountains, siblings Maya and Ethan discovered an entrance to a hidden cavern known as the Echoing Cave. Armed with reliable headlamps and a sturdy compass, they stepped into the cool stone passageway.\n\nInside the cave's main chamber, they found an ancient stone tablet mounted on a pedestal. Inscribed on the surface was a riddle: 'I reply when you call, though I have no voice of my own. Count my bounces three times, and the path ahead shall be shown.' Ethan shouted the word 'OPEN' into the chamber, listening carefully as the echo repeated three distinct times across the canyon walls. On the third echo, a hidden stone mechanism creaked open, revealing a chamber filled with glowing quartz crystals.",
         questions: [
-          { id: "q1", text: "1. Where were Zeik and Allain hiking to?", correct: "B", options: { A: "Crystal Cave", B: "Whispering Cliff", C: "Green Valley", D: "Sunny Beach" } },
-          { id: "q2", text: "2. What item did they find inside the hollow tree?", correct: "A", options: { A: "A silver compass and a note", B: "A box of gold", C: "A flash drive", D: "An old wristwatch" } },
-          { id: "q3", text: "3. What is the answer to the riddle on the note?", correct: "C", options: { A: "A ghost", B: "The ocean", C: "An Echo", D: "A bird" } },
-          { id: "q4", text: "4. Where did the answer 'Echo' lead them?", correct: "B", options: { A: "To the river", B: "Toward the canyon ahead", C: "Back to their home", D: "To the top of a tree" } },
-          { id: "q5", text: "5. What item helped them find the location inside the forest?", correct: "D", options: { A: "A telescope", B: "A flashlight", C: "A phone", D: "An old map" } }
+          { id: "q1", text: "1. Where is the Echoing Cave located?", correct: "B", options: { A: "Rocky Ridge", B: "Whispering Mountains", C: "Emerald Valley", D: "Crystal Canyon" } },
+          { id: "q2", text: "2. Who are the two main explorers in the story?", correct: "A", options: { A: "Maya and Ethan", B: "Leo and Clara", C: "Zeik and Ayit", D: "Shane and Allain" } },
+          { id: "q3", text: "3. What equipment did they carry for light and navigation?", correct: "C", options: { A: "Torches and maps", B: "Flashlights and lanterns", C: "Headlamps and a sturdy compass", D: "Matches and candles" } },
+          { id: "q4", text: "4. What object held the riddle inside the main chamber?", correct: "D", options: { A: "A wooden chest", B: "A iron door", C: "A leather book", D: "An ancient stone tablet" } },
+          { id: "q5", text: "5. What word did Ethan shout to trigger the echo?", correct: "A", options: { A: "OPEN", B: "HELLO", C: "ECHO", D: "SESAME" } },
+          { id: "q6", text: "6. How many times did the echo repeat before the door unlocked?", correct: "B", options: { A: "2 times", B: "3 times", C: "4 times", D: "5 times" } },
+          { id: "q7", text: "7. What was hidden inside the secret chamber?", correct: "C", options: { A: "Gold coins", B: "Old maps", C: "Glowing quartz crystals", D: "Silver weapons" } },
+          { id: "q8", text: "8. What natural phenomenon was the central element of the riddle?", correct: "D", options: { A: "Lightning", B: "Wind", C: "Water flow", D: "Sound echo" } },
+          { id: "q9", text: "9. How did the secret passage open?", correct: "A", options: { A: "Via a stone mechanism creaking open", B: "A wooden door sliding up", C: "A floor trap opening", D: "A curtain falling" } },
+          { id: "q10", text: "10. What relationship exists between Maya and Ethan?", correct: "B", options: { A: "Classmates", B: "Siblings", C: "Teacher and student", D: "Cousins" } }
         ]
       },
       Hard: {
-        title: "Deciphering Cavern Coordinates",
-        story: "At Whispering Cliff, the explorers examined a compass marked with precise grid coordinates: Latitude 14.5° N, Longitude 121.0° E. To unlock the cave's pressure plate mechanism, they had to step on two balance weights. Inscribed on the wall was: 'Step on two plates whose combined weight equals 60kg and whose difference is 20kg.' They selected the 40kg and 20kg stone plates to open the heavy door.",
+        title: "The Cipher of the Ancient Observatory",
+        story: "In 1888, astronomers at the Royal Crest Observatory constructed a specialized telescope designed to track celestial movements. Dr. Julian, an astrophysicist studying historic archives, recently uncovered a sealed logbook containing complex mathematical coordinate calculations.\n\nThe logbook specified an optical alignment test: 'Set the primary objective lens at an angle of 45 degrees relative to the horizon. Align the secondary reflector mirror at double the angle (90 degrees). Calculate the refraction index constant (N = 1.5) multiplied by focal distance (F = 20 meters).' Dr. Julian executed the calculation: 1.5 x 20 = 30. By adjusting the focal tube precisely to 30 millimeters, the telescope focused perfectly on a previously undocumented star cluster, proving the precision of 19th-century astronomical science.",
         questions: [
-          { id: "q1", text: "1. What were the latitude coordinates marked on the compass?", correct: "A", options: { A: "14.5° N", B: "121.0° E", C: "20.0° N", D: "60.0° S" } },
-          { id: "q2", text: "2. What two mathematical conditions were required for the pressure plates?", correct: "C", options: { A: "Sum = 100kg, Difference = 10kg", B: "Sum = 50kg, Difference = 5kg", C: "Sum = 60kg, Difference = 20kg", D: "Sum = 40kg, Difference = 20kg" } },
-          { id: "q3", text: "3. Which two stone plates correctly solved the balance puzzle?", correct: "B", options: { A: "30kg and 30kg", B: "40kg and 20kg", C: "50kg and 10kg", D: "45kg and 15kg" } },
-          { id: "q4", text: "4. Why did 30kg and 30kg fail to unlock the door despite having a sum of 60kg?", correct: "D", options: { A: "Their sum was incorrect.", B: "They were too heavy.", C: "The plates were broken.", D: "Their difference was 0kg instead of the required 20kg." } },
-          { id: "q5", text: "5. What field of critical thinking is used to solve coordinate systems and simultaneous equations?", correct: "A", options: { A: "Mathematical Logic & Spatial Reasoning", B: "Creative Storytelling", C: "Random Guessing", D: "Physical Speed" } }
+          { id: "q1", text: "1. In what year was the telescope at Royal Crest Observatory built?", correct: "C", options: { A: "1788", B: "1850", C: "1888", D: "1905" } },
+          { id: "q2", text: "2. What is Dr. Julian's scientific profession?", correct: "A", options: { A: "Astrophysicist", B: "Geologist", C: "Archaeologist", D: "Biologist" } },
+          { id: "q3", text: "3. What angle was required for the primary objective lens?", correct: "B", options: { A: "30 degrees", B: "45 degrees", C: "60 degrees", D: "90 degrees" } },
+          { id: "q4", text: "4. What was the secondary mirror angle set to?", correct: "D", options: { A: "45 degrees", B: "180 degrees", C: "120 degrees", D: "90 degrees" } },
+          { id: "q5", text: "5. What was the value of the refraction index constant (N)?", correct: "A", options: { A: "1.5", B: "2.0", C: "3.0", D: "0.5" } },
+          { id: "q6", text: "6. What was the focal distance (F) stated in the logbook?", correct: "C", options: { A: "10 meters", B: "15 meters", C: "20 meters", D: "30 meters" } },
+          { id: "q7", text: "7. What was the calculated focal tube adjustment result (N x F)?", correct: "B", options: { A: "25 mm", B: "30 mm", C: "35 mm", D: "40 mm" } },
+          { id: "q8", text: "8. What celestial discovery was made upon adjusting the telescope correctly?", correct: "D", options: { A: "A new planet", B: "A comet", C: "A lunar crater", D: "A previously undocumented star cluster" } },
+          { id: "q9", text: "9. What historical document contained the optical alignment formulas?", correct: "A", options: { A: "A sealed logbook", B: "A framed poster", C: "A newspaper article", D: "A letter to the king" } },
+          { id: "q10", text: "10. What century's scientific precision was validated by Dr. Julian's discovery?", correct: "C", options: { A: "17th century", B: "18th century", C: "19th century", D: "20th century" } }
         ]
       }
     }
@@ -412,8 +442,8 @@
   function handleKeyPress(e) { if (e.key === 'Enter') signIn(); }
 
   function updateDashboardScoresUI() {
-    document.getElementById('score-act1').innerText = `Latest Score: ${scores.act1 || 0} / 5`;
-    document.getElementById('score-act2').innerText = `Latest Score: ${scores.act2 || 0} / 5`;
+    document.getElementById('score-act1').innerText = `Latest Score: ${scores.act1 || 0} / 10`;
+    document.getElementById('score-act2').innerText = `Latest Score: ${scores.act2 || 0} / 10`;
   }
 
   function updateDashboardTitles() {
@@ -424,9 +454,9 @@
   function updateOverallAverage() {
     let totalPoints = (scores.act1 || 0) + (scores.act2 || 0);
     let avgScore = (totalPoints / 2).toFixed(1);
-    let percentage = ((totalPoints / 10) * 100).toFixed(1);
+    let percentage = ((totalPoints / 20) * 100).toFixed(1);
 
-    document.getElementById('topRightAvg').innerText = `Overall Average: ${avgScore} / 5 (${percentage}%)`;
+    document.getElementById('topRightAvg').innerText = `Overall Average: ${avgScore} / 10 (${percentage}%)`;
 
     if (userName) saveUserScores();
   }
@@ -476,7 +506,7 @@
     let html = `
       <div class="story-text">
         <h3>Story (${currentDifficulty} Mode)</h3>
-        <p>${activity.story}</p>
+        <p>${activity.story.replace(/\n\n/g, '</p><br><p>')}</p>
       </div>`;
 
     activity.questions.forEach(q => {
@@ -511,7 +541,7 @@
     document.getElementById('controlBox').style.display = 'none';
     document.getElementById('resultStudentName').innerText = userName;
     document.getElementById('resultsScreen').style.display = 'block';
-    document.getElementById('scoreDisplay').innerText = `${score} / 5`;
+    document.getElementById('scoreDisplay').innerText = `${score} / 10`;
     updateOverallAverage();
   }
 </script>
