@@ -40,6 +40,7 @@
       color: var(--primary); padding: 10px 16px; border-radius: 4px;
       font-size: 0.85rem; font-weight: bold; z-index: 100;
       box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      text-align: right;
     }
 
     .signin-card {
@@ -157,7 +158,9 @@
 </head>
 <body>
 
-<div class="bottom-right-avg" id="topRightAvg">Overall Average: 0.0 / 10 (0.0%)</div>
+<div class="bottom-right-avg" id="topRightAvg">
+  <strong>Current Difficulty Average (${currentDifficulty}):</strong><br>0.0 / 10 (0.0%)
+</div>
 
 <div class="container">
 
@@ -192,42 +195,42 @@
     </header>
 
     <div class="story-grid">
-      <!-- Act 1: English -->
+      <!-- Act 1 -->
       <div class="story-card" onclick="startActivity('act1')">
         <div>
           <span class="card-badge">Act 1 • English</span>
           <h2 class="card-title" id="title-act1">The Great Garden Project</h2>
-          <div class="score-badge" id="score-act1">Latest Score: 0 / 10</div>
+          <div class="score-badge" id="score-act1">Score: 0 / 10</div>
         </div>
         <div class="card-footer">Begin Act 1 &rarr;</div>
       </div>
 
-      <!-- Act 2: Tagalog -->
+      <!-- Act 2 -->
       <div class="story-card" onclick="startActivity('act2')">
         <div>
           <span class="card-badge">Act 2 • Tagalog</span>
           <h2 class="card-title" id="title-act2">Ang Masayang Pagluluto sa Bahay-Kubo</h2>
-          <div class="score-badge" id="score-act2">Latest Score: 0 / 10</div>
+          <div class="score-badge" id="score-act2">Score: 0 / 10</div>
         </div>
         <div class="card-footer">Begin Act 2 (Tagalog) &rarr;</div>
       </div>
 
-      <!-- Act 3: English -->
+      <!-- Act 3 -->
       <div class="story-card" onclick="startActivity('act3')">
         <div>
           <span class="card-badge">Act 3 • English</span>
           <h2 class="card-title" id="title-act3">The Neighborhood Pet Care Day</h2>
-          <div class="score-badge" id="score-act3">Latest Score: 0 / 10</div>
+          <div class="score-badge" id="score-act3">Score: 0 / 10</div>
         </div>
         <div class="card-footer">Begin Act 3 (English) &rarr;</div>
       </div>
 
-      <!-- Act 4: Tagalog -->
+      <!-- Act 4 -->
       <div class="story-card" onclick="startActivity('act4')">
         <div>
           <span class="card-badge">Act 4 • Tagalog</span>
           <h2 class="card-title" id="title-act4">Ang Paglilinis sa Baybayin ng Anilao</h2>
-          <div class="score-badge" id="score-act4">Latest Score: 0 / 10</div>
+          <div class="score-badge" id="score-act4">Score: 0 / 10</div>
         </div>
         <div class="card-footer">Begin Act 4 (Tagalog) &rarr;</div>
       </div>
@@ -275,7 +278,6 @@
 </div>
 
 <script>
-  // JSONBIN CONFIGURATION
   const BIN_ID = "6a85d393da38895dfef7ba53";
   const API_KEY = "$2a$10$KCezIUwi73LGQEZiT9IzLOJLD36ZRvZkHLjVI8hwBkJTimyWOrzdq";
 
@@ -283,7 +285,20 @@
   let selectedActId = null;
   let currentDifficulty = "Easy";
   let userAnswers = {};
-  let scores = { act1: 0, act2: 0, act3: 0, act4: 0 };
+
+  // Structure for student scores
+  let studentData = {
+    detailedScores: {
+      Easy: { act1: 0, act2: 0, act3: 0, act4: 0 },
+      Medium: { act1: 0, act2: 0, act3: 0, act4: 0 },
+      Hard: { act1: 0, act2: 0, act3: 0, act4: 0 }
+    },
+    averages: {
+      easyAverage: 0,
+      mediumAverage: 0,
+      hardAverage: 0
+    }
+  };
 
   const activitiesData = {
     act1: {
@@ -519,84 +534,91 @@
     updateDashboardTitles();
   }
 
+  function calculateAverages() {
+    let easySum = 0, mediumSum = 0, hardSum = 0;
+    const scores = studentData.detailedScores;
+
+    for (let act in scores.Easy) easySum += scores.Easy[act];
+    for (let act in scores.Medium) mediumSum += scores.Medium[act];
+    for (let act in scores.Hard) hardSum += scores.Hard[act];
+
+    studentData.averages.easyAverage = (easySum / 4).toFixed(1);
+    studentData.averages.mediumAverage = (mediumSum / 4).toFixed(1);
+    studentData.averages.hardAverage = (hardSum / 4).toFixed(1);
+  }
+
   async function loadUserScores() {
     try {
       const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
         method: "GET",
-        headers: { 
-          "X-Master-Key": API_KEY,
-          "Content-Type": "application/json"
-        }
+        headers: { "X-Master-Key": API_KEY }
       });
-      if (!res.ok) {
-        throw new Error(`HTTP Error: ${res.status}`);
+
+      if (res.ok) {
+        const data = await res.json();
+        const root = data.record || {};
+        const students = root.students || {};
+
+        if (students[userName]) {
+          studentData = students[userName];
+        }
       }
-      const data = await res.json();
-      let allRecords = data.record || {};
-      
-      scores = allRecords[userName] || { act1: 0, act2: 0, act3: 0, act4: 0 };
-      updateOverallAverageUI();
-      updateDashboardScoresUI();
     } catch (err) {
-      console.error("JSONBin load error:", err);
-      // Fallback to local storage if network request fails
-      const localScores = localStorage.getItem(`scores_${userName}`);
-      if (localScores) {
-        scores = JSON.parse(localScores);
-        updateOverallAverageUI();
-        updateDashboardScoresUI();
-      }
+      console.error("Cloud load failed:", err);
     }
+
+    calculateAverages();
+    updateUI();
   }
 
   async function saveUserScores() {
-    // Keep local storage synced as well
-    localStorage.setItem(`scores_${userName}`, JSON.stringify(scores));
+    calculateAverages();
+    updateUI();
 
     try {
-      // 1. Get latest records
+      // 1. Fetch entire database
       const getRes = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
         method: "GET",
-        headers: { 
-          "X-Master-Key": API_KEY,
-          "Content-Type": "application/json"
-        }
+        headers: { "X-Master-Key": API_KEY }
       });
 
-      let allRecords = {};
+      let rootData = { students: {} };
       if (getRes.ok) {
-        const data = await getRes.json();
-        allRecords = data.record || {};
+        const json = await getRes.json();
+        rootData = json.record || { students: {} };
+        if (!rootData.students) rootData.students = {};
       }
 
-      // 2. Attach updated scores
-      allRecords[userName] = scores;
+      // 2. Insert/Update this current student's entry
+      rootData.students[userName] = studentData;
 
-      // 3. Save updated records back
-      const putRes = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+      // 3. Put back full JSON object to JSONBin
+      await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           "X-Master-Key": API_KEY
         },
-        body: JSON.stringify(allRecords)
+        body: JSON.stringify(rootData)
       });
-
-      if (!putRes.ok) {
-        console.error("JSONBin save error status:", putRes.status);
-      }
     } catch (err) {
-      console.error("JSONBin sync failed:", err);
+      console.error("Cloud save failed:", err);
     }
   }
 
   function handleKeyPress(e) { if (e.key === 'Enter') signIn(); }
 
+  function updateUI() {
+    updateDashboardScoresUI();
+    updateOverallAverageUI();
+  }
+
   function updateDashboardScoresUI() {
-    document.getElementById('score-act1').innerText = `Latest Score: ${scores.act1 || 0} / 10`;
-    document.getElementById('score-act2').innerText = `Latest Score: ${scores.act2 || 0} / 10`;
-    document.getElementById('score-act3').innerText = `Latest Score: ${scores.act3 || 0} / 10`;
-    document.getElementById('score-act4').innerText = `Latest Score: ${scores.act4 || 0} / 10`;
+    const activeScores = studentData.detailedScores[currentDifficulty];
+    document.getElementById('score-act1').innerText = `Score: ${activeScores.act1 || 0} / 10`;
+    document.getElementById('score-act2').innerText = `Score: ${activeScores.act2 || 0} / 10`;
+    document.getElementById('score-act3').innerText = `Score: ${activeScores.act3 || 0} / 10`;
+    document.getElementById('score-act4').innerText = `Score: ${activeScores.act4 || 0} / 10`;
   }
 
   function updateDashboardTitles() {
@@ -607,11 +629,15 @@
   }
 
   function updateOverallAverageUI() {
-    let totalPoints = (scores.act1 || 0) + (scores.act2 || 0) + (scores.act3 || 0) + (scores.act4 || 0);
-    let avgScore = (totalPoints / 4).toFixed(1);
-    let percentage = ((totalPoints / 40) * 100).toFixed(1);
+    let avg = 0;
+    if (currentDifficulty === "Easy") avg = studentData.averages.easyAverage;
+    if (currentDifficulty === "Medium") avg = studentData.averages.mediumAverage;
+    if (currentDifficulty === "Hard") avg = studentData.averages.hardAverage;
 
-    document.getElementById('topRightAvg').innerText = `Overall Average: ${avgScore} / 10 (${percentage}%)`;
+    let percentage = ((avg / 10) * 100).toFixed(1);
+    document.getElementById('topRightAvg').innerHTML = `
+      <strong>Current Difficulty Average (${currentDifficulty}):</strong><br>${avg} / 10 (${percentage}%)
+    `;
   }
 
   function openDifficultyModal(actId = null) {
@@ -627,6 +653,7 @@
     currentDifficulty = diff;
     document.getElementById('currentDiffTag').innerText = diff;
     updateDashboardTitles();
+    updateUI();
     closeDifficultyModal();
 
     if (selectedActId && document.getElementById('activityView').classList.contains('active')) {
@@ -688,9 +715,8 @@
       if (userAnswers[q.id] === q.correct) score++;
     });
 
-    scores[selectedActId] = score;
-    updateDashboardScoresUI();
-    updateOverallAverageUI();
+    // Save score into specific difficulty level
+    studentData.detailedScores[currentDifficulty][selectedActId] = score;
 
     document.getElementById('pageContainer').innerHTML = '';
     document.getElementById('controlBox').style.display = 'none';
