@@ -7,14 +7,13 @@
 
   <style>
     :root {
-      --primary: #5c1d24; /* Classic Deep Crimson/Burgundy */
+      --primary: #5c1d24;
       --primary-hover: #3d1318;
-      --bg: #f4efe6; /* Classic Warm Parchment */
+      --bg: #f4efe6;
       --card-bg: #fcf9f2;
-      --text: #2b231d; /* Classic Ink Black/Dark Charcoal */
+      --text: #2b231d;
       --text-muted: #6e6259;
       --border: #d4c5b3;
-      --gold-accent: #b8860b;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -143,15 +142,15 @@
 </head>
 <body>
 
-<div class="bottom-right-avg" id="topRightAvg">Overall Average: 0.0 / 25 (0.0%)</div>
+<div class="bottom-right-avg" id="topRightAvg">Overall Average: 0.0 / 5 (0.0%)</div>
 
 <div class="container">
 
   <!-- SIGN-IN SCREEN -->
   <div id="signinView" class="view active">
     <div class="signin-card">
-      <h1>Reading Comprehension</h1>
-      <p>Enter your full name to begin your reading and logic assessment.</p>
+      <h1>Reading Assessment</h1>
+      <p>Enter your full name to begin your reading activity.</p>
       
       <div class="input-group">
         <label for="studentName">Student Name</label>
@@ -171,7 +170,7 @@
 
     <header class="dashboard-header">
       <h1>Reading Comprehension</h1>
-      <p>Select your language track and difficulty level!</p>
+      <p>Select your preferred language track!</p>
     </header>
 
     <div class="story-grid">
@@ -179,8 +178,8 @@
       <div class="story-card" onclick="openDifficultyModal('act1')">
         <div>
           <span class="card-badge">Act 1 • Tagalog</span>
-          <h2 class="card-title">Ang Lihim ng Lumang Talaarawan</h2>
-          <div class="score-badge" id="score-act1">Latest Score: 0 / 25</div>
+          <h2 class="card-title" id="title-act1">Ang Lihim ng Lumang Talaarawan</h2>
+          <div class="score-badge" id="score-act1">Latest Score: 0 / 5</div>
         </div>
         <div class="card-footer">Begin Act 1 &rarr;</div>
       </div>
@@ -189,8 +188,8 @@
       <div class="story-card" onclick="openDifficultyModal('act2')">
         <div>
           <span class="card-badge">Act 2 • English</span>
-          <h2 class="card-title">The Expedition to Whispering Cliff</h2>
-          <div class="score-badge" id="score-act2">Latest Score: 0 / 25</div>
+          <h2 class="card-title" id="title-act2">The Expedition to Whispering Cliff</h2>
+          <div class="score-badge" id="score-act2">Latest Score: 0 / 5</div>
         </div>
         <div class="card-footer">Begin Act 2 &rarr;</div>
       </div>
@@ -201,7 +200,7 @@
   <div id="difficultyModal" class="modal-overlay">
     <div class="modal-card">
       <h2 id="modalActTitle">Select Difficulty</h2>
-      <p>Choose a challenge level to begin:</p>
+      <p>Choose a challenge level for this story:</p>
       <button class="diff-btn" onclick="selectDifficulty('Easy')">🟢 Easy</button>
       <button class="diff-btn" onclick="selectDifficulty('Medium')">🟡 Medium</button>
       <button class="diff-btn" onclick="selectDifficulty('Hard')">🔴 Hard</button>
@@ -219,20 +218,18 @@
           <h2 id="actTitle">Activity</h2>
           <small id="diffIndicator" style="color: var(--primary); font-weight: bold;"></small>
         </div>
-        <span id="pageIndicator" style="font-weight:bold; color:var(--primary);">Chapter 1 of 5</span>
       </div>
 
       <div id="pageContainer"></div>
 
       <div id="resultsScreen" style="display:none; text-align:center;">
         <h2>Challenge Completed, <span id="resultStudentName"></span>!</h2>
-        <div id="scoreDisplay" style="font-size:2.5rem; font-weight:bold; color:var(--primary); margin:20px 0;">0 / 25</div>
+        <div id="scoreDisplay" style="font-size:2.5rem; font-weight:bold; color:var(--primary); margin:20px 0;">0 / 5</div>
         <button class="btn" onclick="showDashboard()">Return to Dashboard</button>
       </div>
 
       <div class="controls" id="controlBox">
-        <button id="prevBtn" class="btn" onclick="changeChapter(-1)">Previous</button>
-        <button id="nextBtn" class="btn" onclick="changeChapter(1)">Next Chapter</button>
+        <button id="submitBtn" class="btn btn-block" onclick="calculateResult()">Submit Activity</button>
       </div>
     </div>
   </div>
@@ -245,131 +242,80 @@
 
   let userName = "";
   let selectedActId = null;
-  let currentDifficulty = "Medium";
-  let currentChapterIdx = 0;
+  let currentDifficulty = "Easy";
   let userAnswers = {};
   let scores = { act1: 0, act2: 0 };
 
   const activitiesData = {
     act1: {
-      title: "Act 1: Ang Lihim ng Lumang Talaarawan (Tagalog)",
-      chapters: [
-        {
-          title: "Kabanata 1: Ang Natagpuang Talaarawan sa Aklatan",
-          story: "Habang naglilinis ng nakatagong silid sa Lumang Aklatan ng Bayan sina Zeik, Ayit, Shane, at Allain, nakakita sila ng lumang talaarawan mula noong 1942. Nakasulat dito ang isang babala: 'Ang katotohanan ay nakakubli hindi sa mga salita, kundi sa mga pahinang hindi kailanman nabuksan.' Napansin ni Ayit na ang bawat ikatlong pahina ng talaarawan ay may kakaibang marka ng tinta na tila isang simbolo ng lumang mapa.",
-          questions: [
-            { id: "a1_c1_q1", text: "1. Batay sa babalang nakasulat, ano ang ipinahihiwatig ng may-akda tungkol sa lokasyon ng lihim?", correct: "B", options: { A: "Nakasulat ito sa malalaking titik sa simula ng libro.", B: "Wala ito sa direktang teksto kundi sa nakagawiang istraktura o nakatagong bahagi ng libro.", C: "Nakalimutan na ng may-akda ang katotohanan.", D: "Nasa ibang aklatan ang totoong sagot." } },
-            { id: "a1_c1_q2", text: "2. Kung susundan ni Ayit ang pattern ng marka ng tinta (bawat ika-3 pahina), anong pahina ang Unang HINDI magkakaroon ng marka?", correct: "C", options: { A: "Pahina 3", B: "Pahina 6", C: "Pahina 7", D: "Pahina 9" } },
-            { id: "a1_c1_q3", text: "3. Bakit mahalagang suriin ang taon (1942) na nakasulat sa talaarawan?", correct: "A", options: { A: "Ito ay panahon ng Ikalawang Digmaang Pandaigdig kaya maaaring may kaugnayan ito sa kasaysayan o pagtatago mula sa digmaan.", B: "Ito ang taon kung kailan itinayo ang modernong kompyuter.", C: "Wala itong anumang kaugnayan sa kwento.", D: "Dahil ito ang taon ng kapanganakan ni Zeik." } },
-            { id: "a1_c1_q4", text: "4. Ano ang pinakamagandang konklusyon kung bakit sa 'nakatagong silid' natagpuan ang talaarawan?", correct: "C", options: { A: "Tinapon lamang ito roon bilang basura.", B: "Hindi seryoso ang may-akda sa kanyang isinulat.", C: "Sadyang itinago ang dokumento upang hindi makita ng mga taong walang sapat na pagsusuri.", D: "Aksidente lamang na nahulog ang libro mula sa istante." } },
-            { id: "a1_c1_q5", text: "5. Anong uri ng kritikal na katangian ang ipinamalas ni Ayit sa kanyang obserbasyon?", correct: "B", options: { A: "Pagiging mabilis maghusga nang walang ebidensya.", B: "Pagtukoy sa mga pattern o paulit-ulit na elemento (Pattern Recognition).", C: "Pag-aaksaya ng oras sa mga walang kwentang bagay.", D: "Pag-asa lamang sa sasabihin ng ibang tao." } }
-          ]
-        },
-        {
-          title: "Kabanata 2: Ang Kakaibang Kodigo",
-          story: "Sa pahina 12, nakakita si Shane ng nakasulat na cipher: '3-1-18-12-15-19'. Sinabi ni Allain na ang bawat numero ay kumakatawan sa pagkakasunod-sunod ng titik sa alpabetong Ingles (A=1, B=2, C=3...). Nang isalin ito, lumabas ang salitang 'CARLOS'. Nakatala rin ang linyang: 'Si Carlos ang nagtatago ng susi, ngunit hindi siya tao.'",
-          questions: [
-            { id: "a1_c2_q1", text: "6. Paano nakuha nina Allain at Shane ang salitang 'CARLOS' mula sa cipher na 3-1-18-12-15-19?", correct: "A", options: { A: "C=3, A=1, R=18, L=12, O=15, S=19", B: "C=1, A=2, R=3, L=4, O=5, S=6", C: "Sa pamamagitan ng pagbaligtad ng mga numero", D: "Panghuhula lamang nang walang batayan" } },
-            { id: "a1_c2_q2", text: "7. Batay sa pahayag na 'Si Carlos ay hindi tao', ano ang pinakamainam na hinuha kung ano si Carlos?", correct: "C", options: { A: "Isang matalik na kaibigan ng guro.", B: "Isang multo na nagpapakita sa gabi.", C: "Isang estatuwa, painting, o bagay na ipinangalan sa isang tao.", D: "Isang alagang aso na nakatira sa aklatan." } },
-            { id: "a1_c2_q3", text: "8. Kung ang titik A ay magiging 26, B=25 (pabaligtad na alpabeto), ano ang magiging code para sa letrang 'Z'?", correct: "B", options: { A: "26", B: "1", C: "0", D: "12" } },
-            { id: "a1_c2_q4", text: "9. Bakit gumamit ng Substitution Cipher ang sumulat ng talaarawan?", correct: "D", options: { A: "Dahil hindi siya marunong mag-Ingles.", B: "Upang mabilis na mabasa ng sinuman ang mensahe.", C: "Dahil naubusan siya ng tinta sa panulat.", D: "Upang protektahan ang impormasyon laban sa mga hindi awtorisadong makabasa." } },
-            { id: "a1_c2_q5", text: "10. Kung si Carlos ay isang estatuwa ng founder ng bayan na itinayo noong 1900, saan dapat hanapin ng magkakaibigan ang susi?", correct: "B", options: { A: "Sa ilalim ng sahig ng bakuran.", B: "Sa mismong estatuwa o pedestal ni Carlos.", C: "Sa sementeryo ng bayan.", D: "Sa bahay ng alkalde." } }
-          ]
-        },
-        {
-          title: "Kabanata 3: Ang Dalawang Orasan",
-          story: "Nang lapitan nila ang estatuwa ni Carlos sa hall ng aklatan, nakita nila na may hawak itong dalawang carved wooden clocks. Ang kaliwang orasan ay nakaturo sa 3:00 habang ang kanang orasan ay nakaturo sa 9:00. May nakaukit na tanong sa pedestal: 'Kapag ang dalawang oras ay pinagsama at hinati sa kalahati, anong anggulo ang mabubuo ng mga kamay ng orasan?'",
-          questions: [
-            { id: "a1_c3_q1", text: "11. Ano ang oras na kalalabasan kapag pinagsama ang 3:00 at 9:00 (12:00) at hinati sa kalahati (6:00)?", correct: "A", options: { A: "6:00", B: "12:00", C: "3:00", D: "1:30" } },
-            { id: "a1_c3_q2", text: "12. Sa oras na 6:00, anong anggulo (angle) ang nabubuo ng minute hand at hour hand ng orasan?", correct: "C", options: { A: "90 degrees (Right Angle)", B: "45 degrees (Acute Angle)", C: "180 degrees (Straight Angle)", D: "360 degrees (Full Circle)" } },
-            { id: "a1_c3_q3", text: "13. Bakit ginamit ng nag-disenyo ng puzzle ang kaalaman sa Geometry at Orasan?", correct: "B", options: { A: "Upang maging magulo at walang makasagot kailanman.", B: "Upang matiyak na ang makakapasok lamang ay ang may kakayahang mag-isip nang lohikal.", C: "Dahil nasira ang totoong orasan.", D: "Wala lang, gusto lang niyang magpalipas ng oras." } },
-            { id: "a1_c3_q4", text: "14. Kung ituturo nina Zeik ang kamay ng wooden clock sa 180-degree straight angle (6:00), ano ang lohikal na inaasahang mangyayari?", correct: "D", options: { A: "Lalabas ang isang guwardiya.", B: "Masisira ang buong gusali.", C: "Magpapatulong sila sa pulis.", D: "Mababuksan ang isang mekanismo o secret compartment sa pedestal." } },
-            { id: "a1_c3_q5", text: "15. Ano ang ipinapakitang ugnayan ng Matematika sa paglutas ng mga praktikal o lohikal na misteryo sa kwento?", correct: "A", options: { A: "Ang Matematika ay nagbibigay ng eksaktong kasangkapan upang magbukas ng mga lohikal na problema.", B: "Ang Matematika ay pampahirap lamang sa buhay ng mag-aaral.", C: "Wala itong kinalaman sa totoong buhay.", D: "Mali ang lahat ng computation sa kwento." } }
-          ]
-        },
-        {
-          title: "Kabanata 4: Ang Timbang ng Katotohanan",
-          story: "Bumukas ang isang maliit na drawer sa pedestal. Sa loob nito ay may tatlong metal sphere (A, B, C) at isang balance scale. Ang dalawang sphere ay may magkaparehong timbang, ngunit ang isa ay mas magaan dahil ito ay hollow (blangko sa loob). May nakasulat na utos: 'Mahanap ang mas magaang sphere sa loob ng ISANG timbangan lamang.'",
-          questions: [
-            { id: "a1_c4_q1", text: "16. Paano mahahanap ni Allain ang mas magaang sphere sa ISANG beses lang na pagtimbang?", correct: "A", options: { A: "Timbangin ang A at B. Kapag pantay, ang C ang mas magaan. Kapag hindi, ang mas mataas ang magaan.", B: "Timbangin ang lahat ng tatlo nang sabay-sabay.", C: "Hulaan na lang kung alin ang mas magaan.", D: "Ihulog ang mga ito sa tubig upang lumutang." } },
-            { id: "a1_c4_q2", text: "17. Kung tinimbang ang A at B at bumaba ang bahagi ni A, ano ang ibig sabihin nito tungkol sa B at C?", correct: "A", options: { A: "Si B ang mas magaan na hollow sphere.", B: "Si A ang mas magaan na hollow sphere.", C: "Si C ang mas magaan na hollow sphere.", D: "Magkapareho ng timbang ang A at B." } },
-            { id: "a1_c4_q3", text: "18. Bakit itinuturing na 'Deductive Reasoning' ang ginawang hakbang ni Allain?", correct: "C", options: { A: "Dahil gumamit siya ng calculator.", B: "Dahil tinanong niya ang kanyang guro.", C: "Dahil gumamit siya ng lohikal na eliminasyon batay sa resulta ng timbangan.", D: "Dahil nagkamali siya sa kanyang hula." } },
-            { id: "a1_c4_q4", text: "19. Ano ang ibig sabihin kapag ang isang bagay ay 'hollow' sa usaping Physics?", correct: "D", options: { A: "Mas mabilis itong lumubog sa lupa.", B: "Puno ito ng solidong bakal sa loob.", C: "Mas mabigat ito kumpara sa kaparehong laki.", D: "May bakanteng espasyo o hangin sa loob kaya mas mababa ang mass nito." } },
-            { id: "a1_c4_q5", text: "20. Nang mabuksan ang mas magaang sphere (Sphere B), ano ang lohikal na pwedeng nilalaman nito?", correct: "A", options: { A: "Isang maliit na susi o nakatagong mapa.", B: "Isang malaking libro.", C: "Puno ng tubig.", D: "Walang laman kailanman." } }
-          ]
-        },
-        {
-          title: "Kabanata 5: Ang Muling Pagbubukas ng Kasaysayan",
-          story: "Gamit ang susi mula sa Sphere B, nabuksan nina Zeik, Ayit, Shane, at Allain ang chest sa ilalim ng aklatan. Sa loob ay nakatago ang mga orihinal na dokumento ng bayan na nagpapatunay na ang lupain ng aklatan ay inilaan pala para sa libreng edukasyon ng lahat ng mamamayan. Dahil sa kanilang kritikal na pag-iisip, naisalba nila ang aklatan mula sa planong paggiba nito ng isang pribadong kumpanya.",
-          questions: [
-            { id: "a1_c5_q1", text: "21. Ano ang pangunahing kahalagahan ng natuklasang dokumento?", correct: "B", options: { A: "Nagpapatunay ito na may baul ng ginto sa ilalim ng lupa.", B: "Ipinaglalaban nito ang legal na karapatan ng komunidad sa libreng edukasyon at aklatan.", C: "Nagbibigay ito ng resipe ng pagkain.", D: "Wala itong pakinabang sa bayan." } },
-            { id: "a1_c5_q2", text: "22. Anong moral na leksyon ang ipinapakita ng buong kwento tungkol sa kaalaman?", correct: "A", options: { A: "Ang kritikal na pag-iisip at pagtutulungan ay nakatutulong sa paglutas ng mga totoong suliranin sa lipunan.", B: "Huwag nang magbasa ng mga lumang libro.", C: "Ang pera ang pinakamahalagang bagay sa mundo.", D: "Dapat laging umasa sa tulong ng mga nakatatanda." } },
-            { id: "a1_c5_q3", text: "23. Bakit ginamit ng lumang may-akda ang mga Palaisipan (Puzzles) bago makuha ang dokumento?", correct: "C", options: { A: "Upang walang makakuha nito kahit kailan.", B: "Dahil gusto niyang maglaro lamang.", C: "Upang siguraduhin na ang makakakuha nito ay may matalinong layunin at kritikal na pag-iisip.", D: "Dahil wala siyang magawa sa buhay." } },
-            { id: "a1_c5_q4", text: "24. Kung hindi naging mausisa at lohikal sina Zeik, ano ang magiging masaklap na bunga sa aklatan?", correct: "D", options: { A: "Lalaki ang aklatan.", B: "Mawawala ang mga libro.", C: "Magiging museo ito.", D: "Magigiba ito at gagawing pribadong gusali dahil sa kawalan ng ebidensya." } },
-            { id: "a1_c5_q5", text: "25. Alin sa mga sumusunod ang PINAKAMAGANDANG buod ng Act 1?", correct: "A", options: { A: "Isang paglalakbay ng paglutas ng ciphers, math puzzles, at lohika upang mailigtas ang pampublikong aklatan.", B: "Isang simpleng kwento ng paglilinis ng lumang kwarto.", C: "Isang kompetisyon sa pagtakbo sa loob ng aklatan.", D: "Isang aralin sa pagpinta at sining." } }
-          ]
-        }
-      ]
+      Easy: {
+        title: "Ang Nawawalang Kuting ni Ana",
+        story: "Isang umaga, nawawala ang kuting ni Ana na si Muming. Kulay puti si Muming at may pulang laso sa leeg. Hinanap ito ni Ana sa bakuran. Nakita niya si Muming na natutulog sa ilalim ng malaking puno ng mangga.",
+        questions: [
+          { id: "q1", text: "1. Ano ang pangalan ng kuting ni Ana?", correct: "A", options: { A: "Muming", B: "Bantay", C: "Tagpi", D: "Munying" } },
+          { id: "q2", text: "2. Ano ang kulay ng kuting?", correct: "B", options: { A: "Itim", B: "Puti", C: "Chesnut", D: "Abuhin" } },
+          { id: "q3", text: "3. Ano ang nasa leeg ni Muming?", correct: "C", options: { A: "Tali", B: "Singsing", C: "Pulang laso", D: "Bakal" } },
+          { id: "q4", text: "4. Saan nahanap ni Ana ang kanyang kuting?", correct: "A", options: { A: "Sa ilalim ng puno ng mangga", B: "Sa loob ng kwarto", C: "Sa kalye", D: "Sa kusina" } },
+          { id: "q5", text: "5. Ano ang ginagawa ni Muming nang mahanap siya?", correct: "D", options: { A: "Kumakain", B: "Naglalaro", C: "Tumatakbo", D: "Natutulog" } }
+        ]
+      },
+      Medium: {
+        title: "Ang Lihim ng Lumang Talaarawan",
+        story: "Habang naglilinis ng nakatagong silid sa Lumang Aklatan ng Bayan sina Zeik at Ayit, nakakita sila ng lumang talaarawan mula noong 1942. Nakasulat dito ang isang babala: 'Ang katotohanan ay nakakubli sa mga pahinang hindi nabuksan.' Napansin ni Ayit na bawat ikatlong pahina ng talaarawan ay may marka ng tinta.",
+        questions: [
+          { id: "q1", text: "1. Anong taon naisulat ang lumang talaarawan?", correct: "C", options: { A: "1900", B: "1930", C: "1942", D: "1950" } },
+          { id: "q2", text: "2. Saan natagpuan nina Zeik at Ayit ang talaarawan?", correct: "B", options: { A: "Sa parke", B: "Sa nakatagong silid sa Lumang Aklatan", C: "Sa paaralan", D: "Sa bahay ni Ayit" } },
+          { id: "q3", text: "3. Gaano kadalas lumilitaw ang marka ng tinta sa mga pahina?", correct: "A", options: { A: "Bawat ika-3 pahina", B: "Bawat ika-2 pahina", C: "Bawat ika-5 pahina", D: "Sa huling pahina lamang" } },
+          { id: "q4", text: "4. Batay sa nakasulat, saan nakakubli ang katotohanan?", correct: "B", options: { A: "Sa mga salita", B: "Sa mga pahinang hindi nabuksan", C: "Sa ilalim ng mesa", D: "Sa sampayan" } },
+          { id: "q5", text: "5. Anong katangian ang ipinakita ni Ayit nang mapansin niya ang marka sa tinta?", correct: "C", options: { A: "Pagiging matakaw", B: "Pagiging tamad", C: "Pagiging observant o mausisa", D: "Pagiging matatakutin" } }
+        ]
+      },
+      Hard: {
+        title: "Ang Kodigo ng Lumang Aklatan",
+        story: "Sa pahina 12 ng luma at maalikabok na libro, nakakita si Shane ng nakasulat na numerical cipher: '3-1-18-12-15-19'. Sinabi ni Allain na ang bawat numero ay tumutukoy sa alpabetong Ingles (A=1, B=2...). Nang isalin, lumabas ang salitang 'CARLOS'. Nakatala rin ang panuto: 'Si Carlos ay hindi tao, kundi ang estatwang may hawak na dalawang orasan na nakaturo sa 3:00 at 9:00. Pag-isahin ang oras (12:00) at hatiin sa dalawa (6:00) upang mabuksan ang lihim na kwarto.'",
+        questions: [
+          { id: "q1", text: "1. Paano nakuha ang salitang 'CARLOS' mula sa numero?", correct: "A", options: { A: "Paggamit ng A=1, B=2, C=3...", B: "Pag-sulat nang pabaligtad", C: "Pagbawas ng limang numero", D: "Panghuhula lamang" } },
+          { id: "q2", text: "2. Sino o ano ang tinutukoy na 'Carlos' sa kwento?", correct: "C", options: { A: "Isang guwardiya sa aklatan", B: "Isang matandang guro", C: "Isang estatwang may hawak na mga orasan", D: "Isang alagang pusa" } },
+          { id: "q3", text: "3. Kapag pinagsama ang oras na 3:00 at 9:00, at hinati ito sa kalahati, anong oras ang kalalabasan?", correct: "B", options: { A: "3:00", B: "6:00", C: "12:00", D: "9:00" } },
+          { id: "q4", text: "4. Sa oras na 6:00, anong anggulo (angle) ang nabubuo ng kamay ng orasan?", correct: "D", options: { A: "45 degrees", B: "90 degrees", C: "360 degrees", D: "180 degrees (Straight line)" } },
+          { id: "q5", text: "5. Bakit gumamit ng cipher at matematika ang nagsulat ng talaarawan?", correct: "A", options: { A: "Upang matiyak na matatalinong tao lamang ang makababasa nito", B: "Dahil nakalimutan niya ang tunay na wika", C: "Upang magpatawa lamang", D: "Dahil nasira ang kanyang panulat" } }
+        ]
+      }
     },
     act2: {
-      title: "Act 2: The Expedition to Whispering Cliff (English)",
-      chapters: [
-        {
-          title: "Chapter 1: The Cryptic Map and Riddle",
-          story: "Following the map found in the old library chest, Zeik, Ayit, Shane, and Allain traveled to the outskirts of town toward Whispering Cliff. Inside a hollowed oak tree along the trail, they discovered an ancient silver compass accompanied by a parchment riddle: 'I speak without a mouth and hear without ears. I have no body, but I come alive with wind. Where am I found?' Shane quickly deduced that the answer points directly toward the echoing canyon ahead.",
-          questions: [
-            { id: "a2_c1_q1", text: "1. What is the classic answer to the riddle engraved on the parchment?", correct: "B", options: { A: "A ghost", B: "An Echo", C: "A kite", D: "A sailboat" } },
-            { id: "a2_c1_q2", text: "2. Based on Shane's deduction, why did she link the answer 'Echo' to the canyon?", correct: "A", options: { A: "Because echoing cliffs naturally reflect sound waves back to the listener.", B: "Because the canyon is extremely quiet.", C: "Because the compass was made of silver.", D: "Because they heard someone calling them." } },
-            { id: "a2_c1_q3", text: "3. If a compass needle points 45 degrees East of North, in which quadrant is it pointing?", correct: "C", options: { A: "South-West", B: "North-West", C: "North-East", D: "South-East" } },
-            { id: "a2_c1_q4", text: "4. Why is the silver compass considered a vital artifact for their inquiry?", correct: "D", options: { A: "It was brand new from a local store.", B: "It was broken and unusable.", C: "It was made of decorative plastic.", D: "It contains engraved historical coordinates requiring analytical interpretation." } },
-            { id: "a2_c1_q5", text: "5. What inferential conclusion can be drawn about the creator of the riddle?", correct: "A", options: { A: "They possessed knowledge of both poetic literature and local geographic acoustics.", B: "They were bad at spelling.", C: "They wanted travelers to get lost.", D: "They were a sailor stranded on land." } }
-          ]
-        },
-        {
-          title: "Chapter 2: Decoding Geographic Coordinates",
-          story: "Allain closely examined the compass rim and found fine grid markings: Latitude 14.5° N, Longitude 121.0° E. Ayit pulled out a topographical map. 'If we move 0.2 degrees North and 0.1 degrees East from our current position at (14.3° N, 120.9° E), where will we land?' asked Allain.",
-          questions: [
-            { id: "a2_c2_q1", text: "6. Calculate the final coordinates after moving 0.2° North and 0.1° East from (14.3° N, 120.9° E):", correct: "B", options: { A: "14.1° N, 120.8° E", B: "14.5° N, 121.0° E", C: "14.5° N, 120.8° E", D: "14.3° N, 121.1° E" } },
-            { id: "a2_c2_q2", text: "7. Does the calculated position match the coordinates found on the compass rim?", correct: "A", options: { A: "Yes, exactly.", B: "No, it is off by 1 degree.", C: "It is impossible to determine.", D: "Only the latitude matches." } },
-            { id: "a2_c2_q3", text: "8. What map tool is necessary to measure elevation changes between coordinates?", correct: "C", options: { A: "A protractor", B: "A thermometer", C: "Contour lines on a topographical map", D: "A barometer" } },
-            { id: "a2_c2_q4", text: "9. Why is coordinate mapping superior to relying solely on physical landmarks?", correct: "D", options: { A: "Landmarks never change over time.", B: "Coordinates are subjective and flexible.", C: "Coordinates change every hour.", D: "Coordinates provide precise mathematical positioning regardless of environmental changes." } },
-            { id: "a2_c2_q5", text: "10. What critical skill did Allain demonstrate during this navigation step?", correct: "A", options: { A: "Quantitative spatial analysis", B: "Speed reading", C: "Artistic drawing", D: "Physical endurance" } }
-          ]
-        },
-        {
-          title: "Chapter 3: The Cavern Entrance and Formations",
-          story: "At the exact calculated coordinates, they found a cavern entrance hidden behind vines. The passageway was filled with rock structures. Zeik remembered his geology lesson: 'Stalagmites grow up from the ground, while stalactites hang down from the ceiling.' To squeeze through without breaking the delicate mineral formations, they needed to locate a clear pathway.",
-          questions: [
-            { id: "a2_c3_q1", text: "11. Which mineral formation grows upward from the cave floor?", correct: "B", options: { A: "Stalactites", B: "Stalagmites", C: "Glaciers", D: "Basalt columns" } },
-            { id: "a2_c3_q2", text: "12. How can you easily remember the difference based on their names?", correct: "A", options: { A: "StalaGmites grow from the Ground; StalaCtites hang from the Ceiling.", B: "Stalactites are soft; stalagmites are liquid.", C: "Stalagmites hang down; stalactites stand up.", D: "There is no functional difference." } },
-            { id: "a2_c3_q3", text: "13. Why did the group take extreme care NOT to break the cave formations?", correct: "C", options: { A: "They were afraid of loud noises.", B: "The formations are chemically toxic.", C: "Mineral formations take hundreds of years to grow and must be preserved.", D: "It was dark." } },
-            { id: "a2_c3_q4", text: "14. If a stalagmite grows at a rate of 0.1 mm per year, how many years does it take to grow 10 mm?", correct: "D", options: { A: "10 years", B: "50 years", C: "5 years", D: "100 years" } },
-            { id: "a2_c3_q5", text: "15. What type of rock is predominantly found in caves containing these formations?", correct: "B", options: { A: "Granite", B: "Limestone (Calcium Carbonate)", C: "Pumice", D: "Obsidian" } }
-          ]
-        },
-        {
-          title: "Chapter 4: The Pressure Plate Puzzle",
-          story: "Deeper in the cavern, four stone plates rested on the floor with weight labels: 10kg, 20kg, 30kg, and 40kg. An inscription read: 'To open the door, step only on two plates whose combined sum equals exactly 60kg, and whose difference is 20kg.'",
-          questions: [
-            { id: "a2_c4_q1", text: "16. Which two available plates (10kg, 20kg, 30kg, 40kg) add up to a sum of 60kg?", correct: "B", options: { A: "10kg and 30kg", B: "20kg and 40kg", C: "30kg and 40kg", D: "10kg and 40kg" } },
-            { id: "a2_c4_q2", text: "17. What is the difference between the 40kg plate and the 20kg plate?", correct: "A", options: { A: "20kg", B: "10kg", C: "30kg", D: "60kg" } },
-            { id: "a2_c4_q3", text: "18. Do the 20kg and 40kg plates satisfy BOTH conditions of the puzzle (Sum = 60, Diff = 20)?", correct: "A", options: { A: "Yes, 20 + 40 = 60 and 40 - 20 = 20.", B: "No, the sum is wrong.", C: "No, the difference is wrong.", D: "It is impossible to verify." } },
-            { id: "a2_c4_q4", text: "19. If Shane weighs 40kg and stands on the 20kg plate while holding a 20kg pack, what total mass presses on the plate?", correct: "D", options: { A: "40kg", B: "20kg", C: "50kg", D: "60kg" } },
-            { id: "a2_c4_q5", text: "20. What logic system is applied when solving two simultaneous conditions (Sum and Difference)?", correct: "A", options: { A: "Simultaneous linear reasoning", B: "Random trial and error", C: "Geological surveying", D: "Acoustic resonance" } }
-          ]
-        },
-        {
-          title: "Chapter 5: Unlocking the Ancient Artifact",
-          story: "Stepping on the correct plates triggered a stone pedestal to rise from the ground. Resting on top was a pristine golden astrolabe—an ancient astronomical device used by early navigators to measure star altitudes. This artifact confirmed that the region's early inhabitants were skilled astronomers.",
-          questions: [
-            { id: "a2_c5_q1", text: "21. What primary function did an astrolabe serve in ancient times?", correct: "B", options: { A: "Measuring sound echoes in caves.", B: "Navigating by measuring the positions and altitudes of stars.", C: "Measuring water temperature.", D: "Weighing heavy stones." } },
-            { id: "a2_c5_q2", text: "22. Why was finding the golden astrolabe historically significant?", correct: "A", options: { A: "It proved that early local settlers possessed advanced astronomical knowledge.", B: "It could be sold for money.", C: "It revealed a secret gold mine.", D: "It was an ordinary decorative toy." } },
-            { id: "a2_c5_q3", text: "23. How did critical thinking enable the group to reach the artifact safely?", correct: "C", options: { A: "They broke through obstacles without planning.", B: "They hired guides to solve the problems.", C: "They systematically solved riddles, coordinates, geological observations, and balance equations.", D: "They guessed randomly." } },
-            { id: "a2_c5_q4", text: "24. What field of study combines history, navigation, and celestial observation?", correct: "C", options: { A: "Botany", B: "Meteorology", C: "Archaeoastronomy / Historical Navigation", D: "Volcanology" } },
-            { id: "a2_c5_q5", text: "25. Which statement best summarizes Act 2?", correct: "A", options: { A: "Interdisciplinary problem-solving across language, geography, geology, and math reveals historical artifacts.", B: "Hiking near cliffs is dangerous.", C: "Ancient artifacts should remain hidden.", D: "Compasses only work at sea." } }
-          ]
-        }
-      ]
+      Easy: {
+        title: "The Little Puppy in the Park",
+        story: "Tom went to the park on a sunny Saturday. He brought a red ball to play with. While running, he saw a small brown puppy sitting near the bench. Tom shared his sandwich with the hungry puppy and they played together.",
+        questions: [
+          { id: "q1", text: "1. Where did Tom go on Saturday?", correct: "A", options: { A: "To the park", B: "To school", C: "To the beach", D: "To the store" } },
+          { id: "q2", text: "2. What toy did Tom bring with him?", correct: "C", options: { A: "A blue kite", B: "A toy car", C: "A red ball", D: "A bicycle" } },
+          { id: "q3", text: "3. What color was the puppy?", correct: "B", options: { A: "White", B: "Brown", C: "Black", D: "Spotted" } },
+          { id: "q4", text: "4. What food did Tom share with the puppy?", correct: "D", options: { A: "An apple", B: "A biscuit", C: "A pizza", D: "A sandwich" } },
+          { id: "q5", text: "5. Where was the puppy sitting when Tom saw it?", correct: "A", options: { A: "Near the bench", B: "Under a car", C: "On a tree", D: "In the pond" } }
+        ]
+      },
+      Medium: {
+        title: "The Expedition to Whispering Cliff",
+        story: "Zeik and Allain hiked towards Whispering Cliff following an old map. Inside a hollow tree along the path, they found a silver compass and a note: 'I speak without a mouth and hear without ears. I have no body, but I come alive with wind.' Allain realized the answer was an Echo, pointing toward the canyon ahead.",
+        questions: [
+          { id: "q1", text: "1. Where were Zeik and Allain hiking to?", correct: "B", options: { A: "Crystal Cave", B: "Whispering Cliff", C: "Green Valley", D: "Sunny Beach" } },
+          { id: "q2", text: "2. What item did they find inside the hollow tree?", correct: "A", options: { A: "A silver compass and a note", B: "A box of gold", C: "A flash drive", D: "An old wristwatch" } },
+          { id: "q3", text: "3. What is the answer to the riddle on the note?", correct: "C", options: { A: "A ghost", B: "The ocean", C: "An Echo", D: "A bird" } },
+          { id: "q4", text: "4. Where did the answer 'Echo' lead them?", correct: "B", options: { A: "To the river", B: "Toward the canyon ahead", C: "Back to their home", D: "To the top of a tree" } },
+          { id: "q5", text: "5. What item helped them find the location inside the forest?", correct: "D", options: { A: "A telescope", B: "A flashlight", C: "A phone", D: "An old map" } }
+        ]
+      },
+      Hard: {
+        title: "Deciphering Cavern Coordinates",
+        story: "At Whispering Cliff, the explorers examined a compass marked with precise grid coordinates: Latitude 14.5° N, Longitude 121.0° E. To unlock the cave's pressure plate mechanism, they had to step on two balance weights. Inscribed on the wall was: 'Step on two plates whose combined weight equals 60kg and whose difference is 20kg.' They selected the 40kg and 20kg stone plates to open the heavy door.",
+        questions: [
+          { id: "q1", text: "1. What were the latitude coordinates marked on the compass?", correct: "A", options: { A: "14.5° N", B: "121.0° E", C: "20.0° N", D: "60.0° S" } },
+          { id: "q2", text: "2. What two mathematical conditions were required for the pressure plates?", correct: "C", options: { A: "Sum = 100kg, Difference = 10kg", B: "Sum = 50kg, Difference = 5kg", C: "Sum = 60kg, Difference = 20kg", D: "Sum = 40kg, Difference = 20kg" } },
+          { id: "q3", text: "3. Which two stone plates correctly solved the balance puzzle?", correct: "B", options: { A: "30kg and 30kg", B: "40kg and 20kg", C: "50kg and 10kg", D: "45kg and 15kg" } },
+          { id: "q4", text: "4. Why did 30kg and 30kg fail to unlock the door despite having a sum of 60kg?", correct: "D", options: { A: "Their sum was incorrect.", B: "They were too heavy.", C: "The plates were broken.", D: "Their difference was 0kg instead of the required 20kg." } },
+          { id: "q5", text: "5. What field of critical thinking is used to solve coordinate systems and simultaneous equations?", correct: "A", options: { A: "Mathematical Logic & Spatial Reasoning", B: "Creative Storytelling", C: "Random Guessing", D: "Physical Speed" } }
+        ]
+      }
     }
   };
 
@@ -444,23 +390,22 @@
   function handleKeyPress(e) { if (e.key === 'Enter') signIn(); }
 
   function updateDashboardScoresUI() {
-    document.getElementById('score-act1').innerText = `Latest Score: ${scores.act1 || 0} / 25`;
-    document.getElementById('score-act2').innerText = `Latest Score: ${scores.act2 || 0} / 25`;
+    document.getElementById('score-act1').innerText = `Latest Score: ${scores.act1 || 0} / 5`;
+    document.getElementById('score-act2').innerText = `Latest Score: ${scores.act2 || 0} / 5`;
   }
 
   function updateOverallAverage() {
     let totalPoints = (scores.act1 || 0) + (scores.act2 || 0);
     let avgScore = (totalPoints / 2).toFixed(1);
-    let percentage = ((totalPoints / 50) * 100).toFixed(1);
+    let percentage = ((totalPoints / 10) * 100).toFixed(1);
 
-    document.getElementById('topRightAvg').innerText = `Overall Average: ${avgScore} / 25 (${percentage}%)`;
+    document.getElementById('topRightAvg').innerText = `Overall Average: ${avgScore} / 5 (${percentage}%)`;
 
     if (userName) saveUserScores();
   }
 
   function openDifficultyModal(actId) {
     selectedActId = actId;
-    document.getElementById('modalActTitle').innerText = activitiesData[actId].title;
     document.getElementById('difficultyModal').classList.add('active');
   }
 
@@ -476,15 +421,16 @@
 
   function startActivity(actId) {
     selectedActId = actId;
-    currentChapterIdx = 0;
     userAnswers = {};
     document.getElementById('dashboardView').classList.remove('active');
     document.getElementById('activityView').classList.add('active');
     document.getElementById('resultsScreen').style.display = 'none';
     document.getElementById('controlBox').style.display = 'flex';
-    document.getElementById('actTitle').innerText = activitiesData[actId].title;
+    
+    const activity = activitiesData[actId][currentDifficulty];
+    document.getElementById('actTitle').innerText = activity.title;
     document.getElementById('diffIndicator').innerText = `Difficulty Level: ${currentDifficulty}`;
-    renderChapter();
+    renderActivity();
   }
 
   function showDashboard() {
@@ -492,21 +438,16 @@
     document.getElementById('dashboardView').classList.add('active');
   }
 
-  function renderChapter() {
-    const act = activitiesData[selectedActId];
-    const ch = act.chapters[currentChapterIdx];
-
-    document.getElementById('pageIndicator').innerText = `Chapter ${currentChapterIdx + 1} of ${act.chapters.length}`;
-    document.getElementById('prevBtn').disabled = (currentChapterIdx === 0);
-    document.getElementById('nextBtn').innerText = (currentChapterIdx === act.chapters.length - 1) ? "Submit Act" : "Next Chapter";
+  function renderActivity() {
+    const activity = activitiesData[selectedActId][currentDifficulty];
 
     let html = `
       <div class="story-text">
-        <h3>${ch.title}</h3>
-        <p>${ch.story}</p>
+        <h3>Story (${currentDifficulty} Mode)</h3>
+        <p>${activity.story}</p>
       </div>`;
 
-    ch.questions.forEach(q => {
+    activity.questions.forEach(q => {
       html += `
         <div class="question-box">
           <p><strong>${q.text}</strong></p>
@@ -524,22 +465,12 @@
     document.getElementById('pageContainer').innerHTML = html;
   }
 
-  function changeChapter(dir) {
-    const act = activitiesData[selectedActId];
-    if (dir === 1 && currentChapterIdx === act.chapters.length - 1) {
-      calculateResult();
-    } else {
-      currentChapterIdx += dir;
-      renderChapter();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }
-
   function calculateResult() {
-    const act = activitiesData[selectedActId];
+    const activity = activitiesData[selectedActId][currentDifficulty];
     let score = 0;
-    act.chapters.forEach(ch => {
-      ch.questions.forEach(q => { if (userAnswers[q.id] === q.correct) score++; });
+
+    activity.questions.forEach(q => {
+      if (userAnswers[q.id] === q.correct) score++;
     });
 
     scores[selectedActId] = score;
@@ -548,7 +479,7 @@
     document.getElementById('controlBox').style.display = 'none';
     document.getElementById('resultStudentName').innerText = userName;
     document.getElementById('resultsScreen').style.display = 'block';
-    document.getElementById('scoreDisplay').innerText = `${score} / 25`;
+    document.getElementById('scoreDisplay').innerText = `${score} / 5`;
     updateOverallAverage();
   }
 </script>
