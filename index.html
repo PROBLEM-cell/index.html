@@ -159,7 +159,7 @@
 <body>
 
 <div class="bottom-right-avg" id="topRightAvg">
-  <strong>Current Difficulty Average (${currentDifficulty}):</strong><br>0.0 / 10 (0.0%)
+  <strong>Current Difficulty Average (Easy):</strong><br>0.0 / 10 (0.0%)
 </div>
 
 <div class="container">
@@ -286,7 +286,6 @@
   let currentDifficulty = "Easy";
   let userAnswers = {};
 
-  // Structure for student scores
   let studentData = {
     detailedScores: {
       Easy: { act1: 0, act2: 0, act3: 0, act4: 0 },
@@ -576,7 +575,6 @@
     updateUI();
 
     try {
-      // 1. Fetch entire database
       const getRes = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
         method: "GET",
         headers: { "X-Master-Key": API_KEY }
@@ -589,10 +587,8 @@
         if (!rootData.students) rootData.students = {};
       }
 
-      // 2. Insert/Update this current student's entry
       rootData.students[userName] = studentData;
 
-      // 3. Put back full JSON object to JSONBin
       await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
         method: "PUT",
         headers: {
@@ -715,7 +711,6 @@
       if (userAnswers[q.id] === q.correct) score++;
     });
 
-    // Save score into specific difficulty level
     studentData.detailedScores[currentDifficulty][selectedActId] = score;
 
     document.getElementById('pageContainer').innerHTML = '';
